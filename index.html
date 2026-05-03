@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CHIPS Voice Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" aria-label="CHIPS main navigation">
+      <a class="brand" href="#top" aria-label="CHIPS top">
+        <img class="brand-logo" src="assets/chips_logo_1.png" alt="CHIPS" />
+      </a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="#top" class="nav-link is-active">TOP</a>
+        <a href="#actors" class="nav-link">ACTORS</a>
+        <a href="#services" class="nav-link">SERVICES</a>
+        <a href="#contact" class="nav-link">CONTACT</a>
+      </nav>
+    </header>
+
+    <main>
+      <div id="home" class="home-page">
+        <section id="top" class="hero section-panel">
+          <img class="cracker-logo-image" src="assets/chips-chip.png" alt="깨진 감자칩 로고" />
+        </section>
+
+        <section id="voice-sample" class="section-panel voice-sample-section">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">Sample library</p>
+              <h2>VOICE SAMPLE</h2>
+            </div>
+            <a class="text-link" href="#actors">성우 프로필 보기</a>
+          </div>
+
+          <form class="sample-filter" aria-label="Voice sample filters">
+            <select id="filter-gender" aria-label="성별">
+              <option value="">성별</option>
+              <option value="female">여성</option>
+              <option value="male">남성</option>
+            </select>
+            <select id="filter-tone" aria-label="톤">
+              <option value="">톤</option>
+              <option value="clear">맑은</option>
+              <option value="warm">따뜻한</option>
+              <option value="deep">깊은</option>
+              <option value="bright">밝은</option>
+            </select>
+            <select id="filter-style" aria-label="나이대">
+              <option value="">나이대</option>
+              <option value="teen">10대</option>
+              <option value="twenties">20대</option>
+              <option value="thirties">30대</option>
+              <option value="forties">40대+</option>
+            </select>
+            <select id="filter-category" aria-label="녹음 유형">
+              <option value="">녹음</option>
+              <option value="animation">애니메이션</option>
+              <option value="narration">내레이션</option>
+              <option value="commercial">광고</option>
+              <option value="game">게임</option>
+            </select>
+            <select id="filter-mood" aria-label="감정">
+              <option value="">감정</option>
+              <option value="calm">차분함</option>
+              <option value="energetic">활기참</option>
+              <option value="serious">진지함</option>
+              <option value="cute">귀여움</option>
+            </select>
+            <button class="dark-button" type="button" id="sample-search">검색</button>
+          </form>
+
+          <div class="sample-empty" id="sample-empty">카테고리를 선택하고 검색하면 성우 샘플이 표시됩니다.</div>
+          <div class="sample-grid" id="sample-grid" aria-live="polite"></div>
+        </section>
+
+        <section id="info" class="info-band">
+          <a class="top-button" href="#top" aria-label="Back to top">
+            <span></span>
+            TOP
+          </a>
+          <div class="info-content">
+            <h2>CHIPS</h2>
+            <p>
+              프로덕션 협업 정보, 대표 이메일, 관리자 소개 및 연락처, 저작권 주의 사항 등을
+              이 영역에 정리할 수 있습니다.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <section id="actors" class="section-panel actors-section app-page" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">ACTORS</p>
+          <h2>Voice Actor<br />성우</h2>
+        </div>
+        <div class="actor-grid" id="actor-grid"></div>
+      </section>
+
+      <section id="actor-detail" class="section-panel actor-detail-section app-page" hidden>
+        <button class="back-button" type="button" id="back-to-actors">← ACTORS</button>
+        <article class="actor-profile">
+          <div class="profile-portrait" id="detail-avatar" aria-hidden="true"></div>
+          <div class="profile-copy">
+            <p class="eyebrow" id="detail-role">Voice Actor</p>
+            <h2 id="detail-name">성우 이름</h2>
+            <p class="profile-name-en" id="detail-name-en">English Name</p>
+            <p id="detail-bio"></p>
+          </div>
+        </article>
+        <div class="voice-demo">
+          <h3>Voice Demo</h3>
+          <div class="demo-grid" id="demo-grid"></div>
+        </div>
+        <div class="profile-tags" id="detail-tags"></div>
+      </section>
+
+      <section id="services" class="services-placeholder section-panel app-page" hidden>
+        <p class="eyebrow">SERVICES</p>
+        <h2>Services</h2>
+        <p>서비스 소개 영역은 다음 단계에서 녹음, 캐스팅, 연출, 번역/각색 등의 항목으로 확장할 수 있습니다.</p>
+      </section>
+
+      <section id="contact" class="section-panel contact-section app-page" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">CONTACT</p>
+          <h2>문의하기</h2>
+        </div>
+        <form class="contact-form" id="contact-form">
+          <p class="required-note">* 필수 정보를 입력해 주세요.</p>
+          <label>
+            성명
+            <input name="name" type="text" autocomplete="name" required />
+          </label>
+          <label>
+            회사명
+            <input name="company" type="text" autocomplete="organization" />
+          </label>
+          <label>
+            연락처
+            <input name="phone" type="tel" autocomplete="tel" required />
+          </label>
+          <label>
+            E-mail
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+          <label class="full-field">
+            신청 내용
+            <textarea name="message" rows="7" required></textarea>
+          </label>
+          <button class="submit-button" type="submit">전송하기</button>
+          <p class="form-status" id="form-status" role="status"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

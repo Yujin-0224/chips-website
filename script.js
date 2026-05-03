@@ -1,7 +1,7 @@
 const actors = [
   {
     id: "haru",
-    name: "김하루",
+    name: "유레이",
     nameEn: "KIM HARU",
     gender: "female",
     tone: "clear",
@@ -9,6 +9,7 @@ const actors = [
     category: "animation",
     mood: "bright",
     colors: ["#ffc857", "#3bb7a3"],
+    audioSources: [{ src: "assets/gamza_sample.wav", type: "audio/wav" }],
     bio: "맑고 선명한 발성에 밝은 에너지가 강점입니다. 애니메이션, 게임 캐릭터, 브랜드 캠페인 샘플에 잘 어울립니다.",
     tags: ["밝음", "청량", "애니메이션", "20대"],
     demos: ["캐릭터 - 활발", "광고 - 산뜻", "게임 - 주인공"],
@@ -83,7 +84,29 @@ const actors = [
     tags: ["미성", "귀여움", "캐릭터", "20대"],
     demos: ["애니 - 소년", "게임 - NPC", "광고 - 캐주얼"],
   },
+  {
+    id: "yujin",
+    name: "정유진",
+    nameEn: "PARK YUNA",
+    gender: "female",
+    tone: "warm",
+    style: "thirties",
+    category: "commercial",
+    mood: "calm",
+    colors: ["#ef6f61", "#f7c59f"],
+    bio: "따뜻하고 자연스러운 말맛을 살립니다. 라이프스타일 광고, 오디오북, 안내 음성에 잘 맞습니다.",
+    tags: ["따뜻함", "친근", "광고", "30대"],
+    demos: ["광고 - 라이프", "안내 - 친절", "오디오북 - 감성"],
+  },
 ];
+
+const sampleAudioSources = [
+  { src: "assets/sample_audio.mp3", type: "audio/mpeg" },
+  { src: "assets/sample_audio.wav", type: "audio/wav" },
+  { src: "assets/sample_audio.m4a", type: "audio/mp4" },
+];
+
+let activePlayer = null;
 
 const sampleGrid = document.querySelector("#sample-grid");
 const actorGrid = document.querySelector("#actor-grid");
@@ -102,51 +125,54 @@ const statusEl = document.querySelector("#form-status");
 const navLinks = [...document.querySelectorAll(".nav-link")];
 
 document
-  .querySelectorAll(".section-title-row, .page-heading, .sample-filter, .sample-empty, .info-content, .actor-card, .sample-card, .demo-card, .contact-form")
+  .querySelectorAll(
+    ".section-title-row, .page-heading, .sample-filter, .sample-empty, .info-content, .actor-card, .sample-card, .demo-card, .contact-form",
+  )
   .forEach((element) => element.classList.add("reveal"));
 
-function setAvatarVars(element, actor) {
-  element.style.setProperty("--avatar-a", actor.colors[0]);
-  element.style.setProperty("--avatar-b", actor.colors[1]);
+function formatTime(seconds = 0) {
+  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+  const minutes = Math.floor(seconds / 60);
+  const rest = Math.floor(seconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${rest}`;
 }
 
-function playPreview(seed = 220) {
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  if (!AudioContext) return;
+function audioMarkup(label, sourcesList = sampleAudioSources) {
+  const sources = sourcesList
+    .map((source) => `<source src="${source.src}" type="${source.type}" />`)
+    .join("");
 
-  const context = new AudioContext();
-  const gain = context.createGain();
-  const oscillator = context.createOscillator();
-  oscillator.type = "sine";
-  oscillator.frequency.value = seed;
-  gain.gain.setValueAtTime(0.001, context.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.16, context.currentTime + 0.02);
-  gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.7);
-  oscillator.connect(gain);
-  gain.connect(context.destination);
-  oscillator.start();
-  oscillator.stop(context.currentTime + 0.75);
+  return `
+    <div class="sample-player">
+      <audio preload="metadata">${sources}</audio>
+      <button class="play-button" type="button" aria-label="${label} 재생">▶</button>
+      <div class="wave" aria-hidden="true"><span></span></div>
+      <small class="time-left">0:00</small>
+      <label class="volume-control" aria-label="${label} 볼륨">
+        <span>VOL</span>
+        <input type="range" min="0" max="1" step="0.01" value="0.85" />
+      </label>
+    </div>
+  `;
 }
 
 function renderSamples(list = actors) {
   sampleEmpty.hidden = true;
   sampleGrid.innerHTML = list
     .map(
-      (actor, index) => `
+      (actor) => `
         <article class="sample-card">
           <div>
-            <div class="avatar" style="--avatar-a:${actor.colors[0]}; --avatar-b:${actor.colors[1]}"></div>
-            <div class="sample-player">
-              <button class="play-button" type="button" data-pitch="${230 + index * 38}" aria-label="${actor.name} 샘플 재생">▶</button>
-              <span class="wave"></span>
-              <small>0:30</small>
-            </div>
+            <img class="avatar" src="assets/sample_profile.jpg" alt="${actor.name} 프로필 사진" />
+            <p class="sample-card-meta">${actor.name}</p>
+            ${audioMarkup(`${actor.name} 샘플`, actor.audioSources)}
           </div>
-          <p>${actor.name} · ${actor.tags.slice(0, 3).join(" / ")}</p>
         </article>
       `,
     )
     .join("");
+  document.querySelectorAll(".sample-card").forEach((element) => element.classList.add("reveal"));
+  setupAudioPlayers(sampleGrid);
   observeReveals();
 }
 
@@ -154,8 +180,10 @@ function renderActors() {
   actorGrid.innerHTML = actors
     .map(
       (actor) => `
-        <button class="actor-card" type="button" data-actor="${actor.id}" style="--avatar-a:${actor.colors[0]}; --avatar-b:${actor.colors[1]}">
-          <span class="actor-photo"></span>
+        <button class="actor-card" type="button" data-actor="${actor.id}">
+          <span class="actor-photo">
+            <img src="assets/sample_profile.jpg" alt="${actor.name} 프로필 사진" />
+          </span>
           <span class="actor-card-info">
             <strong>${actor.name}</strong>
             <span>${actor.nameEn}</span>
@@ -170,26 +198,23 @@ function renderActors() {
 
 function openActor(actorId) {
   const actor = actors.find((item) => item.id === actorId) || actors[0];
-  setAvatarVars(detailAvatar, actor);
+  detailAvatar.innerHTML = `<img src="assets/sample_profile.jpg" alt="${actor.name} 프로필 사진" />`;
   detailName.textContent = actor.name;
   detailNameEn.textContent = actor.nameEn;
   detailBio.textContent = actor.bio;
   detailTags.textContent = `추천 감정 · ${actor.tags.join(" · ")}`;
   demoGrid.innerHTML = actor.demos
     .map(
-      (demo, index) => `
+      (demo) => `
         <div class="demo-card">
           <strong>${demo}</strong>
-          <div class="sample-player">
-            <button class="play-button" type="button" data-pitch="${260 + index * 70}" aria-label="${demo} 재생">▶</button>
-            <span class="wave"></span>
-            <small>0:${24 + index * 3}</small>
-          </div>
+          ${audioMarkup(demo, actor.audioSources)}
         </div>
       `,
     )
     .join("");
   document.querySelectorAll(".demo-card").forEach((element) => element.classList.add("reveal"));
+  setupAudioPlayers(demoGrid);
   observeReveals();
   actorDetail.hidden = false;
   document.querySelector("#actors").hidden = true;
@@ -224,19 +249,92 @@ function filterSamples() {
   renderSamples(filtered);
 }
 
+function resetPlayer(player, resetTime = false) {
+  const audio = player.querySelector("audio");
+  const button = player.querySelector(".play-button");
+  const progress = player.querySelector(".wave span");
+  const time = player.querySelector(".time-left");
+
+  audio.pause();
+  if (resetTime) audio.currentTime = 0;
+  button.textContent = "▶";
+  if (progress && resetTime) progress.style.width = "0%";
+  if (time && audio.duration) time.textContent = formatTime(audio.duration - audio.currentTime);
+}
+
+function togglePlayer(player) {
+  if (!player) return;
+  const audio = player.querySelector("audio");
+  const button = player.querySelector(".play-button");
+
+  if (activePlayer && activePlayer !== player) resetPlayer(activePlayer);
+
+  if (audio.paused) {
+    activePlayer = player;
+    audio
+      .play()
+      .then(() => {
+        button.textContent = "Ⅱ";
+      })
+      .catch(() => {
+        button.textContent = "▶";
+      });
+  } else {
+    resetPlayer(player);
+  }
+}
+
+function setupAudioPlayers(scope = document) {
+  scope.querySelectorAll(".sample-player").forEach((player) => {
+    if (player.dataset.audioReady) return;
+
+    const audio = player.querySelector("audio");
+    const progress = player.querySelector(".wave span");
+    const time = player.querySelector(".time-left");
+    const volume = player.querySelector(".volume-control input");
+
+    player.dataset.audioReady = "true";
+    audio.volume = Number(volume.value);
+
+    audio.addEventListener("loadedmetadata", () => {
+      time.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      const ratio = audio.duration ? audio.currentTime / audio.duration : 0;
+      progress.style.width = `${Math.min(ratio * 100, 100)}%`;
+      time.textContent = formatTime(audio.duration - audio.currentTime);
+    });
+
+    audio.addEventListener("ended", () => {
+      if (activePlayer === player) activePlayer = null;
+      resetPlayer(player, true);
+    });
+
+    volume.addEventListener("input", () => {
+      audio.volume = Number(volume.value);
+    });
+  });
+}
+
 document.addEventListener("click", (event) => {
   const playButton = event.target.closest(".play-button");
-  if (playButton) {
-    playPreview(Number(playButton.dataset.pitch));
-  }
+  if (playButton) togglePlayer(playButton.closest(".sample-player"));
 
   const actorButton = event.target.closest("[data-actor]");
-  if (actorButton) {
-    openActor(actorButton.dataset.actor);
-  }
+  if (actorButton) openActor(actorButton.dataset.actor);
 });
 
 document.querySelector("#sample-search").addEventListener("click", filterSamples);
+
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  link.addEventListener("click", (event) => {
+    const hash = link.getAttribute("href");
+    if (!hash || hash === "#") return;
+    event.preventDefault();
+    navigateTo(hash);
+  });
+});
 
 document.querySelector("#back-to-actors").addEventListener("click", () => {
   actorDetail.hidden = true;
@@ -269,6 +367,21 @@ function setActiveNav(targetHash) {
   });
 }
 
+function navigateTo(hash) {
+  stopActivePlayer();
+  if (window.location.hash === hash) {
+    showRoute();
+    return;
+  }
+  window.location.hash = hash;
+}
+
+function stopActivePlayer() {
+  if (!activePlayer) return;
+  resetPlayer(activePlayer);
+  activePlayer = null;
+}
+
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -283,8 +396,9 @@ function observeReveals() {
 }
 
 function showRoute() {
+  stopActivePlayer();
   const hash = window.location.hash || "#top";
-  const isAppPage = ["#actors", "#services", "#contact"].includes(hash);
+  const isAppPage = ["#news", "#actors", "#services", "#contact"].includes(hash);
 
   homePage.hidden = isAppPage;
   appPages.forEach((page) => {
@@ -314,5 +428,6 @@ renderActors();
 sampleGrid.innerHTML = "";
 sampleEmpty.hidden = false;
 observeReveals();
+setupAudioPlayers();
 showRoute();
 window.addEventListener("hashchange", showRoute);

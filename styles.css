@@ -37,8 +37,9 @@ body {
   position: fixed;
   inset: 0;
   z-index: -10;
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
+  margin: auto;
   object-fit: contain;
   object-position: center top;
   background: var(--paper);
@@ -167,10 +168,10 @@ a {
 
 .hero {
   position: relative;
-  min-height: 92px;
+  min-height: 74vh;
   display: grid;
   place-items: center;
-  padding-top: 96px;
+  padding-top: 120px;
   padding-bottom: 0;
   text-align: center;
 }
@@ -203,7 +204,7 @@ a {
 }
 
 .voice-sample-section {
-  padding-top: 24px;
+  padding-top: 72px;
 }
 
 .app-page {
@@ -895,6 +896,6 @@ a {
   }
 
   .hero {
-    min-height: 88px;
+    min-height: 620px;
   }
 }

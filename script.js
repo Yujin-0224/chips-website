@@ -164,8 +164,12 @@ function renderSamples(list = actors) {
         <article class="sample-card">
           <div>
             <img class="avatar" src="assets/sample_profile.jpg" alt="${actor.name} 프로필 사진" />
-            <p class="sample-card-meta">${actor.name}</p>
+            <p class="sample-card-meta">
+              <strong>${actor.name}</strong>
+              <span>${actor.nameEn}</span>
+            </p>
             ${audioMarkup(`${actor.name} 샘플`, actor.audioSources)}
+            <button class="profile-link-button" type="button" data-actor="${actor.id}">프로필 보기</button>
           </div>
         </article>
       `,
@@ -197,7 +201,12 @@ function renderActors() {
 }
 
 function openActor(actorId) {
+  stopActivePlayer();
   const actor = actors.find((item) => item.id === actorId) || actors[0];
+  homePage.hidden = true;
+  appPages.forEach((page) => {
+    page.hidden = true;
+  });
   detailAvatar.innerHTML = `<img src="assets/sample_profile.jpg" alt="${actor.name} 프로필 사진" />`;
   detailName.textContent = actor.name;
   detailNameEn.textContent = actor.nameEn;
@@ -218,7 +227,8 @@ function openActor(actorId) {
   observeReveals();
   actorDetail.hidden = false;
   document.querySelector("#actors").hidden = true;
-  actorDetail.scrollIntoView({ behavior: "smooth", block: "start" });
+  setActiveNav("#actors");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function filterSamples() {
@@ -337,9 +347,14 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 });
 
 document.querySelector("#back-to-actors").addEventListener("click", () => {
+  homePage.hidden = true;
+  appPages.forEach((page) => {
+    page.hidden = true;
+  });
   actorDetail.hidden = true;
   document.querySelector("#actors").hidden = false;
-  document.querySelector("#actors").scrollIntoView({ behavior: "smooth" });
+  setActiveNav("#actors");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 document.querySelector("#contact-form").addEventListener("submit", (event) => {
@@ -385,7 +400,7 @@ function stopActivePlayer() {
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) entry.target.classList.add("is-visible");
+      entry.target.classList.toggle("is-visible", entry.isIntersecting);
     });
   },
   { threshold: 0.12 },

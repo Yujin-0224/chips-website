@@ -28,9 +28,10 @@
 
     <main>
       <div id="home" class="home-page">
-        <section id="top" class="hero section-panel">
-          <img class="cracker-logo-image" src="assets/chips-chip.png" alt="깨진 감자칩 로고" />
-        </section>
+        <video class="home-background-video" autoplay muted loop playsinline aria-hidden="true" poster="assets/chips-hero-optimized.webp">
+          <source src="assets/chips-background.mp4" type="video/mp4" />
+        </video>
+        <section id="top" class="hero section-panel"></section>
 
         <section id="voice-sample" class="section-panel voice-sample-section">
           <div class="section-title-row">
@@ -114,7 +115,7 @@
       <section id="actors" class="section-panel actors-section app-page" hidden>
         <div class="page-heading">
           <p class="eyebrow">ACTORS</p>
-          <h2>Voice Actor<br />성우</h2>
+          <h2 class="actors-heading">Voice Actor<br /><span>성우</span></h2>
         </div>
         <div class="actor-grid" id="actor-grid"></div>
       </section>

@@ -102,7 +102,7 @@ const actors = [
 
 const sampleAudioSources = [
   { src: "assets/sample_audio.mp3", type: "audio/mpeg" },
-  { src: "assets/sample_audio.wav", type: "audio/wav" },
+  { src: "assets/sample_audio_light.wav", type: "audio/wav" },
   { src: "assets/sample_audio.m4a", type: "audio/mp4" },
 ];
 
@@ -163,7 +163,7 @@ function renderSamples(list = actors) {
       (actor) => `
         <article class="sample-card">
           <div>
-            <img class="avatar" src="assets/sample_profile.jpg" alt="${actor.name} 프로필 사진" />
+            <img class="avatar" src="assets/sample_profile-optimized.webp" alt="${actor.name} 프로필 사진" />
             <p class="sample-card-meta">
               <strong>${actor.name}</strong>
               <span>${actor.nameEn}</span>
@@ -186,7 +186,7 @@ function renderActors() {
       (actor) => `
         <button class="actor-card" type="button" data-actor="${actor.id}">
           <span class="actor-photo">
-            <img src="assets/sample_profile.jpg" alt="${actor.name} 프로필 사진" />
+            <img src="assets/sample_profile-optimized.webp" alt="${actor.name} 프로필 사진" />
           </span>
           <span class="actor-card-info">
             <strong>${actor.name}</strong>
@@ -207,7 +207,7 @@ function openActor(actorId) {
   appPages.forEach((page) => {
     page.hidden = true;
   });
-  detailAvatar.innerHTML = `<img src="assets/sample_profile.jpg" alt="${actor.name} 프로필 사진" />`;
+  detailAvatar.innerHTML = `<img src="assets/sample_profile-optimized.webp" alt="${actor.name} 프로필 사진" />`;
   detailName.textContent = actor.name;
   detailNameEn.textContent = actor.nameEn;
   detailBio.textContent = actor.bio;

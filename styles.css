@@ -33,6 +33,18 @@ body {
   font-weight: 500;
 }
 
+.site-background-video {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  background: var(--paper);
+  filter: saturate(0.9);
+}
+
 [hidden] {
   display: none !important;
 }
@@ -138,21 +150,9 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -2;
-  background:
-    url("assets/chips-hero-optimized.webp") center top / cover no-repeat;
-  filter: saturate(0.9);
-}
-
-.home-background-video {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  filter: saturate(0.9);
+  z-index: -1;
+  background: url("assets/chips-hero-optimized.webp") center top / contain no-repeat;
+  opacity: 0;
 }
 
 .home-page::after {
@@ -167,10 +167,11 @@ a {
 
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 92px;
   display: grid;
   place-items: center;
-  padding-top: 120px;
+  padding-top: 96px;
+  padding-bottom: 0;
   text-align: center;
 }
 
@@ -199,6 +200,47 @@ a {
   border-bottom: 0;
   padding-bottom: 22px;
   position: relative;
+}
+
+.voice-sample-section {
+  padding-top: 24px;
+}
+
+.app-page {
+  background: rgba(255, 250, 240, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.voice-sample-section,
+.news-section,
+.actors-section,
+.actor-detail-section,
+.services-placeholder,
+.contact-section {
+  position: relative;
+}
+
+.voice-sample-section::before,
+.news-section::before,
+.actors-section::before,
+.actor-detail-section::before,
+.services-placeholder::before,
+.contact-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(255, 250, 240, 0.58);
+}
+
+.voice-sample-section > *,
+.news-section > *,
+.actors-section > *,
+.actor-detail-section > *,
+.services-placeholder > *,
+.contact-section > * {
+  position: relative;
+  z-index: 1;
 }
 
 .section-title-row::after,
@@ -853,6 +895,6 @@ a {
   }
 
   .hero {
-    min-height: 760px;
+    min-height: 88px;
   }
 }

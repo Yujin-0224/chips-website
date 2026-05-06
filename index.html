@@ -254,33 +254,57 @@
       <section id="contact" class="section-panel contact-section app-page" hidden>
         <div class="page-heading">
           <p class="eyebrow">CONTACT</p>
-          <h2>문의하기</h2>
+          <h2>문의하기 <span>Contact Us</span></h2>
+          <p>프로젝트에 필요한 목소리와 제작 범위를 알려주시면, 가장 알맞은 방향을 함께 찾아드립니다.</p>
+          <p class="page-heading-en">Tell us about your project, and we will help shape the right voice and production plan.</p>
         </div>
-        <form class="contact-form" id="contact-form" action="https://formspree.io/f/xzdoggkg" method="POST">
-          <p class="required-note">* 필수 정보를 입력해 주세요.</p>
-          <label>
-            성명
-            <input name="name" type="text" autocomplete="name" required />
-          </label>
-          <label>
-            회사명
-            <input name="company" type="text" autocomplete="organization" />
-          </label>
-          <label>
-            연락처
-            <input name="phone" type="tel" autocomplete="tel" required />
-          </label>
-          <label>
-            E-mail
-            <input name="email" type="email" autocomplete="email" required />
-          </label>
-          <label class="full-field">
-            신청 내용
-            <textarea name="message" rows="7" required></textarea>
-          </label>
-          <button class="submit-button" type="submit">전송하기</button>
-          <p class="form-status" id="form-status" role="status"></p>
-        </form>
+        <div class="contact-layout">
+          <aside class="contact-aside" aria-label="Contact information">
+            <img src="assets/chips-chip.png" alt="CHIPS character" />
+            <div>
+              <p class="contact-kicker">Casting & Production</p>
+              <h3>새로운 프로젝트를 들려주세요<br /><span>Share your next project</span></h3>
+              <p>
+                캐스팅, 녹음, 연출, 번역/각색 등 필요한 항목을 자유롭게 남겨주세요.
+                일정과 예산이 정해져 있지 않아도 괜찮습니다.
+              </p>
+              <p class="contact-aside-en">
+                Leave any details you have for casting, recording, direction, translation, or adaptation.
+                Early-stage ideas are welcome too.
+              </p>
+            </div>
+            <ul class="contact-points">
+              <li><strong>접수 확인</strong><span>Inquiry review</span></li>
+              <li><strong>방향 제안</strong><span>Voice direction</span></li>
+              <li><strong>일정 조율</strong><span>Schedule planning</span></li>
+            </ul>
+          </aside>
+          <form class="contact-form" id="contact-form" action="https://formspree.io/f/xzdoggkg" method="POST">
+            <p class="required-note">* 필수 정보를 입력해 주세요. <span>Required fields are marked.</span></p>
+            <label>
+              <span>성명 <em>Name</em></span>
+              <input name="name" type="text" autocomplete="name" placeholder="홍길동 / Alex Kim" required />
+            </label>
+            <label>
+              <span>회사명 <em>Company</em></span>
+              <input name="company" type="text" autocomplete="organization" placeholder="CHIPS Studio" />
+            </label>
+            <label>
+              <span>연락처 <em>Phone</em></span>
+              <input name="phone" type="tel" autocomplete="tel" placeholder="010-0000-0000 / +82 10 0000 0000" required />
+            </label>
+            <label>
+              <span>이메일 <em>Email</em></span>
+              <input name="email" type="email" autocomplete="email" placeholder="hello@example.com" required />
+            </label>
+            <label class="full-field">
+              <span>신청 내용 <em>Project details</em></span>
+              <textarea name="message" rows="7" placeholder="프로젝트 종류, 원하는 목소리, 분량, 일정 등을 알려주세요. / Tell us the project type, voice direction, volume, and timeline." required></textarea>
+            </label>
+            <button class="submit-button" type="submit">전송하기 <span>Send inquiry</span></button>
+            <p class="form-status" id="form-status" role="status"></p>
+          </form>
+        </div>
       </section>
 
       <section id="info" class="info-band">

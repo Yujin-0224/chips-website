@@ -629,7 +629,7 @@ const topNewsRail = document.querySelector("#top-news-rail");
 
 document
   .querySelectorAll(
-    ".section-title-row, .page-heading, .sample-filter, .sample-empty, .info-content, .actor-card, .sample-card, .demo-card, .contact-form",
+    ".section-title-row, .page-heading, .sample-filter, .sample-empty, .info-content, .actor-card, .sample-card, .demo-card, .contact-aside, .contact-form",
   )
   .forEach((element) => element.classList.add("reveal"));
 
@@ -1197,7 +1197,7 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
   data.append("_subject", `[CHIPS 문의] ${data.get("name")}님 문의`);
 
   submitButton.disabled = true;
-  statusEl.textContent = "문의 내용을 전송하고 있습니다.";
+  statusEl.textContent = "문의 내용을 전송하고 있습니다. Sending your inquiry.";
 
   try {
     const response = await fetch(form.action, {
@@ -1211,9 +1211,9 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
     if (!response.ok) throw new Error("Formspree request failed");
 
     form.reset();
-    statusEl.textContent = "문의가 접수되었습니다. 확인 후 연락드리겠습니다.";
+    statusEl.textContent = "문의가 접수되었습니다. 확인 후 연락드리겠습니다. Your inquiry has been received.";
   } catch (error) {
-    statusEl.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.";
+    statusEl.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해 주세요. Please try again later.";
   } finally {
     submitButton.disabled = false;
   }

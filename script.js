@@ -1243,7 +1243,7 @@ function stopActivePlayer() {
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      entry.target.classList.toggle("is-visible", entry.isIntersecting);
+      if (entry.isIntersecting) entry.target.classList.add("is-visible");
     });
   },
   { threshold: 0.12 },
@@ -1251,6 +1251,10 @@ const revealObserver = new IntersectionObserver(
 
 function observeReveals() {
   document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+}
+
+function showPageReveals(page) {
+  page.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
 }
 
 function showRoute() {
@@ -1275,7 +1279,10 @@ function showRoute() {
 
   if (isAppPage) {
     const page = document.querySelector(hash);
-    if (page) page.hidden = false;
+    if (page) {
+      page.hidden = false;
+      showPageReveals(page);
+    }
     actorDetail.hidden = true;
     setActiveNav(hash);
     window.scrollTo({ top: 0, behavior: "auto" });

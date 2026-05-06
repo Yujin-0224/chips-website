@@ -410,7 +410,7 @@ const newsArticles = [
     title: "신규 성우 프로필 업데이트 예정",
     date: "2026.04.02",
     datetime: "2026-04-02",
-    categories: ["Actor"],
+    categories: ["Crew"],
     image: "assets/sample_profile-optimized.webp",
     lead: "애니메이션, 광고, 게임 분야별 샘플을 가진 성우 프로필이 순차적으로 추가될 예정입니다.",
     body: [

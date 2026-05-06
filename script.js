@@ -9,7 +9,7 @@ const actors = [
     category: "animation",
     mood: "bright",
     colors: ["#ffc857", "#3bb7a3"],
-    audioSources: [{ src: "assets/gamza_sample.wav", type: "audio/wav" }],
+    audioSources: [{ src: "assets/gamza_sample.mp3", type: "audio/mpeg" }],
     bio: "맑고 선명한 발성에 밝은 에너지가 강점입니다. 애니메이션, 게임 캐릭터, 브랜드 캠페인 샘플에 잘 어울립니다.",
     tags: ["밝음", "청량", "애니메이션", "20대"],
     demos: ["캐릭터 - 활발", "광고 - 산뜻", "게임 - 주인공"],
@@ -102,8 +102,6 @@ const actors = [
 
 const sampleAudioSources = [
   { src: "assets/sample_audio.mp3", type: "audio/mpeg" },
-  { src: "assets/sample_audio_light.wav", type: "audio/wav" },
-  { src: "assets/sample_audio.m4a", type: "audio/mp4" },
 ];
 
 const filterGroups = [

@@ -44,40 +44,11 @@
           </div>
 
           <form class="sample-filter" aria-label="Voice sample filters">
-            <select id="filter-gender" aria-label="성별">
-              <option value="">성별</option>
-              <option value="female">여성</option>
-              <option value="male">남성</option>
-            </select>
-            <select id="filter-tone" aria-label="톤">
-              <option value="">톤</option>
-              <option value="clear">맑은</option>
-              <option value="warm">따뜻한</option>
-              <option value="deep">깊은</option>
-              <option value="bright">밝은</option>
-            </select>
-            <select id="filter-style" aria-label="나이대">
-              <option value="">나이대</option>
-              <option value="teen">10대</option>
-              <option value="twenties">20대</option>
-              <option value="thirties">30대</option>
-              <option value="forties">40대+</option>
-            </select>
-            <select id="filter-category" aria-label="녹음 유형">
-              <option value="">녹음</option>
-              <option value="animation">애니메이션</option>
-              <option value="narration">내레이션</option>
-              <option value="commercial">광고</option>
-              <option value="game">게임</option>
-            </select>
-            <select id="filter-mood" aria-label="감정">
-              <option value="">감정</option>
-              <option value="calm">차분함</option>
-              <option value="energetic">활기참</option>
-              <option value="serious">진지함</option>
-              <option value="cute">귀여움</option>
-            </select>
-            <button class="dark-button" type="button" id="sample-search">검색</button>
+            <div class="filter-controls" id="filter-controls"></div>
+            <button class="dark-button" type="button" id="sample-search">
+              <strong>검색</strong>
+              <span>Search</span>
+            </button>
           </form>
 
           <div class="sample-empty" id="sample-empty">카테고리를 선택하고 검색하면 성우 샘플이 표시됩니다.</div>

@@ -106,6 +106,248 @@ const sampleAudioSources = [
   { src: "assets/sample_audio.m4a", type: "audio/mp4" },
 ];
 
+const filterGroups = [
+  {
+    key: "ageRange",
+    label: "나이대",
+    hint: "Age Range",
+    options: ["나이 불명 (괴물이나 크리쳐의 경우)", "10대 미만", "10대", "20대", "30대", "40대", "50대", "노년(60대 이상)"],
+  },
+  {
+    key: "tone",
+    label: "톤",
+    hint: "Tone / Voice Color",
+    options: [
+      "밝은",
+      "차분한",
+      "따뜻한",
+      "부드러운",
+      "시크한",
+      "도도한",
+      "진지한",
+      "무게감 있는",
+      "고급스러운",
+      "신뢰감 있는",
+      "친근한",
+      "활기찬",
+      "하이텐션",
+      "로우텐션",
+      "청량한",
+      "귀여운",
+      "장난스러운",
+      "냉정한",
+      "강한",
+      "카리스마",
+      "위엄 있는",
+      "섹시한",
+      "몽환적인",
+      "맑은",
+      "또렷한",
+      "거친",
+      "빠른",
+      "느린",
+      "담백한",
+      "담담한",
+      "감성적인",
+      "아나운서",
+      "상담원",
+      "교관/강사",
+      "MC",
+      "DJ",
+      "방송 진행",
+    ],
+  },
+  {
+    key: "texture",
+    label: "음색 특성",
+    hint: "Voice Texture",
+    options: ["중저음", "저음", "고음"],
+  },
+  {
+    key: "emotion",
+    label: "감정",
+    hint: "Emotion",
+    options: [
+      "무감정/중립",
+      "행복",
+      "기쁨",
+      "설렘",
+      "기대",
+      "자신감",
+      "뿌듯함",
+      "감동",
+      "따뜻함",
+      "위로",
+      "사랑스러움",
+      "친절함",
+      "공손함",
+      "진지함",
+      "긴장",
+      "불안",
+      "공포",
+      "당황",
+      "놀람",
+      "분노",
+      "짜증",
+      "경멸",
+      "냉소",
+      "우울",
+      "슬픔",
+      "눈물/오열",
+      "체념",
+      "절망",
+      "후회",
+      "지침/피곤",
+      "아픔/고통",
+      "비명",
+      "흥분",
+      "광기",
+      "의심",
+      "조급함",
+      "무서운",
+      "음흉함",
+      "협박",
+      "명령",
+      "간절함",
+      "간청",
+      "애원",
+      "비꼼",
+      "장난",
+      "쑥스러움",
+    ],
+  },
+  {
+    key: "language",
+    label: "언어",
+    hint: "Language",
+    options: ["한국어", "영어", "일본어", "중국어"],
+  },
+  {
+    key: "accent",
+    label: "억양/사투리",
+    hint: "Accent",
+    options: [
+      "표준어",
+      "서울말",
+      "부산/경상도",
+      "대구 억양",
+      "전라도",
+      "충청도",
+      "강원도",
+      "제주도",
+      "북한 억양(평양톤)",
+      "외국인 억양(한국어)",
+    ],
+  },
+  {
+    key: "characterType",
+    label: "캐릭터 타입",
+    hint: "Character Type",
+    options: [
+      "히어로",
+      "악당",
+      "천재 캐릭터",
+      "바보/허당 캐릭터",
+      "츤데레",
+      "냉미남/냉미녀",
+      "다정한 캐릭터",
+      "엄격한 상사",
+      "선생님/교관",
+      "의사/간호사",
+      "공주",
+      "경찰",
+      "군인",
+      "기사/전사",
+      "마법사",
+      "왕/여왕",
+      "귀족",
+      "아이돌",
+      "학생",
+      "엄마",
+      "아빠",
+      "할아버지",
+      "할머니",
+      "아기 캐릭터",
+      "로봇",
+      "AI 비서",
+      "내레이터형 캐릭터",
+      "마스코트 캐릭터",
+      "동물 캐릭터",
+      "괴물/크리처",
+      "외계인",
+      "유령",
+      "좀비",
+      "신/악마",
+    ],
+  },
+];
+
+const actorFilterProfiles = {
+  haru: {
+    ageRange: ["20대"],
+    tone: ["밝은", "청량한", "귀여운", "활기찬", "하이텐션", "맑은", "또렷한"],
+    texture: ["고음"],
+    emotion: ["행복", "기쁨", "설렘", "기대", "사랑스러움", "장난", "쑥스러움"],
+    language: ["한국어", "일본어"],
+    accent: ["표준어", "서울말"],
+    characterType: ["학생", "아이돌", "공주", "마스코트 캐릭터", "다정한 캐릭터"],
+  },
+  min: {
+    ageRange: ["30대", "40대"],
+    tone: ["차분한", "진지한", "무게감 있는", "고급스러운", "신뢰감 있는", "담백한", "담담한"],
+    texture: ["중저음", "저음"],
+    emotion: ["무감정/중립", "진지함", "자신감", "냉정한", "명령"],
+    language: ["한국어", "영어"],
+    accent: ["표준어", "서울말"],
+    characterType: ["내레이터형 캐릭터", "엄격한 상사", "선생님/교관", "왕/여왕", "귀족"],
+  },
+  yuna: {
+    ageRange: ["30대"],
+    tone: ["따뜻한", "부드러운", "친근한", "신뢰감 있는", "감성적인", "상담원"],
+    texture: ["중저음"],
+    emotion: ["따뜻함", "위로", "친절함", "공손함", "감동", "사랑스러움"],
+    language: ["한국어", "영어"],
+    accent: ["표준어", "서울말"],
+    characterType: ["엄마", "의사/간호사", "상담원", "다정한 캐릭터", "내레이터형 캐릭터"],
+  },
+  jin: {
+    ageRange: ["10대", "20대"],
+    tone: ["밝은", "활기찬", "하이텐션", "장난스러운", "빠른", "강한"],
+    texture: ["고음", "중저음"],
+    emotion: ["흥분", "자신감", "기쁨", "장난", "놀람", "조급함"],
+    language: ["한국어", "일본어"],
+    accent: ["표준어", "서울말", "부산/경상도"],
+    characterType: ["히어로", "학생", "아이돌", "기사/전사", "바보/허당 캐릭터"],
+  },
+  sua: {
+    ageRange: ["40대", "50대"],
+    tone: ["또렷한", "진지한", "신뢰감 있는", "고급스러운", "아나운서", "교관/강사"],
+    texture: ["중저음"],
+    emotion: ["무감정/중립", "진지함", "공손함", "자신감", "명령"],
+    language: ["한국어", "영어"],
+    accent: ["표준어", "서울말"],
+    characterType: ["선생님/교관", "엄격한 상사", "내레이터형 캐릭터", "왕/여왕", "의사/간호사"],
+  },
+  rion: {
+    ageRange: ["10대", "20대"],
+    tone: ["부드러운", "귀여운", "장난스러운", "친근한", "몽환적인", "로우텐션"],
+    texture: ["고음", "중저음"],
+    emotion: ["사랑스러움", "쑥스러움", "장난", "설렘", "위로"],
+    language: ["한국어", "일본어"],
+    accent: ["표준어", "서울말"],
+    characterType: ["마스코트 캐릭터", "동물 캐릭터", "학생", "AI 비서", "아기 캐릭터"],
+  },
+  yujin: {
+    ageRange: ["30대"],
+    tone: ["따뜻한", "부드러운", "감성적인", "친근한", "상담원", "방송 진행"],
+    texture: ["중저음"],
+    emotion: ["따뜻함", "위로", "친절함", "공손함", "감동", "슬픔"],
+    language: ["한국어", "중국어"],
+    accent: ["표준어", "서울말", "충청도"],
+    characterType: ["엄마", "다정한 캐릭터", "내레이터형 캐릭터", "의사/간호사", "MC"],
+  },
+};
+
 let activePlayer = null;
 
 const sampleGrid = document.querySelector("#sample-grid");
@@ -120,6 +362,7 @@ const detailBio = document.querySelector("#detail-bio");
 const detailTags = document.querySelector("#detail-tags");
 const demoGrid = document.querySelector("#demo-grid");
 const filterForm = document.querySelector(".sample-filter");
+const filterControls = document.querySelector("#filter-controls");
 const sampleEmpty = document.querySelector("#sample-empty");
 const statusEl = document.querySelector("#form-status");
 const navLinks = [...document.querySelectorAll(".nav-link")];
@@ -231,15 +474,117 @@ function openActor(actorId) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function filterSamples() {
-  const filters = {
-    gender: document.querySelector("#filter-gender").value,
-    tone: document.querySelector("#filter-tone").value,
-    style: document.querySelector("#filter-style").value,
-    category: document.querySelector("#filter-category").value,
-    mood: document.querySelector("#filter-mood").value,
+function getActorFilterValues(actor) {
+  if (actorFilterProfiles[actor.id]) return actorFilterProfiles[actor.id];
+
+  const toneMap = {
+    bright: ["밝은", "활기찬", "청량한"],
+    calm: ["차분한", "담담한"],
+    clear: ["맑은", "또렷한", "청량한"],
+    cute: ["귀여운", "장난스러운"],
+    deep: ["무게감 있는", "진지한", "신뢰감 있는"],
+    energetic: ["활기찬", "하이텐션"],
+    serious: ["진지한", "담백한"],
+    warm: ["따뜻한", "부드러운", "친근한"],
   };
-  const hasFilter = Object.values(filters).some(Boolean);
+  const ageMap = {
+    teen: ["10대"],
+    twenties: ["20대"],
+    thirties: ["30대"],
+    forties: ["40대"],
+  };
+  const categoryMap = {
+    animation: ["학생", "마스코트 캐릭터", "다정한 캐릭터"],
+    commercial: ["아나운서", "상담원", "방송 진행"],
+    game: ["히어로", "학생", "기사/전사"],
+    narration: ["내레이터형 캐릭터", "아나운서", "교관/강사"],
+  };
+
+  return {
+    ageRange: ageMap[actor.style] || [],
+    tone: [...(toneMap[actor.tone] || []), ...(toneMap[actor.mood] || [])],
+    texture: actor.gender === "male" ? ["중저음", "저음"] : ["고음"],
+    emotion: toneMap[actor.mood] || [],
+    language: ["한국어"],
+    accent: ["표준어", "서울말"],
+    characterType: categoryMap[actor.category] || [],
+  };
+}
+
+function selectedFilterValues() {
+  return filterGroups.reduce((selected, group) => {
+    selected[group.key] = [
+      ...filterControls.querySelectorAll(`input[name="${group.key}"]:checked`),
+    ].map((input) => input.value);
+    return selected;
+  }, {});
+}
+
+function updateFilterSummary(groupKey) {
+  const dropdown = filterControls.querySelector(`[data-filter="${groupKey}"]`);
+  if (!dropdown) return;
+  const count = dropdown.querySelectorAll(`input[name="${groupKey}"]:checked`).length;
+  const countEl = dropdown.querySelector(".filter-count");
+  const toggle = dropdown.querySelector(".filter-toggle");
+
+  countEl.textContent = count ? `${count}` : "";
+  countEl.hidden = count === 0;
+  toggle.classList.toggle("has-selection", count > 0);
+}
+
+function closeFilterPanels(exceptDropdown = null) {
+  filterControls.querySelectorAll(".filter-dropdown").forEach((dropdown) => {
+    if (dropdown === exceptDropdown) return;
+    dropdown.classList.remove("is-open");
+    dropdown.querySelector(".filter-toggle").setAttribute("aria-expanded", "false");
+  });
+}
+
+function renderFilterControls() {
+  filterControls.innerHTML = filterGroups
+    .map(
+      (group) => `
+        <div class="filter-dropdown" data-filter="${group.key}">
+          <button class="filter-toggle" type="button" aria-expanded="false">
+            <span>
+              <strong>${group.label}</strong>
+              <small>${group.hint}</small>
+            </span>
+            <em class="filter-count" hidden></em>
+          </button>
+          <div class="filter-panel">
+            <div class="filter-panel-head">
+              <div>
+                <strong>${group.label}</strong>
+                <small>${group.options.length}개 옵션</small>
+              </div>
+              <div class="filter-actions">
+                <button type="button" data-action="select-all">모두 선택</button>
+                <button type="button" data-action="clear">모두 해제</button>
+              </div>
+            </div>
+            <div class="filter-option-grid">
+              ${group.options
+                .map(
+                  (option) => `
+                    <label class="filter-check">
+                      <input type="checkbox" name="${group.key}" value="${option}" />
+                      <span>${option}</span>
+                    </label>
+                  `,
+                )
+                .join("")}
+            </div>
+          </div>
+        </div>
+      `,
+    )
+    .join("");
+}
+
+function filterSamples() {
+  const filters = selectedFilterValues();
+  const hasFilter = Object.values(filters).some((values) => values.length);
   if (!hasFilter) {
     sampleGrid.innerHTML = "";
     sampleEmpty.hidden = false;
@@ -247,9 +592,13 @@ function filterSamples() {
     return;
   }
 
-  const filtered = actors.filter((actor) =>
-    Object.entries(filters).every(([key, value]) => !value || actor[key] === value),
-  );
+  const filtered = actors.filter((actor) => {
+    const actorFilters = getActorFilterValues(actor);
+    return Object.entries(filters).every(([key, values]) => {
+      if (!values.length) return true;
+      return values.some((value) => actorFilters[key]?.includes(value));
+    });
+  });
   if (!filtered.length) {
     sampleGrid.innerHTML = "";
     sampleEmpty.hidden = false;
@@ -328,11 +677,40 @@ function setupAudioPlayers(scope = document) {
 }
 
 document.addEventListener("click", (event) => {
+  const filterToggle = event.target.closest(".filter-toggle");
+  if (filterToggle) {
+    const dropdown = filterToggle.closest(".filter-dropdown");
+    const willOpen = !dropdown.classList.contains("is-open");
+    closeFilterPanels(dropdown);
+    dropdown.classList.toggle("is-open", willOpen);
+    filterToggle.setAttribute("aria-expanded", `${willOpen}`);
+    return;
+  }
+
+  const filterAction = event.target.closest("[data-action]");
+  if (filterAction) {
+    const dropdown = filterAction.closest(".filter-dropdown");
+    const groupKey = dropdown.dataset.filter;
+    const checked = filterAction.dataset.action === "select-all";
+    dropdown.querySelectorAll(`input[name="${groupKey}"]`).forEach((input) => {
+      input.checked = checked;
+    });
+    updateFilterSummary(groupKey);
+    return;
+  }
+
+  if (!event.target.closest(".filter-dropdown")) closeFilterPanels();
+
   const playButton = event.target.closest(".play-button");
   if (playButton) togglePlayer(playButton.closest(".sample-player"));
 
   const actorButton = event.target.closest("[data-actor]");
   if (actorButton) openActor(actorButton.dataset.actor);
+});
+
+filterControls.addEventListener("change", (event) => {
+  if (!event.target.matches('input[type="checkbox"]')) return;
+  updateFilterSummary(event.target.name);
 });
 
 document.querySelector("#sample-search").addEventListener("click", filterSamples);
@@ -451,6 +829,7 @@ function showRoute() {
   }
 }
 
+renderFilterControls();
 renderActors();
 sampleGrid.innerHTML = "";
 sampleEmpty.hidden = false;

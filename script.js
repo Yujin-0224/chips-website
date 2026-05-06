@@ -623,6 +623,9 @@ const statusEl = document.querySelector("#form-status");
 const contactToast = document.querySelector("#contact-toast");
 const fileInput = document.querySelector(".file-input");
 const fileUploadName = document.querySelector("#file-upload-name");
+const privacyDetails = document.querySelector(".privacy-details");
+const privacyInput = document.querySelector(".privacy-native-input");
+const privacyCheckControl = document.querySelector(".privacy-check-control");
 const navLinks = [...document.querySelectorAll(".nav-link")];
 const newsCards = [...document.querySelectorAll(".news-feature, .news-item")];
 const newsFilterLinks = [...document.querySelectorAll(".news-filter-link")];
@@ -658,6 +661,9 @@ const contactLocales = {
       fileChoose: "파일 선택",
       fileNone: "선택된 파일 없음",
       privacyLabel: "개인정보 수집 및 이용에 동의합니다.",
+      privacyDetailsToggle: "자세히 보기",
+      privacyDetailsBody:
+        "<dl><div><dt>수집 항목</dt><dd>성명, 이메일, 연락처, 회사명 또는 개인명, 문의 유형, 문의 내용, 첨부파일</dd></div><div><dt>수집 목적</dt><dd>문의 접수, 본인 확인, 답변 및 상담 진행</dd></div><div><dt>보유 기간</dt><dd>문의 처리 완료 후 1년간 보관 후 파기</dd></div><div><dt>동의 거부권</dt><dd>동의하지 않을 경우 문의 접수가 제한될 수 있습니다.</dd></div><div><dt>처리 위탁</dt><dd>문의 접수 및 이메일 전달을 위해 Formspree 서비스를 이용합니다.</dd></div></dl>",
       submitLabel: "문의 접수하기",
       toastTitle: "문의가 정상적으로 접수되었습니다.",
       toastBody: "확인 후 1~2일 이내에 이메일로 답변드리겠습니다.",
@@ -729,6 +735,9 @@ const contactLocales = {
       fileChoose: "Choose file",
       fileNone: "No file selected",
       privacyLabel: "I agree to the collection and use of personal information.",
+      privacyDetailsToggle: "View details",
+      privacyDetailsBody:
+        "<dl><div><dt>Items collected</dt><dd>Full name, email address, phone number, company or individual name, inquiry type, inquiry details, and attachments</dd></div><div><dt>Purpose of collection</dt><dd>Receiving inquiries, confirming the requester, and responding or consulting about the request</dd></div><div><dt>Retention period</dt><dd>Retained for 1 year after the inquiry is resolved, then deleted</dd></div><div><dt>Right to refuse consent</dt><dd>You may refuse consent, but inquiry submission may be limited.</dd></div><div><dt>Processing service</dt><dd>Formspree is used to receive inquiries and forward them by email.</dd></div></dl>",
       submitLabel: "Submit inquiry",
       toastTitle: "Your inquiry has been submitted.",
       toastBody: "We will review it and reply by email within 1-2 business days.",
@@ -1427,6 +1436,15 @@ if (fileInput && fileUploadName) {
   fileInput.addEventListener("change", () => {
     fileUploadName.textContent =
       fileInput.files[0]?.name || contactLocales[activeContactLocale].text.fileNone;
+  });
+}
+
+if (privacyDetails && privacyInput && privacyCheckControl) {
+  privacyCheckControl.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    privacyInput.checked = !privacyInput.checked;
+    privacyInput.dispatchEvent(new Event("change", { bubbles: true }));
   });
 }
 

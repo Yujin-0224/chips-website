@@ -1911,8 +1911,7 @@ a {
   font-weight: 900;
 }
 
-.contact-form .contact-choice label,
-.contact-form .privacy-check {
+.contact-form .contact-choice label {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1926,8 +1925,138 @@ a {
   transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
 }
 
-.contact-form .contact-choice input,
-.contact-form .privacy-check input {
+.privacy-group {
+  display: grid;
+  gap: 8px;
+}
+
+.privacy-details {
+  border: 1px solid rgba(32, 26, 18, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 252, 244, 0.72);
+  overflow: hidden;
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.privacy-details:hover {
+  border-color: rgba(38, 167, 224, 0.24);
+  background-color: rgba(255, 252, 244, 0.92);
+}
+
+.privacy-details summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 46px;
+  padding: 10px 12px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  list-style: none;
+}
+
+.privacy-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.privacy-summary-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.privacy-check-control {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(32, 26, 18, 0.38);
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+.privacy-native-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.privacy-details:has(.privacy-native-input:checked) .privacy-check-control {
+  border-color: var(--blue);
+  background: var(--blue);
+}
+
+.privacy-details:has(.privacy-native-input:checked) .privacy-check-control::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 4px;
+  margin: 4px 0 0 3px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(-45deg);
+}
+
+.privacy-summary-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  align-self: center;
+  justify-self: end;
+  color: rgba(23, 19, 13, 0.58);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.privacy-details-arrow {
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.privacy-details[open] .privacy-details-arrow {
+  transform: rotate(225deg);
+}
+
+.privacy-details-content {
+  padding: 0 12px 12px 40px;
+  color: rgba(23, 19, 13, 0.68);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.privacy-details-content dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.privacy-details-content dl > div {
+  display: grid;
+  grid-template-columns: minmax(82px, 0.24fr) 1fr;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(32, 26, 18, 0.08);
+}
+
+.privacy-details-content dt {
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.privacy-details-content dd {
+  margin: 0;
+}
+
+.contact-form .contact-choice input {
   margin: 0;
   width: 18px;
   height: 18px;
@@ -1935,8 +2064,7 @@ a {
   accent-color: var(--blue);
 }
 
-.contact-form .contact-choice label:hover,
-.contact-form .privacy-check:hover {
+.contact-form .contact-choice label:hover {
   border-color: rgba(38, 167, 224, 0.24);
   background-color: rgba(255, 252, 244, 0.92);
 }
@@ -2009,29 +2137,11 @@ a {
   line-height: 1.5;
 }
 
-.contact-form .privacy-check .privacy-text {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.privacy-copy {
   flex: 1 1 auto;
   min-width: 0;
-  line-height: 1.35;
-}
-
-.privacy-copy {
-  flex: 0 0 auto;
   font-size: 14px;
   line-height: 1.35;
-  white-space: nowrap;
-}
-
-.contact-form .privacy-check em {
-  display: inline;
-  margin: 0 0 0 auto;
-  color: rgba(23, 19, 13, 0.46);
-  font-size: 10px;
-  line-height: 1.35;
-  text-align: right;
   white-space: normal;
 }
 
@@ -2311,23 +2421,27 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .contact-form .privacy-check {
-    align-items: center;
-  }
-
-  .contact-form .privacy-check .privacy-text {
-    align-items: center;
-    flex-direction: row;
-    gap: 8px;
-  }
-
   .privacy-copy {
     white-space: normal;
   }
 
-  .contact-form .privacy-check em {
-    margin-left: auto;
-    text-align: right;
+  .privacy-details summary {
+    align-items: flex-start;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .privacy-summary-toggle {
+    justify-self: start;
+  }
+
+  .privacy-details-content {
+    padding-left: 12px;
+  }
+
+  .privacy-details-content dl > div {
+    grid-template-columns: 1fr;
+    gap: 3px;
   }
 
   .hero.section-panel {

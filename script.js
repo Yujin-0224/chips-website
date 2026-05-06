@@ -288,6 +288,183 @@ const filterGroups = [
   },
 ];
 
+const filterLocales = {
+  ko: {
+    ui: { optionSuffix: "개 옵션", selectAll: "모두 선택", clear: "모두 해제" },
+    groups: {
+      gender: { label: "성별", hint: "Gender", options: ["남자", "여자"] },
+      ageRange: {
+        label: "나이대",
+        hint: "Age Range",
+        options: ["나이 불명 (괴물이나 크리쳐의 경우)", "10대 미만", "10대", "20대", "30대", "40대", "50대", "노년(60대 이상)"],
+      },
+      tone: {
+        label: "톤",
+        hint: "Tone / Voice Color",
+        options: [
+          "밝은", "차분한", "따뜻한", "부드러운", "시크한", "도도한", "진지한", "무게감 있는", "고급스러운", "신뢰감 있는",
+          "친근한", "활기찬", "하이텐션", "로우텐션", "청량한", "귀여운", "장난스러운", "냉정한", "강한", "카리스마",
+          "위엄 있는", "섹시한", "몽환적인", "맑은", "또렷한", "거친", "빠른", "느린", "담백한", "담담한",
+          "감성적인", "아나운서", "상담원", "교관/강사", "MC", "DJ", "방송 진행",
+        ],
+      },
+      texture: { label: "음색 특성", hint: "Voice Texture", options: ["중저음", "저음", "고음"] },
+      emotion: {
+        label: "감정",
+        hint: "Emotion",
+        options: [
+          "무감정/중립", "행복", "기쁨", "설렘", "기대", "자신감", "뿌듯함", "감동", "따뜻함", "위로",
+          "사랑스러움", "친절함", "공손함", "진지함", "긴장", "불안", "공포", "당황", "놀람", "분노",
+          "짜증", "경멸", "냉소", "우울", "슬픔", "눈물/오열", "체념", "절망", "후회", "지침/피곤",
+          "아픔/고통", "비명", "흥분", "광기", "의심", "조급함", "무서운", "음흉함", "협박", "명령",
+          "간절함", "간청", "애원", "비꼼", "장난", "쑥스러움",
+        ],
+      },
+      language: { label: "언어", hint: "Language", options: ["한국어", "영어", "일본어", "중국어"] },
+      accent: {
+        label: "억양/사투리",
+        hint: "Accent",
+        options: ["표준어", "서울말", "부산/경상도", "대구 억양", "전라도", "충청도", "강원도", "제주도", "북한 억양(평양톤)", "외국인 억양(한국어)"],
+      },
+      characterType: {
+        label: "캐릭터 타입",
+        hint: "Character Type",
+        options: [
+          "히어로", "악당", "천재 캐릭터", "바보/허당 캐릭터", "츤데레", "냉미남/냉미녀", "다정한 캐릭터", "엄격한 상사", "선생님/교관", "의사/간호사",
+          "공주", "경찰", "군인", "기사/전사", "마법사", "왕/여왕", "귀족", "아이돌", "학생", "엄마",
+          "아빠", "할아버지", "할머니", "아기 캐릭터", "로봇", "AI 비서", "내레이터형 캐릭터", "마스코트 캐릭터", "동물 캐릭터", "괴물/크리처",
+          "외계인", "유령", "좀비", "신/악마",
+        ],
+      },
+    },
+  },
+  en: {
+    ui: { optionSuffix: " options", selectAll: "Select all", clear: "Clear all" },
+    groups: {
+      gender: { label: "Gender", hint: "Gender", options: ["Male", "Female"] },
+      ageRange: { label: "Age Range", hint: "Age Range", options: ["Unknown age (monster or creature)", "Under 10", "Teens", "20s", "30s", "40s", "50s", "Senior (60+)"] },
+      tone: {
+        label: "Tone",
+        hint: "Tone / Voice Color",
+        options: [
+          "Bright", "Calm", "Warm", "Soft", "Chic", "Aloof", "Serious", "Weighty", "Luxurious", "Trustworthy",
+          "Friendly", "Energetic", "High tension", "Low tension", "Fresh", "Cute", "Playful", "Cold", "Strong", "Charismatic",
+          "Dignified", "Sexy", "Dreamy", "Clear", "Crisp", "Rough", "Fast", "Slow", "Plain", "Composed",
+          "Emotional", "Announcer", "Counselor", "Instructor", "MC", "DJ", "Broadcast host",
+        ],
+      },
+      texture: { label: "Voice Texture", hint: "Voice Texture", options: ["Mid-low", "Low", "High"] },
+      emotion: {
+        label: "Emotion",
+        hint: "Emotion",
+        options: [
+          "Neutral", "Happiness", "Joy", "Excitement", "Expectation", "Confidence", "Pride", "Moved", "Warmth", "Comfort",
+          "Lovely", "Kindness", "Polite", "Serious", "Tension", "Anxiety", "Fear", "Flustered", "Surprise", "Anger",
+          "Irritation", "Contempt", "Cynicism", "Depressed", "Sadness", "Crying", "Resignation", "Despair", "Regret", "Tired",
+          "Pain", "Scream", "Excited", "Madness", "Suspicion", "Impatience", "Scary", "Sinister", "Threat", "Command",
+          "Desperate", "Pleading", "Begging", "Sarcasm", "Mischief", "Shyness",
+        ],
+      },
+      language: { label: "Language", hint: "Language", options: ["Korean", "English", "Japanese", "Chinese"] },
+      accent: { label: "Accent", hint: "Accent", options: ["Standard Korean", "Seoul dialect", "Busan/Gyeongsang", "Daegu accent", "Jeolla dialect", "Chungcheong dialect", "Gangwon dialect", "Jeju dialect", "North Korean accent (Pyongyang)", "Foreign accent in Korean"] },
+      characterType: {
+        label: "Character Type",
+        hint: "Character Type",
+        options: [
+          "Hero", "Villain", "Genius character", "Foolish character", "Tsundere", "Cold beauty", "Kind character", "Strict boss", "Teacher/Instructor", "Doctor/Nurse",
+          "Princess", "Police officer", "Soldier", "Knight/Warrior", "Wizard", "King/Queen", "Noble", "Idol", "Student", "Mother",
+          "Father", "Grandfather", "Grandmother", "Baby character", "Robot", "AI assistant", "Narrator type", "Mascot character", "Animal character", "Monster/Creature",
+          "Alien", "Ghost", "Zombie", "God/Demon",
+        ],
+      },
+    },
+  },
+  ja: {
+    ui: { optionSuffix: "件", selectAll: "すべて選択", clear: "すべて解除" },
+    groups: {
+      gender: { label: "性別", hint: "Gender", options: ["男性", "女性"] },
+      ageRange: { label: "年齢層", hint: "Age Range", options: ["年齢不明（怪物・クリーチャー）", "10歳未満", "10代", "20代", "30代", "40代", "50代", "シニア（60代以上）"] },
+      tone: {
+        label: "トーン",
+        hint: "Tone / Voice Color",
+        options: [
+          "明るい", "落ち着いた", "温かい", "柔らかい", "シック", "気高い", "真面目", "重厚感のある", "上品", "信頼感のある",
+          "親しみやすい", "活発", "ハイテンション", "ローテンション", "爽やか", "かわいい", "いたずらっぽい", "冷静", "強い", "カリスマ性",
+          "威厳のある", "セクシー", "幻想的", "澄んだ", "はっきりした", "荒い", "速い", "遅い", "淡泊", "淡々とした",
+          "感性的", "アナウンサー", "相談員", "教官/講師", "MC", "DJ", "番組進行",
+        ],
+      },
+      texture: { label: "声質", hint: "Voice Texture", options: ["中低音", "低音", "高音"] },
+      emotion: {
+        label: "感情",
+        hint: "Emotion",
+        options: [
+          "無感情/ニュートラル", "幸せ", "喜び", "ときめき", "期待", "自信", "誇らしさ", "感動", "温かさ", "慰め",
+          "愛らしさ", "親切", "丁寧", "真剣", "緊張", "不安", "恐怖", "戸惑い", "驚き", "怒り",
+          "苛立ち", "軽蔑", "皮肉", "憂鬱", "悲しみ", "涙/号泣", "諦め", "絶望", "後悔", "疲れ",
+          "痛み/苦痛", "悲鳴", "興奮", "狂気", "疑い", "焦り", "怖い", "陰険", "脅迫", "命令",
+          "切実さ", "懇願", "哀願", "皮肉っぽい", "遊び心", "照れ",
+        ],
+      },
+      language: { label: "言語", hint: "Language", options: ["韓国語", "英語", "日本語", "中国語"] },
+      accent: { label: "アクセント/方言", hint: "Accent", options: ["標準語", "ソウル方言", "釜山/慶尚道", "大邱アクセント", "全羅道", "忠清道", "江原道", "済州道", "北朝鮮アクセント（平壌）", "外国人アクセント（韓国語）"] },
+      characterType: {
+        label: "キャラクタータイプ",
+        hint: "Character Type",
+        options: [
+          "ヒーロー", "悪役", "天才キャラクター", "おバカ/抜けたキャラクター", "ツンデレ", "クール美男/美女", "優しいキャラクター", "厳格な上司", "先生/教官", "医師/看護師",
+          "姫", "警察", "軍人", "騎士/戦士", "魔法使い", "王/女王", "貴族", "アイドル", "学生", "母",
+          "父", "祖父", "祖母", "赤ちゃんキャラクター", "ロボット", "AI秘書", "ナレーター型", "マスコット", "動物キャラクター", "怪物/クリーチャー",
+          "宇宙人", "幽霊", "ゾンビ", "神/悪魔",
+        ],
+      },
+    },
+  },
+  zh: {
+    ui: { optionSuffix: "个选项", selectAll: "全选", clear: "清除全部" },
+    groups: {
+      gender: { label: "性别", hint: "Gender", options: ["男性", "女性"] },
+      ageRange: { label: "年龄段", hint: "Age Range", options: ["年龄不明（怪物或生物）", "10岁以下", "10多岁", "20多岁", "30多岁", "40多岁", "50多岁", "老年（60岁以上）"] },
+      tone: {
+        label: "音色/语气",
+        hint: "Tone / Voice Color",
+        options: [
+          "明亮", "沉稳", "温暖", "柔和", "时髦", "高冷", "认真", "厚重", "高级", "可信赖",
+          "亲切", "有活力", "高能量", "低能量", "清爽", "可爱", "调皮", "冷静", "强势", "有气场",
+          "有威严", "性感", "梦幻", "清澈", "清晰", "粗犷", "快速", "缓慢", "朴素", "淡然",
+          "感性", "播音员", "客服/咨询员", "教官/讲师", "主持人", "DJ", "节目主持",
+        ],
+      },
+      texture: { label: "声音质感", hint: "Voice Texture", options: ["中低音", "低音", "高音"] },
+      emotion: {
+        label: "情绪",
+        hint: "Emotion",
+        options: [
+          "无感情/中性", "幸福", "喜悦", "心动", "期待", "自信", "自豪", "感动", "温暖", "安慰",
+          "可爱", "亲切", "礼貌", "严肃", "紧张", "不安", "恐惧", "慌张", "惊讶", "愤怒",
+          "烦躁", "轻蔑", "冷嘲", "忧郁", "悲伤", "哭泣/痛哭", "认命", "绝望", "后悔", "疲惫",
+          "疼痛/痛苦", "尖叫", "兴奋", "疯狂", "怀疑", "急躁", "可怕", "阴险", "威胁", "命令",
+          "迫切", "恳求", "哀求", "讽刺", "玩笑", "害羞",
+        ],
+      },
+      language: { label: "语言", hint: "Language", options: ["韩语", "英语", "日语", "中文"] },
+      accent: { label: "口音/方言", hint: "Accent", options: ["标准语", "首尔话", "釜山/庆尚道", "大邱口音", "全罗道", "忠清道", "江原道", "济州岛", "朝鲜口音（平壤腔）", "外国人口音（韩语）"] },
+      characterType: {
+        label: "角色类型",
+        hint: "Character Type",
+        options: [
+          "英雄", "反派", "天才角色", "笨蛋/冒失角色", "傲娇", "冷酷帅哥/美女", "温柔角色", "严格上司", "老师/教官", "医生/护士",
+          "公主", "警察", "军人", "骑士/战士", "魔法师", "国王/女王", "贵族", "偶像", "学生", "妈妈",
+          "爸爸", "爷爷", "奶奶", "婴儿角色", "机器人", "AI助手", "旁白型角色", "吉祥物角色", "动物角色", "怪物/生物",
+          "外星人", "幽灵", "僵尸", "神/恶魔",
+        ],
+      },
+    },
+  },
+};
+
+let activeFilterLocale = "ko";
+
 const actorFilterProfiles = {
   haru: {
     ageRange: ["20대"],
@@ -442,6 +619,7 @@ const detailTags = document.querySelector("#detail-tags");
 const demoGrid = document.querySelector("#demo-grid");
 const filterForm = document.querySelector(".sample-filter");
 const filterControls = document.querySelector("#filter-controls");
+const filterLocaleButtons = [...document.querySelectorAll(".filter-locale-button")];
 const sampleEmpty = document.querySelector("#sample-empty");
 const statusEl = document.querySelector("#form-status");
 const navLinks = [...document.querySelectorAll(".nav-link")];
@@ -602,6 +780,20 @@ function getActorFilterValues(actor) {
   };
 }
 
+function getLocalizedFilterGroup(group) {
+  const localeGroup = filterLocales[activeFilterLocale]?.groups[group.key] || {};
+  const optionLabels = localeGroup.options || [];
+  return {
+    ...group,
+    label: localeGroup.label || group.label,
+    hint: localeGroup.hint || group.hint,
+    options: group.options.map((option, index) => ({
+      value: option,
+      label: optionLabels[index] || option,
+    })),
+  };
+}
+
 function selectedFilterValues() {
   return filterGroups.reduce((selected, group) => {
     selected[group.key] = [
@@ -609,6 +801,16 @@ function selectedFilterValues() {
     ].map((input) => input.value);
     return selected;
   }, {});
+}
+
+function restoreFilterSelections(selections = {}) {
+  Object.entries(selections).forEach(([groupKey, values]) => {
+    values.forEach((value) => {
+      const input = filterControls.querySelector(`input[name="${groupKey}"][value="${CSS.escape(value)}"]`);
+      if (input) input.checked = true;
+    });
+    updateFilterSummary(groupKey);
+  });
 }
 
 function updateFilterSummary(groupKey) {
@@ -647,15 +849,17 @@ function closeFilterPanels(exceptDropdown = null) {
   syncFilterPanelSpace();
 }
 
-function renderFilterControls() {
+function renderFilterControls(selections = {}) {
+  const ui = filterLocales[activeFilterLocale]?.ui || filterLocales.ko.ui;
   filterControls.innerHTML = filterGroups
-    .map(
-      (group) => `
+    .map((group) => {
+      const localizedGroup = getLocalizedFilterGroup(group);
+      return `
         <div class="filter-dropdown" data-filter="${group.key}">
           <button class="filter-toggle" type="button" aria-expanded="false">
             <span class="filter-toggle-label">
-              <strong>${group.label}</strong>
-              <small>${group.hint}</small>
+              <strong>${localizedGroup.label}</strong>
+              <small>${localizedGroup.hint}</small>
             </span>
             <span class="filter-toggle-meta">
               <em class="filter-count" hidden></em>
@@ -665,21 +869,21 @@ function renderFilterControls() {
           <div class="filter-panel">
             <div class="filter-panel-head">
               <div>
-                <strong>${group.label}</strong>
-                <small>${group.options.length}개 옵션</small>
+                <strong>${localizedGroup.label}</strong>
+                <small>${localizedGroup.options.length}${ui.optionSuffix}</small>
               </div>
               <div class="filter-actions">
-                <button type="button" data-action="select-all">모두 선택</button>
-                <button type="button" data-action="clear">모두 해제</button>
+                <button type="button" data-action="select-all">${ui.selectAll}</button>
+                <button type="button" data-action="clear">${ui.clear}</button>
               </div>
             </div>
             <div class="filter-option-grid">
-              ${group.options
+              ${localizedGroup.options
                 .map(
                   (option) => `
                     <label class="filter-check">
-                      <input type="checkbox" name="${group.key}" value="${option}" />
-                      <span>${option}</span>
+                      <input type="checkbox" name="${group.key}" value="${option.value}" />
+                      <span>${option.label}</span>
                     </label>
                   `,
                 )
@@ -687,9 +891,10 @@ function renderFilterControls() {
             </div>
           </div>
         </div>
-      `,
-    )
+      `;
+    })
     .join("");
+  restoreFilterSelections(selections);
 }
 
 function filterSamples() {
@@ -862,6 +1067,22 @@ function setupAudioPlayers(scope = document) {
 }
 
 document.addEventListener("click", (event) => {
+  const localeButton = event.target.closest(".filter-locale-button");
+  if (localeButton) {
+    const nextLocale = localeButton.dataset.filterLocale;
+    if (!filterLocales[nextLocale] || nextLocale === activeFilterLocale) return;
+
+    const selections = selectedFilterValues();
+    activeFilterLocale = nextLocale;
+    filterLocaleButtons.forEach((button) => {
+      button.classList.toggle("is-active", button === localeButton);
+    });
+    closeFilterPanels();
+    renderFilterControls(selections);
+    syncFilterPanelSpace();
+    return;
+  }
+
   const filterToggle = event.target.closest(".filter-toggle");
   if (filterToggle) {
     const dropdown = filterToggle.closest(".filter-dropdown");

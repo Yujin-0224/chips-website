@@ -2037,11 +2037,13 @@ a {
 
 .submit-button {
   justify-self: stretch;
-  min-height: 50px;
+  min-height: 66px;
   border: 0;
   border-radius: 8px;
   background: linear-gradient(135deg, var(--chip-yellow), var(--chip-yellow-deep));
   color: #fff;
+  font-size: 22px;
+  letter-spacing: 0;
   font-weight: 900;
   cursor: pointer;
   box-shadow: 0 18px 34px rgba(246, 185, 59, 0.28);
@@ -2049,9 +2051,8 @@ a {
 }
 
 .submit-button span {
-  margin-left: 8px;
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 13px;
+  color: inherit;
+  font-size: inherit;
 }
 
 .submit-button:hover {

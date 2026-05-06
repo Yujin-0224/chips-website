@@ -239,7 +239,6 @@ const filterGroups = [
       "충청도",
       "강원도",
       "제주도",
-      "북한 억양(평양톤)",
       "외국인 억양(한국어)",
     ],
   },
@@ -322,7 +321,7 @@ const filterLocales = {
       accent: {
         label: "억양/사투리",
         hint: "Accent",
-        options: ["표준어", "서울말", "부산/경상도", "대구 억양", "전라도", "충청도", "강원도", "제주도", "북한 억양(평양톤)", "외국인 억양(한국어)"],
+        options: ["표준어", "서울말", "부산/경상도", "대구 억양", "전라도", "충청도", "강원도", "제주도", "외국인 억양(한국어)"],
       },
       characterType: {
         label: "캐릭터 타입",
@@ -364,7 +363,7 @@ const filterLocales = {
         ],
       },
       language: { label: "Language", hint: "Language", options: ["Korean", "English", "Japanese", "Chinese"] },
-      accent: { label: "Accent", hint: "Accent", options: ["Standard Korean", "Seoul dialect", "Busan/Gyeongsang", "Daegu accent", "Jeolla dialect", "Chungcheong dialect", "Gangwon dialect", "Jeju dialect", "North Korean accent (Pyongyang)", "Foreign accent in Korean"] },
+      accent: { label: "Accent", hint: "Accent", options: ["Standard Korean", "Seoul dialect", "Busan/Gyeongsang", "Daegu accent", "Jeolla dialect", "Chungcheong dialect", "Gangwon dialect", "Jeju dialect", "Foreign accent in Korean"] },
       characterType: {
         label: "Character Type",
         hint: "Character Type",
@@ -405,7 +404,7 @@ const filterLocales = {
         ],
       },
       language: { label: "言語", hint: "Language", options: ["韓国語", "英語", "日本語", "中国語"] },
-      accent: { label: "アクセント/方言", hint: "Accent", options: ["標準語", "ソウル方言", "釜山/慶尚道", "大邱アクセント", "全羅道", "忠清道", "江原道", "済州道", "北朝鮮アクセント（平壌）", "外国人アクセント（韓国語）"] },
+      accent: { label: "アクセント/方言", hint: "Accent", options: ["標準語", "ソウル方言", "釜山/慶尚道", "大邱アクセント", "全羅道", "忠清道", "江原道", "済州道", "外国人アクセント（韓国語）"] },
       characterType: {
         label: "キャラクタータイプ",
         hint: "Character Type",
@@ -446,7 +445,7 @@ const filterLocales = {
         ],
       },
       language: { label: "语言", hint: "Language", options: ["韩语", "英语", "日语", "中文"] },
-      accent: { label: "口音/方言", hint: "Accent", options: ["标准语", "首尔话", "釜山/庆尚道", "大邱口音", "全罗道", "忠清道", "江原道", "济州岛", "朝鲜口音（平壤腔）", "外国人口音（韩语）"] },
+      accent: { label: "口音/方言", hint: "Accent", options: ["标准语", "首尔话", "釜山/庆尚道", "大邱口音", "全罗道", "忠清道", "江原道", "济州岛", "外国人口音（韩语）"] },
       characterType: {
         label: "角色类型",
         hint: "Character Type",

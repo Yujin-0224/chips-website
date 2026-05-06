@@ -357,23 +357,35 @@ document.querySelector("#back-to-actors").addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-document.querySelector("#contact-form").addEventListener("submit", (event) => {
+document.querySelector("#contact-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const data = new FormData(event.currentTarget);
-  const subject = encodeURIComponent(`[CHIPS 문의] ${data.get("name")}님 문의`);
-  const body = encodeURIComponent(
-    [
-      `성명: ${data.get("name")}`,
-      `회사명: ${data.get("company") || "-"}`,
-      `연락처: ${data.get("phone")}`,
-      `E-mail: ${data.get("email")}`,
-      "",
-      "신청 내용:",
-      data.get("message"),
-    ].join("\n"),
-  );
-  window.location.href = `mailto:contact@chips-voice.com?subject=${subject}&body=${body}`;
-  statusEl.textContent = "메일 앱이 열리면 내용을 확인한 뒤 발송해 주세요.";
+  const form = event.currentTarget;
+  const submitButton = form.querySelector(".submit-button");
+  const data = new FormData(form);
+
+  data.append("_subject", `[CHIPS 문의] ${data.get("name")}님 문의`);
+
+  submitButton.disabled = true;
+  statusEl.textContent = "문의 내용을 전송하고 있습니다.";
+
+  try {
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: data,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error("Formspree request failed");
+
+    form.reset();
+    statusEl.textContent = "문의가 접수되었습니다. 확인 후 연락드리겠습니다.";
+  } catch (error) {
+    statusEl.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.";
+  } finally {
+    submitButton.disabled = false;
+  }
 });
 
 function setActiveNav(targetHash) {

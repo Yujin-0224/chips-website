@@ -28,8 +28,10 @@
 
     <main>
       <div id="home" class="home-page">
-        <section id="top" class="hero section-panel">
-          <img class="cracker-logo-image" src="assets/chips-chip.png" alt="깨진 감자칩 로고" />
+        <section id="top" class="hero section-panel" aria-label="CHIPS hero video">
+          <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/chips-hero-optimized.webp">
+            <source src="assets/chips-background.mp4" type="video/mp4" />
+          </video>
         </section>
 
         <section id="voice-sample" class="section-panel voice-sample-section">
@@ -148,7 +150,7 @@
           <p class="eyebrow">CONTACT</p>
           <h2>문의하기</h2>
         </div>
-        <form class="contact-form" id="contact-form">
+        <form class="contact-form" id="contact-form" action="https://formspree.io/f/xzdoggkg" method="POST">
           <p class="required-note">* 필수 정보를 입력해 주세요.</p>
           <label>
             성명

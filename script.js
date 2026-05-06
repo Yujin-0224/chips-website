@@ -617,12 +617,164 @@ const detailTags = document.querySelector("#detail-tags");
 const demoGrid = document.querySelector("#demo-grid");
 const filterForm = document.querySelector(".sample-filter");
 const filterControls = document.querySelector("#filter-controls");
-const filterLocaleButtons = [...document.querySelectorAll(".filter-locale-button")];
+const filterLocaleButtons = [...document.querySelectorAll("[data-filter-locale]")];
+const contactLocaleButtons = [...document.querySelectorAll("[data-contact-locale]")];
 const sampleEmpty = document.querySelector("#sample-empty");
 const statusEl = document.querySelector("#form-status");
+const contactToast = document.querySelector("#contact-toast");
+const fileInput = document.querySelector(".file-input");
+const fileUploadName = document.querySelector("#file-upload-name");
 const navLinks = [...document.querySelectorAll(".nav-link")];
 const newsCards = [...document.querySelectorAll(".news-feature, .news-item")];
 const newsFilterLinks = [...document.querySelectorAll(".news-filter-link")];
+
+const contactLocales = {
+  ko: {
+    text: {
+      pageTitle: "문의하기",
+      pageLead: "성우 섭외, 더빙 제작, 견적 요청, 협업 관련 문의를 아래 양식으로 접수해 주세요.",
+      guideKicker: "문의 안내",
+      guideTitle: "문의 안내",
+      guideBody:
+        "문의 내용 확인 후 <strong>1~2일 이내</strong>에 이메일로 답변드리겠습니다. 급한 일정이 있으신 경우 희망 납기일을 함께 작성해 주세요.",
+      requiredLegend: "필수 입력",
+      optionalChip: "선택",
+      optionalLegend: "선택 입력",
+      nameLabel: "성명",
+      requesterLabel: "문의자 구분",
+      companyOption: "회사",
+      individualOption: "개인",
+      companyLabel: "회사명 또는 개인명",
+      inquiryTypeLabel: "문의 유형",
+      phoneLabel: "연락처",
+      emailLabel: "이메일",
+      budgetLabel: "예산 범위",
+      deadlineLabel: "희망 마감일",
+      projectTypeLabel: "프로젝트 종류",
+      voiceLabel: "언어 / 목소리 조건",
+      messageLabel: "신청 내용",
+      referenceLabel: "파일 또는 참고 링크",
+      attachmentLabel: "파일 첨부",
+      attachmentHelp: "대본, 영상, 참고 자료를 첨부하거나 위 링크란에 공유 링크를 남겨주세요.",
+      fileChoose: "파일 선택",
+      fileNone: "선택된 파일 없음",
+      privacyLabel: "개인정보 수집 및 이용에 동의합니다.",
+      submitLabel: "문의 접수하기",
+      toastTitle: "문의가 정상적으로 접수되었습니다.",
+      toastBody: "확인 후 1~2일 이내에 이메일로 답변드리겠습니다.",
+    },
+    placeholders: {
+      name: "홍길동",
+      company: "CHIPS Studio",
+      phone: "010-0000-0000",
+      email: "hello@example.com",
+      budget: "예: 100만원 내외",
+      project_type: "광고, 유튜브, 애니, 게임, 교육 등",
+      voice_direction: "한국어 / 밝은 톤, 20대 여성 등",
+      message: "문의 내용, 분량, 일정, 원하는 목소리 조건 등을 자유롭게 작성해 주세요.",
+      reference_link: "Google Drive, Dropbox, YouTube, 참고 사이트 링크",
+    },
+    options: {
+      placeholder: "선택해 주세요",
+      casting: "성우 캐스팅 문의",
+      dubbing: "더빙 제작 문의",
+      estimate: "견적 요청",
+      revision: "수정/추가 작업",
+      partnership: "제휴/협업",
+      other: "기타",
+    },
+    values: {
+      requester: ["회사", "개인"],
+      inquiry: {
+        casting: "성우 캐스팅 문의",
+        dubbing: "더빙 제작 문의",
+        estimate: "견적 요청",
+        revision: "수정/추가 작업",
+        partnership: "제휴/협업",
+        other: "기타",
+      },
+    },
+    status: {
+      sending: "문의 내용을 전송하고 있습니다.",
+      success: "문의가 정상적으로 접수되었습니다.",
+      error: "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+    },
+  },
+  en: {
+    text: {
+      pageTitle: "Contact Us",
+      pageLead: "Please use the form below for voice actor casting, dubbing production, estimate requests, and partnership inquiries.",
+      guideKicker: "INQUIRY GUIDE",
+      guideTitle: "Inquiry Guide",
+      guideBody:
+        "After reviewing your inquiry, we will reply by email within <strong>1-2 business days</strong>. If your schedule is urgent, please include your preferred deadline.",
+      requiredLegend: "Required fields",
+      optionalChip: "Optional",
+      optionalLegend: "Optional fields",
+      nameLabel: "Full name",
+      requesterLabel: "Requester type",
+      companyOption: "Company",
+      individualOption: "Individual",
+      companyLabel: "Company name or individual name",
+      inquiryTypeLabel: "Type of inquiry",
+      phoneLabel: "Phone number",
+      emailLabel: "Email address",
+      budgetLabel: "Budget range",
+      deadlineLabel: "Preferred deadline",
+      projectTypeLabel: "Project type",
+      voiceLabel: "Language and voice requirements",
+      messageLabel: "Inquiry details",
+      referenceLabel: "File or reference link",
+      attachmentLabel: "File attachment",
+      attachmentHelp: "Attach scripts, videos, or references here, or paste a shared link in the field above.",
+      fileChoose: "Choose file",
+      fileNone: "No file selected",
+      privacyLabel: "I agree to the collection and use of personal information.",
+      submitLabel: "Submit inquiry",
+      toastTitle: "Your inquiry has been submitted.",
+      toastBody: "We will review it and reply by email within 1-2 business days.",
+    },
+    placeholders: {
+      name: "Alex Kim",
+      company: "CHIPS Studio",
+      phone: "+82 10 0000 0000",
+      email: "hello@example.com",
+      budget: "Example: Around USD 1,000",
+      project_type: "Commercial, YouTube, animation, game, education, etc.",
+      voice_direction: "English / bright tone, female voice in her 20s, etc.",
+      message: "Tell us about the request, volume, schedule, and voice direction you have in mind.",
+      reference_link: "Google Drive, Dropbox, YouTube, or reference website link",
+    },
+    options: {
+      placeholder: "Please select",
+      casting: "Voice actor casting inquiry",
+      dubbing: "Dubbing production inquiry",
+      estimate: "Estimate request",
+      revision: "Revision or additional work",
+      partnership: "Partnership or collaboration",
+      other: "Other inquiry",
+    },
+    values: {
+      requester: ["Company", "Individual"],
+      inquiry: {
+        casting: "Voice actor casting inquiry",
+        dubbing: "Dubbing production inquiry",
+        estimate: "Estimate request",
+        revision: "Revision or additional work",
+        partnership: "Partnership or collaboration",
+        other: "Other inquiry",
+      },
+    },
+    status: {
+      sending: "Sending your inquiry.",
+      success: "Your inquiry has been submitted.",
+      error: "Failed to send your inquiry. Please try again later.",
+    },
+  },
+};
+
+const initialContactLocale = new URLSearchParams(window.location.search).get("contactLocale");
+let activeContactLocale = contactLocales[initialContactLocale] ? initialContactLocale : "ko";
 const newsArticleSection = document.querySelector("#news-article");
 const newsArticleContent = document.querySelector("#news-article-content");
 const topNewsRail = document.querySelector("#top-news-rail");
@@ -776,6 +928,46 @@ function getActorFilterValues(actor) {
     accent: ["표준어", "서울말"],
     characterType: categoryMap[actor.category] || [],
   };
+}
+
+function applyContactLocale(locale) {
+  const config = contactLocales[locale] || contactLocales.ko;
+  activeContactLocale = locale;
+
+  document.querySelectorAll("[data-contact-text]").forEach((element) => {
+    const key = element.dataset.contactText;
+    if (config.text[key]) element.textContent = config.text[key];
+  });
+
+  document.querySelectorAll("[data-contact-html]").forEach((element) => {
+    const key = element.dataset.contactHtml;
+    if (config.text[key]) element.innerHTML = config.text[key];
+  });
+
+  Object.entries(config.placeholders).forEach(([name, placeholder]) => {
+    const field = document.querySelector(`[name="${name}"]`);
+    if (field) field.placeholder = placeholder;
+  });
+
+  document.querySelectorAll("[data-contact-option]").forEach((option) => {
+    const key = option.dataset.contactOption;
+    if (config.options[key]) option.textContent = config.options[key];
+    if (key !== "placeholder" && config.values.inquiry[key]) {
+      option.value = config.values.inquiry[key];
+    }
+  });
+
+  document.querySelectorAll('[name="requester_type"]').forEach((input, index) => {
+    if (config.values.requester[index]) input.value = config.values.requester[index];
+  });
+
+  contactLocaleButtons.forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.contactLocale === locale);
+  });
+
+  if (fileUploadName && fileInput && !fileInput.files.length) {
+    fileUploadName.textContent = config.text.fileNone;
+  }
 }
 
 function getLocalizedFilterGroup(group) {
@@ -1065,6 +1257,14 @@ function setupAudioPlayers(scope = document) {
 }
 
 document.addEventListener("click", (event) => {
+  const contactLocaleButton = event.target.closest("[data-contact-locale]");
+  if (contactLocaleButton) {
+    const nextLocale = contactLocaleButton.dataset.contactLocale;
+    if (!contactLocales[nextLocale] || nextLocale === activeContactLocale) return;
+    applyContactLocale(nextLocale);
+    return;
+  }
+
   const localeButton = event.target.closest(".filter-locale-button");
   if (localeButton) {
     const nextLocale = localeButton.dataset.filterLocale;
@@ -1197,7 +1397,8 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
   data.append("_subject", `[CHIPS 문의] ${data.get("name")}님 문의`);
 
   submitButton.disabled = true;
-  statusEl.textContent = "문의 내용을 전송하고 있습니다. Sending your inquiry.";
+  contactToast.hidden = true;
+  statusEl.textContent = contactLocales[activeContactLocale].status.sending;
 
   try {
     const response = await fetch(form.action, {
@@ -1211,13 +1412,24 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
     if (!response.ok) throw new Error("Formspree request failed");
 
     form.reset();
-    statusEl.textContent = "문의가 접수되었습니다. 확인 후 연락드리겠습니다. Your inquiry has been received.";
+    statusEl.textContent = contactLocales[activeContactLocale].status.success;
+    contactToast.hidden = false;
+    window.setTimeout(() => {
+      contactToast.hidden = true;
+    }, 5200);
   } catch (error) {
-    statusEl.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해 주세요. Please try again later.";
+    statusEl.textContent = contactLocales[activeContactLocale].status.error;
   } finally {
     submitButton.disabled = false;
   }
 });
+
+if (fileInput && fileUploadName) {
+  fileInput.addEventListener("change", () => {
+    fileUploadName.textContent =
+      fileInput.files[0]?.name || contactLocales[activeContactLocale].text.fileNone;
+  });
+}
 
 function setActiveNav(targetHash) {
   navLinks.forEach((link) => {
@@ -1303,6 +1515,7 @@ renderFilterControls();
 renderActors();
 sampleGrid.innerHTML = "";
 sampleEmpty.hidden = false;
+applyContactLocale(activeContactLocale);
 observeReveals();
 setupAudioPlayers();
 showRoute();

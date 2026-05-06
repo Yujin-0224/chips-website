@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260506-contact-fix" />
+    <link rel="stylesheet" href="styles.css?v=20260507-contact-locale" />
   </head>
   <body>
     <header class="site-header" aria-label="CHIPS main navigation">
@@ -46,15 +46,15 @@
                 <span>KR</span>
               </button>
               <button class="filter-locale-button" type="button" data-filter-locale="en">
-                <strong>미국</strong>
-                <span>US</span>
+                <strong>English</strong>
+                <span>EN</span>
               </button>
               <button class="filter-locale-button" type="button" data-filter-locale="ja">
-                <strong>일본</strong>
+                <strong>日本語</strong>
                 <span>JP</span>
               </button>
               <button class="filter-locale-button" type="button" data-filter-locale="zh">
-                <strong>중국</strong>
+                <strong>中文</strong>
                 <span>CN</span>
               </button>
             </div>
@@ -253,57 +253,116 @@
 
       <section id="contact" class="section-panel contact-section app-page" hidden>
         <div class="page-heading">
-          <p class="eyebrow">CONTACT</p>
-          <h2>문의하기 <span>Contact Us</span></h2>
-          <p>프로젝트에 필요한 목소리와 제작 범위를 알려주시면, 가장 알맞은 방향을 함께 찾아드립니다.</p>
-          <p class="page-heading-en">Tell us about your project, and we will help shape the right voice and production plan.</p>
+          <div class="contact-heading-top">
+            <p class="eyebrow">CONTACT</p>
+          </div>
+          <h2 data-contact-text="pageTitle">문의하기</h2>
+          <p data-contact-text="pageLead">성우 섭외, 더빙 제작, 견적 요청, 협업 관련 문의를 아래 양식으로 접수해 주세요.</p>
         </div>
         <div class="contact-layout">
           <aside class="contact-aside" aria-label="Contact information">
-            <img src="assets/chips-chip.png" alt="CHIPS character" />
-            <div>
-              <p class="contact-kicker">Casting & Production</p>
-              <h3>새로운 프로젝트를 들려주세요<br /><span>Share your next project</span></h3>
-              <p>
-                캐스팅, 녹음, 연출, 번역/각색 등 필요한 항목을 자유롭게 남겨주세요.
-                일정과 예산이 정해져 있지 않아도 괜찮습니다.
-              </p>
-              <p class="contact-aside-en">
-                Leave any details you have for casting, recording, direction, translation, or adaptation.
-                Early-stage ideas are welcome too.
-              </p>
-            </div>
-            <ul class="contact-points">
-              <li><strong>접수 확인</strong><span>Inquiry review</span></li>
-              <li><strong>방향 제안</strong><span>Voice direction</span></li>
-              <li><strong>일정 조율</strong><span>Schedule planning</span></li>
-            </ul>
+            <p class="contact-kicker" data-contact-text="guideKicker">문의 안내</p>
+            <h3 data-contact-text="guideTitle">문의 안내</h3>
+            <p data-contact-html="guideBody">
+              문의 내용 확인 후 <strong>1~2일 이내</strong>에 이메일로 답변드리겠습니다.
+              급한 일정이 있으신 경우 희망 납기일을 함께 작성해 주세요.
+            </p>
           </aside>
-          <form class="contact-form" id="contact-form" action="https://formspree.io/f/xzdoggkg" method="POST">
-            <p class="required-note">* 필수 정보를 입력해 주세요. <span>Required fields are marked.</span></p>
+          <form class="contact-form" id="contact-form" action="https://formspree.io/f/xzdoggkg" method="POST" enctype="multipart/form-data">
+            <div class="contact-form-toolbar">
+              <div class="filter-language-switch contact-language-switch" aria-label="Contact form language">
+                <button class="filter-locale-button is-active" type="button" data-contact-locale="ko">
+                  <strong>한국</strong>
+                  <span>KR</span>
+                </button>
+                <button class="filter-locale-button" type="button" data-contact-locale="en">
+                  <strong>English</strong>
+                  <span>EN</span>
+                </button>
+              </div>
+            </div>
+            <p class="required-note"><span class="required-mark">*</span> <span data-contact-text="requiredLegend">필수 입력</span> <span class="optional-chip" data-contact-text="optionalChip">선택</span> <span data-contact-text="optionalLegend">선택 입력</span></p>
             <label>
-              <span>성명 <em>Name</em></span>
+              <span><span data-contact-text="nameLabel">성명</span> <strong class="required-mark">*</strong></span>
               <input name="name" type="text" autocomplete="name" placeholder="홍길동 / Alex Kim" required />
             </label>
+            <fieldset class="contact-choice">
+              <legend><span data-contact-text="requesterLabel">문의자 구분</span> <strong class="required-mark">*</strong></legend>
+              <label><input name="requester_type" type="radio" value="회사" required /><span data-contact-text="companyOption">회사</span></label>
+              <label><input name="requester_type" type="radio" value="개인" /><span data-contact-text="individualOption">개인</span></label>
+            </fieldset>
             <label>
-              <span>회사명 <em>Company</em></span>
-              <input name="company" type="text" autocomplete="organization" placeholder="CHIPS Studio" />
+              <span><span data-contact-text="companyLabel">회사명 또는 개인명</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
+              <input name="company" type="text" autocomplete="organization" placeholder="CHIPS Studio / Alex Kim" />
             </label>
             <label>
-              <span>연락처 <em>Phone</em></span>
-              <input name="phone" type="tel" autocomplete="tel" placeholder="010-0000-0000 / +82 10 0000 0000" required />
+              <span><span data-contact-text="inquiryTypeLabel">문의 유형</span> <strong class="required-mark">*</strong></span>
+              <select name="inquiry_type" required>
+                <option value="" data-contact-option="placeholder">선택해 주세요</option>
+                <option value="성우 캐스팅 문의" data-contact-option="casting">성우 캐스팅 문의</option>
+                <option value="더빙 제작 문의" data-contact-option="dubbing">더빙 제작 문의</option>
+                <option value="견적 요청" data-contact-option="estimate">견적 요청</option>
+                <option value="수정/추가 작업" data-contact-option="revision">수정/추가 작업</option>
+                <option value="제휴/협업" data-contact-option="partnership">제휴/협업</option>
+                <option value="기타" data-contact-option="other">기타</option>
+              </select>
             </label>
             <label>
-              <span>이메일 <em>Email</em></span>
+              <span><span data-contact-text="phoneLabel">연락처</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
+              <input name="phone" type="tel" autocomplete="tel" placeholder="010-0000-0000 / +82 10 0000 0000" />
+            </label>
+            <label>
+              <span><span data-contact-text="emailLabel">이메일</span> <strong class="required-mark">*</strong></span>
               <input name="email" type="email" autocomplete="email" placeholder="hello@example.com" required />
             </label>
+            <div class="contact-extra-grid full-field">
+              <label>
+                <span><span data-contact-text="budgetLabel">예산 범위</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
+                <input name="budget" type="text" placeholder="예: 100만원 내외" />
+              </label>
+              <label>
+                <span><span data-contact-text="deadlineLabel">희망 마감일</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
+                <input name="deadline" type="date" />
+              </label>
+              <label>
+                <span><span data-contact-text="projectTypeLabel">프로젝트 종류</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
+                <input name="project_type" type="text" placeholder="광고, 유튜브, 애니, 게임, 교육 등" />
+              </label>
+              <label>
+                <span><span data-contact-text="voiceLabel">언어 / 목소리 조건</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
+                <input name="voice_direction" type="text" placeholder="한국어, 영어 / 밝은 톤, 20대 여성 등" />
+              </label>
+            </div>
             <label class="full-field">
-              <span>신청 내용 <em>Project details</em></span>
-              <textarea name="message" rows="5" placeholder="프로젝트 종류, 원하는 목소리, 분량, 일정 등을 알려주세요. / Tell us the project type, voice direction, volume, and timeline." required></textarea>
+              <span><span data-contact-text="messageLabel">신청 내용</span> <strong class="required-mark">*</strong></span>
+              <textarea name="message" rows="6" placeholder="문의 내용, 분량, 일정, 원하는 목소리 조건 등을 자유롭게 작성해 주세요." required></textarea>
             </label>
-            <button class="submit-button" type="submit">전송하기 <span>Send inquiry</span></button>
+            <label class="full-field">
+              <span><span data-contact-text="referenceLabel">파일 또는 참고 링크</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
+              <input name="reference_link" type="url" placeholder="Google Drive, Dropbox, YouTube, 참고 사이트 링크" />
+            </label>
+            <label class="file-field full-field">
+              <span><span data-contact-text="attachmentLabel">파일 첨부</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
+              <input class="file-input" name="attachment" type="file" />
+              <span class="file-upload-ui">
+                <span class="file-upload-button" data-contact-text="fileChoose">파일 선택</span>
+                <span class="file-upload-name" id="file-upload-name" data-contact-text="fileNone">선택된 파일 없음</span>
+              </span>
+              <small data-contact-text="attachmentHelp">대본, 영상, 참고 자료를 첨부하거나 위 링크란에 공유 링크를 남겨주세요.</small>
+            </label>
+            <label class="privacy-check full-field">
+              <input name="privacy_agree" type="checkbox" value="동의" required />
+              <span class="privacy-text">
+                <span class="privacy-copy"><span data-contact-text="privacyLabel">개인정보 수집 및 이용에 동의합니다.</span> <strong class="required-mark">*</strong></span>
+              </span>
+            </label>
+            <button class="submit-button" type="submit"><span data-contact-text="submitLabel">문의 접수하기</span></button>
             <p class="form-status" id="form-status" role="status"></p>
           </form>
+        </div>
+        <div class="contact-toast" id="contact-toast" hidden role="alert">
+          <strong data-contact-text="toastTitle">문의가 정상적으로 접수되었습니다.</strong>
+          <span data-contact-text="toastBody">확인 후 1~2일 이내에 이메일로 답변드리겠습니다.</span>
         </div>
       </section>
 
@@ -322,6 +381,6 @@
       </section>
     </main>
 
-    <script src="script.js?v=20260506-contact-fix"></script>
+    <script src="script.js?v=20260507-contact-locale"></script>
   </body>
 </html>

@@ -72,15 +72,90 @@
       <section id="news" class="section-panel news-section app-page" hidden>
         <div class="page-heading">
           <p class="eyebrow">NEWS</p>
-          <h2>News</h2>
+          <h2>CHIPS News</h2>
         </div>
-        <div class="news-list">
-          <article class="news-item">
-            <time datetime="2026-05-03">2026.05.03</time>
-            <h3>CHIPS 웹사이트 준비 중</h3>
-            <p>새로운 성우 포트폴리오와 샘플 소식을 이곳에 정리할 예정입니다.</p>
-          </article>
+        <div class="news-layout">
+          <div class="news-main">
+            <article class="news-feature" data-news-id="site-beta" data-news-category="Notice Website" data-news-archive="2026.05" tabindex="0" role="button">
+              <div class="news-feature-visual">
+                <img src="assets/chips-hero-optimized.webp" alt="CHIPS studio artwork" />
+              </div>
+              <div class="news-feature-copy">
+                <p class="news-tags"><span>Notice</span><span>Website</span></p>
+                <time datetime="2026-05-06">2026.05.06</time>
+                <h3>CHIPS Voice Portfolio 베타 페이지를 공개했습니다</h3>
+                <p>성우 샘플 검색, 프로필 보기, 문의 접수 기능을 한곳에서 확인할 수 있는 첫 번째 웹사이트 버전입니다.</p>
+                <p class="news-more">Read more <span>→</span></p>
+              </div>
+            </article>
+
+            <div class="news-list">
+              <article class="news-item" data-news-id="sample-library" data-news-category="Sample Voice" data-news-archive="2026.05" tabindex="0" role="button">
+                <img class="news-thumb" src="assets/sample_profile-optimized.webp" alt="캐릭터 보이스 샘플" />
+                <div class="news-item-copy">
+                  <time datetime="2026-05-04">2026.05.04</time>
+                  <p class="news-tags"><span>Sample</span><span>Voice</span></p>
+                  <h3>캐릭터 보이스 샘플 7종을 테스트 라이브러리에 추가</h3>
+                  <p>밝은 톤, 중저음 내레이션, 감성 광고 등 검색 카테고리별로 확인 가능한 샘플 데이터를 준비했습니다.</p>
+                  <p class="news-more">Read more <span>→</span></p>
+                </div>
+              </article>
+              <article class="news-item" data-news-id="game-casting" data-news-category="Casting" data-news-archive="2026.04" tabindex="0" role="button">
+                <img class="news-thumb" src="assets/chips-chip.png" alt="게임 캐릭터 캐스팅" />
+                <div class="news-item-copy">
+                  <time datetime="2026-04-28">2026.04.28</time>
+                  <p class="news-tags"><span>Casting</span></p>
+                  <h3>게임 캐릭터 캐스팅 상담 접수 안내</h3>
+                  <p>히어로, 악당, 마스코트, AI 비서 등 캐릭터 타입에 맞춰 성우 후보를 제안하는 상담을 시작합니다.</p>
+                  <p class="news-more">Read more <span>→</span></p>
+                </div>
+              </article>
+              <article class="news-item" data-news-id="remote-guide" data-news-category="Studio Guide" data-news-archive="2026.04" tabindex="0" role="button">
+                <img class="news-thumb" src="assets/chips-hero-optimized.webp" alt="원격 녹음 자료 안내" />
+                <div class="news-item-copy">
+                  <time datetime="2026-04-18">2026.04.18</time>
+                  <p class="news-tags"><span>Studio</span><span>Guide</span></p>
+                  <h3>원격 녹음 의뢰 시 필요한 자료 정리</h3>
+                  <p>대본, 레퍼런스, 분량, 납기, 사용 범위를 미리 정리하면 캐스팅과 견적 안내가 더 빠르게 진행됩니다.</p>
+                  <p class="news-more">Read more <span>→</span></p>
+                </div>
+              </article>
+              <article class="news-item" data-news-id="actor-update" data-news-category="Actor" data-news-archive="2026.04" tabindex="0" role="button">
+                <img class="news-thumb" src="assets/sample_profile-optimized.webp" alt="신규 성우 프로필" />
+                <div class="news-item-copy">
+                  <time datetime="2026-04-02">2026.04.02</time>
+                  <p class="news-tags"><span>Actor</span></p>
+                  <h3>신규 성우 프로필 업데이트 예정</h3>
+                  <p>애니메이션, 광고, 게임 분야별 샘플을 가진 성우 프로필이 순차적으로 추가될 예정입니다.</p>
+                  <p class="news-more">Read more <span>→</span></p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <aside class="news-sidebar" aria-label="News filters">
+            <div class="news-sidebar-card">
+              <h3>Category</h3>
+              <button class="news-filter-link is-active" type="button" data-news-filter="all">All</button>
+              <button class="news-filter-link" type="button" data-news-filter="category" data-filter-value="Notice">Notice</button>
+              <button class="news-filter-link" type="button" data-news-filter="category" data-filter-value="Sample">Sample</button>
+              <button class="news-filter-link" type="button" data-news-filter="category" data-filter-value="Casting">Casting</button>
+              <button class="news-filter-link" type="button" data-news-filter="category" data-filter-value="Studio">Studio</button>
+              <button class="news-filter-link" type="button" data-news-filter="category" data-filter-value="Actor">Actor</button>
+            </div>
+            <div class="news-sidebar-card">
+              <h3>Archive</h3>
+              <button class="news-filter-link" type="button" data-news-filter="archive" data-filter-value="2026.05">2026.05</button>
+              <button class="news-filter-link" type="button" data-news-filter="archive" data-filter-value="2026.04">2026.04</button>
+              <button class="news-filter-link" type="button" data-news-filter="archive" data-filter-value="2026.03">2026.03</button>
+            </div>
+          </aside>
         </div>
+      </section>
+
+      <section id="news-article" class="section-panel news-article-section app-page" hidden>
+        <button class="back-button" type="button" id="back-to-news">← NEWS</button>
+        <article class="news-article" id="news-article-content"></article>
       </section>
 
       <section id="actors" class="section-panel actors-section app-page" hidden>

@@ -348,6 +348,79 @@ const actorFilterProfiles = {
   },
 };
 
+const newsArticles = [
+  {
+    id: "site-beta",
+    title: "CHIPS Voice Portfolio 베타 페이지를 공개했습니다",
+    date: "2026.05.06",
+    datetime: "2026-05-06",
+    categories: ["Notice", "Website"],
+    image: "assets/chips-hero-optimized.webp",
+    lead: "성우 샘플 검색, 프로필 보기, 문의 접수 기능을 한곳에서 확인할 수 있는 CHIPS의 첫 번째 웹사이트 버전을 공개했습니다.",
+    body: [
+      "CHIPS Voice Portfolio는 성우 샘플을 더 빠르게 탐색하고, 프로젝트 성격에 맞는 보이스를 직관적으로 비교할 수 있도록 준비한 베타 페이지입니다. 기존에는 성우별 샘플을 개별적으로 확인해야 했다면, 이번 페이지에서는 나이대, 톤, 감정, 언어, 억양, 캐릭터 타입 등 여러 조건으로 샘플을 좁혀볼 수 있습니다.",
+      "이번 베타 버전에서는 실제 운영 전에 필요한 기본 흐름을 먼저 점검하는 데 초점을 맞췄습니다. CONTACT 폼은 Formspree와 연결해 문의가 바로 접수되도록 구성했고, 성우 카드에서는 음성 미리듣기와 프로필 이동을 분리해 탐색 중 실수로 페이지가 바뀌지 않도록 다듬었습니다.",
+      "앞으로는 성우별 프로필 이미지, 데모릴, 장르별 샘플, 캐스팅 상담 안내를 순차적으로 보강할 예정입니다. 특히 게임, 애니메이션, 광고, 내레이션 프로젝트에서 필요한 조건을 빠르게 찾을 수 있도록 검색 카테고리와 샘플 태그를 계속 정리해나가겠습니다.",
+    ],
+  },
+  {
+    id: "sample-library",
+    title: "캐릭터 보이스 샘플 7종을 테스트 라이브러리에 추가",
+    date: "2026.05.04",
+    datetime: "2026-05-04",
+    categories: ["Sample", "Voice"],
+    image: "assets/sample_profile-optimized.webp",
+    lead: "밝은 톤, 중저음 내레이션, 감성 광고 등 검색 카테고리별로 확인 가능한 샘플 데이터를 준비했습니다.",
+    body: [
+      "VOICE SAMPLE 영역에 테스트용 성우 샘플 7종을 추가했습니다. 이번 샘플은 실제 성우 데이터가 준비되기 전 화면 구성과 검색 경험을 확인하기 위한 임시 데이터이며, 각 샘플은 나이대, 톤, 감정, 음색 특성, 캐릭터 타입 등 새 검색 카테고리에 맞춰 태그가 연결되어 있습니다.",
+      "테스트 라이브러리는 단순히 목록을 채우기 위한 목적이 아니라, 의뢰자가 원하는 보이스를 어떤 기준으로 찾게 될지 확인하기 위한 기준점입니다. 예를 들어 밝고 청량한 20대 캐릭터, 신뢰감 있는 중저음 내레이션, 따뜻한 상담원 톤처럼 실제 의뢰에서 자주 사용되는 조건을 중심으로 구성했습니다.",
+      "이후 실제 성우 샘플이 추가되면 테스트 데이터는 순차적으로 교체될 예정입니다. 파일명, 태그, 프로필 소개, 데모 제목까지 함께 정리해두면 사이트 내 검색 결과와 프로필 상세 화면에 자동으로 반영될 수 있도록 구조를 개선해갈 계획입니다.",
+    ],
+  },
+  {
+    id: "game-casting",
+    title: "게임 캐릭터 캐스팅 상담 접수 안내",
+    date: "2026.04.28",
+    datetime: "2026-04-28",
+    categories: ["Casting"],
+    image: "assets/chips-chip.png",
+    lead: "히어로, 악당, 마스코트, AI 비서 등 캐릭터 타입에 맞춰 성우 후보를 제안하는 상담을 시작합니다.",
+    body: [
+      "CHIPS에서는 게임 프로젝트를 위한 캐릭터 보이스 캐스팅 상담을 준비하고 있습니다. 장르, 캐릭터 설정, 세계관, 대사 분량, 녹음 일정에 따라 필요한 보이스 방향이 달라지기 때문에, 단순히 성별이나 나이대만으로 후보를 고르기보다는 캐릭터의 역할과 감정선을 함께 살펴보는 것을 권장합니다.",
+      "상담 시에는 캐릭터 시트, 대사 샘플, 레퍼런스 영상 또는 기존 음성 방향이 있으면 더 정확한 제안이 가능합니다. 히어로, 악당, 엄격한 상사, AI 비서, 마스코트 캐릭터처럼 명확한 타입이 있다면 검색 카테고리를 기준으로 후보군을 빠르게 좁힐 수 있습니다.",
+      "아직 구체적인 성우가 정해지지 않은 초기 단계의 프로젝트도 상담이 가능합니다. 프로젝트의 분위기와 캐릭터 수, 예상 녹음량을 알려주시면 캐스팅 방향, 샘플 요청 방식, 녹음 진행 순서를 함께 정리해드립니다.",
+    ],
+  },
+  {
+    id: "remote-guide",
+    title: "원격 녹음 의뢰 시 필요한 자료 정리",
+    date: "2026.04.18",
+    datetime: "2026-04-18",
+    categories: ["Studio", "Guide"],
+    image: "assets/chips-hero-optimized.webp",
+    lead: "대본, 레퍼런스, 분량, 납기, 사용 범위를 미리 정리하면 캐스팅과 견적 안내가 더 빠르게 진행됩니다.",
+    body: [
+      "원격 녹음은 빠르게 진행할 수 있다는 장점이 있지만, 사전에 자료가 충분히 정리되어 있어야 수정 횟수를 줄이고 원하는 톤에 더 가까운 결과물을 얻을 수 있습니다. 가장 먼저 필요한 자료는 최종에 가까운 대본과 캐릭터 또는 브랜드의 방향성입니다.",
+      "대본에는 읽는 속도, 강조할 단어, 고유명사 발음, 감정 지시가 포함되어 있으면 좋습니다. 광고나 내레이션의 경우 최종 영상 길이와 맞춰야 하는 초 단위 정보가 중요하고, 게임이나 애니메이션의 경우 캐릭터 관계와 상황 설명이 보이스 방향을 잡는 데 큰 도움이 됩니다.",
+      "또한 녹음 파일의 사용 범위도 함께 정리하는 것이 좋습니다. 유튜브, SNS 광고, 게임 내 음성, 행사 영상, 내부 교육 자료처럼 사용처에 따라 견적과 계약 조건이 달라질 수 있기 때문입니다.",
+    ],
+  },
+  {
+    id: "actor-update",
+    title: "신규 성우 프로필 업데이트 예정",
+    date: "2026.04.02",
+    datetime: "2026-04-02",
+    categories: ["Actor"],
+    image: "assets/sample_profile-optimized.webp",
+    lead: "애니메이션, 광고, 게임 분야별 샘플을 가진 성우 프로필이 순차적으로 추가될 예정입니다.",
+    body: [
+      "CHIPS Voice Portfolio에는 앞으로 신규 성우 프로필이 순차적으로 추가될 예정입니다. 각 프로필에는 간단한 소개, 영문 표기, 대표 톤, 추천 캐릭터 타입, 데모 샘플이 함께 정리됩니다.",
+      "성우 프로필은 단순한 이력 소개보다 실제 캐스팅 판단에 도움이 되는 정보를 중심으로 구성할 계획입니다. 의뢰자가 빠르게 비교할 수 있도록 대표 샘플, 톤 키워드, 감정 표현 범위, 언어와 억양 가능 여부를 함께 표시하는 방향을 검토하고 있습니다.",
+      "업데이트가 완료되면 NEWS 페이지를 통해 추가 소식을 안내드리겠습니다. 새롭게 공개되는 프로필은 VOICE SAMPLE 검색 결과와도 연결되어, 조건 검색을 통해 바로 확인할 수 있도록 준비하겠습니다.",
+    ],
+  },
+];
+
 let activePlayer = null;
 
 const sampleGrid = document.querySelector("#sample-grid");
@@ -366,6 +439,10 @@ const filterControls = document.querySelector("#filter-controls");
 const sampleEmpty = document.querySelector("#sample-empty");
 const statusEl = document.querySelector("#form-status");
 const navLinks = [...document.querySelectorAll(".nav-link")];
+const newsCards = [...document.querySelectorAll(".news-feature, .news-item")];
+const newsFilterLinks = [...document.querySelectorAll(".news-filter-link")];
+const newsArticleSection = document.querySelector("#news-article");
+const newsArticleContent = document.querySelector("#news-article-content");
 
 document
   .querySelectorAll(
@@ -608,6 +685,81 @@ function filterSamples() {
   renderSamples(filtered);
 }
 
+function filterNews(type = "all", value = "") {
+  let visibleCount = 0;
+  const newsMain = document.querySelector(".news-main");
+  let emptyState = document.querySelector(".news-empty");
+  const isAll = type === "all";
+
+  document.querySelector(".news-feature")?.classList.toggle("is-compact", !isAll);
+
+  newsCards.forEach((card) => {
+    const matches =
+      type === "all" ||
+      (type === "category" && card.dataset.newsCategory?.split(" ").includes(value)) ||
+      (type === "archive" && card.dataset.newsArchive === value);
+
+    card.hidden = !matches;
+    if (matches) visibleCount += 1;
+  });
+
+  newsFilterLinks.forEach((link) => {
+    const isActive =
+      (type === "all" && link.dataset.newsFilter === "all") ||
+      (link.dataset.newsFilter === type && link.dataset.filterValue === value);
+    link.classList.toggle("is-active", isActive);
+  });
+
+  if (!emptyState) {
+    emptyState = document.createElement("p");
+    emptyState.className = "news-empty";
+    newsMain.append(emptyState);
+  }
+
+  emptyState.hidden = visibleCount > 0;
+  emptyState.textContent =
+    type === "archive"
+      ? `${value}에 등록된 뉴스가 아직 없습니다.`
+      : "선택한 카테고리에 등록된 뉴스가 아직 없습니다.";
+}
+
+function articleHash(articleId) {
+  return `#news-article-${articleId}`;
+}
+
+function openNewsArticle(articleId) {
+  const article = newsArticles.find((item) => item.id === articleId) || newsArticles[0];
+  const index = newsArticles.findIndex((item) => item.id === article.id);
+  const prevArticle = newsArticles[index - 1];
+  const nextArticle = newsArticles[index + 1];
+
+  newsArticleContent.innerHTML = `
+    <header class="news-article-head">
+      <p class="news-tags">${article.categories.map((category) => `<span>${category}</span>`).join("")}</p>
+      <time datetime="${article.datetime}">${article.date}</time>
+      <h2>${article.title}</h2>
+      <p>${article.lead}</p>
+    </header>
+    <img class="news-article-image" src="${article.image}" alt="${article.title}" />
+    <div class="news-article-body">
+      ${article.body.map((paragraph) => `<p>${paragraph}</p>`).join("")}
+    </div>
+    <nav class="news-article-nav" aria-label="News article navigation">
+      ${
+        prevArticle
+          ? `<a href="${articleHash(prevArticle.id)}">← 이전 글</a>`
+          : `<span class="is-disabled">← 이전 글</span>`
+      }
+      <a href="#news">목록으로</a>
+      ${
+        nextArticle
+          ? `<a href="${articleHash(nextArticle.id)}">다음 글 →</a>`
+          : `<span class="is-disabled">다음 글 →</span>`
+      }
+    </nav>
+  `;
+}
+
 function resetPlayer(player, resetTime = false) {
   const audio = player.querySelector("audio");
   const button = player.querySelector(".play-button");
@@ -701,6 +853,18 @@ document.addEventListener("click", (event) => {
 
   if (!event.target.closest(".filter-dropdown")) closeFilterPanels();
 
+  const newsFilter = event.target.closest(".news-filter-link");
+  if (newsFilter) {
+    filterNews(newsFilter.dataset.newsFilter, newsFilter.dataset.filterValue || "");
+    return;
+  }
+
+  const newsCard = event.target.closest("[data-news-id]");
+  if (newsCard) {
+    navigateTo(articleHash(newsCard.dataset.newsId));
+    return;
+  }
+
   const playButton = event.target.closest(".play-button");
   if (playButton) {
     event.stopPropagation();
@@ -713,6 +877,13 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
+  const newsCard = event.target.closest("[data-news-id]");
+  if (newsCard && ["Enter", " "].includes(event.key)) {
+    event.preventDefault();
+    navigateTo(articleHash(newsCard.dataset.newsId));
+    return;
+  }
+
   const sampleCard = event.target.closest(".sample-card[data-actor]");
   if (!sampleCard || !["Enter", " "].includes(event.key)) return;
   event.preventDefault();
@@ -744,6 +915,10 @@ document.querySelector("#back-to-actors").addEventListener("click", () => {
   document.querySelector("#actors").hidden = false;
   setActiveNav("#actors");
   window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+document.querySelector("#back-to-news").addEventListener("click", () => {
+  navigateTo("#news");
 });
 
 document.querySelector("#contact-form").addEventListener("submit", async (event) => {
@@ -814,12 +989,22 @@ function observeReveals() {
 function showRoute() {
   stopActivePlayer();
   const hash = window.location.hash || "#top";
-  const isAppPage = ["#news", "#actors", "#services", "#contact"].includes(hash);
+  const articleMatch = hash.match(/^#news-article-(.+)$/);
+  const isAppPage = ["#news", "#actors", "#services", "#contact"].includes(hash) || Boolean(articleMatch);
 
   homePage.hidden = isAppPage;
   appPages.forEach((page) => {
     page.hidden = true;
   });
+
+  if (articleMatch) {
+    openNewsArticle(articleMatch[1]);
+    newsArticleSection.hidden = false;
+    actorDetail.hidden = true;
+    setActiveNav("#news");
+    window.scrollTo({ top: 0, behavior: "auto" });
+    return;
+  }
 
   if (isAppPage) {
     const page = document.querySelector(hash);

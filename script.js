@@ -609,12 +609,28 @@ function updateFilterSummary(groupKey) {
   toggle.classList.toggle("has-selection", count > 0);
 }
 
+function syncFilterPanelSpace() {
+  const openPanel = filterControls.querySelector(".filter-dropdown.is-open .filter-panel");
+  const footer = document.querySelector("#info");
+  let panelSpace = 0;
+
+  if (openPanel && footer) {
+    const panelRect = openPanel.getBoundingClientRect();
+    const footerRect = footer.getBoundingClientRect();
+    const overlap = panelRect.bottom - footerRect.top + 18;
+    panelSpace = Math.max(0, Math.min(overlap, panelRect.height + 18));
+  }
+
+  filterForm.style.setProperty("--filter-panel-space", `${panelSpace}px`);
+}
+
 function closeFilterPanels(exceptDropdown = null) {
   filterControls.querySelectorAll(".filter-dropdown").forEach((dropdown) => {
     if (dropdown === exceptDropdown) return;
     dropdown.classList.remove("is-open");
     dropdown.querySelector(".filter-toggle").setAttribute("aria-expanded", "false");
   });
+  syncFilterPanelSpace();
 }
 
 function renderFilterControls() {
@@ -836,6 +852,7 @@ document.addEventListener("click", (event) => {
     closeFilterPanels(dropdown);
     dropdown.classList.toggle("is-open", willOpen);
     filterToggle.setAttribute("aria-expanded", `${willOpen}`);
+    syncFilterPanelSpace();
     return;
   }
 
@@ -893,7 +910,10 @@ document.addEventListener("keydown", (event) => {
 filterControls.addEventListener("change", (event) => {
   if (!event.target.matches('input[type="checkbox"]')) return;
   updateFilterSummary(event.target.name);
+  syncFilterPanelSpace();
 });
+
+window.addEventListener("resize", syncFilterPanelSpace);
 
 document.querySelector("#sample-search").addEventListener("click", filterSamples);
 
@@ -919,6 +939,10 @@ document.querySelector("#back-to-actors").addEventListener("click", () => {
 
 document.querySelector("#back-to-news").addEventListener("click", () => {
   navigateTo("#news");
+});
+
+document.querySelector("#scroll-to-top").addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 document.querySelector("#contact-form").addEventListener("submit", async (event) => {

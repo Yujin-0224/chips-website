@@ -242,13 +242,15 @@ a {
 }
 
 .sample-filter {
+  --filter-panel-space: 0px;
   position: relative;
-  z-index: 30;
+  z-index: 300;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 116px;
   gap: 10px;
-  margin: 24px 0 34px;
+  margin: 24px 0 calc(34px + var(--filter-panel-space));
   align-items: stretch;
+  transition: margin-bottom 180ms ease;
 }
 
 .filter-controls {
@@ -333,7 +335,7 @@ a {
   position: absolute;
   left: 0;
   top: calc(100% + 10px);
-  z-index: 60;
+  z-index: 400;
   width: min(760px, calc(100vw - 48px));
   box-sizing: border-box;
   max-height: 0;
@@ -696,6 +698,7 @@ a {
 
 .info-band {
   position: relative;
+  z-index: 1;
   min-height: 260px;
   margin-top: 20px;
   background:
@@ -711,9 +714,13 @@ a {
   top: -72px;
   left: 50%;
   transform: translateX(-50%);
+  border: 0;
+  background: transparent;
   color: var(--chip-yellow-deep);
+  cursor: pointer;
   font-weight: 900;
   text-align: center;
+  transition: color 180ms ease, transform 180ms ease;
 }
 
 .top-button span {
@@ -724,6 +731,20 @@ a {
   border-top: 5px solid var(--chip-yellow);
   border-left: 5px solid var(--chip-yellow);
   transform: rotate(45deg);
+  transition: transform 220ms ease, border-color 180ms ease;
+}
+
+.top-button:hover,
+.top-button:focus-visible {
+  color: var(--ink);
+  transform: translateX(-50%) translateY(-4px);
+  outline: none;
+}
+
+.top-button:hover span,
+.top-button:focus-visible span {
+  border-color: var(--chip-yellow-deep);
+  transform: translateY(-7px) rotate(45deg);
 }
 
 .info-content {

@@ -404,7 +404,7 @@ function renderSamples(list = actors) {
   sampleGrid.innerHTML = list
     .map(
       (actor) => `
-        <article class="sample-card">
+        <article class="sample-card" data-actor="${actor.id}" tabindex="0" role="button" aria-label="${actor.name} 프로필 보기">
           <div>
             <img class="avatar" src="assets/sample_profile-optimized.webp" alt="${actor.name} 프로필 사진" />
             <p class="sample-card-meta">
@@ -412,7 +412,7 @@ function renderSamples(list = actors) {
               <span>${actor.nameEn}</span>
             </p>
             ${audioMarkup(`${actor.name} 샘플`, actor.audioSources)}
-            <button class="profile-link-button" type="button" data-actor="${actor.id}">프로필 보기</button>
+            <p class="profile-card-hint">Profile <span>→</span></p>
           </div>
         </article>
       `,
@@ -702,10 +702,21 @@ document.addEventListener("click", (event) => {
   if (!event.target.closest(".filter-dropdown")) closeFilterPanels();
 
   const playButton = event.target.closest(".play-button");
-  if (playButton) togglePlayer(playButton.closest(".sample-player"));
+  if (playButton) {
+    event.stopPropagation();
+    togglePlayer(playButton.closest(".sample-player"));
+    return;
+  }
 
   const actorButton = event.target.closest("[data-actor]");
-  if (actorButton) openActor(actorButton.dataset.actor);
+  if (actorButton && !event.target.closest(".sample-player")) openActor(actorButton.dataset.actor);
+});
+
+document.addEventListener("keydown", (event) => {
+  const sampleCard = event.target.closest(".sample-card[data-actor]");
+  if (!sampleCard || !["Enter", " "].includes(event.key)) return;
+  event.preventDefault();
+  openActor(sampleCard.dataset.actor);
 });
 
 filterControls.addEventListener("change", (event) => {

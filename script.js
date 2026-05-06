@@ -443,6 +443,7 @@ const newsCards = [...document.querySelectorAll(".news-feature, .news-item")];
 const newsFilterLinks = [...document.querySelectorAll(".news-filter-link")];
 const newsArticleSection = document.querySelector("#news-article");
 const newsArticleContent = document.querySelector("#news-article-content");
+const topNewsRail = document.querySelector("#top-news-rail");
 
 document
   .querySelectorAll(
@@ -873,6 +874,13 @@ document.addEventListener("click", (event) => {
   const newsFilter = event.target.closest(".news-filter-link");
   if (newsFilter) {
     filterNews(newsFilter.dataset.newsFilter, newsFilter.dataset.filterValue || "");
+    return;
+  }
+
+  const topNewsArrow = event.target.closest("[data-news-slide]");
+  if (topNewsArrow && topNewsRail) {
+    const direction = topNewsArrow.dataset.newsSlide === "next" ? 1 : -1;
+    topNewsRail.scrollBy({ left: direction * topNewsRail.clientWidth, behavior: "smooth" });
     return;
   }
 

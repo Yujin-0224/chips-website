@@ -108,6 +108,12 @@ const sampleAudioSources = [
 
 const filterGroups = [
   {
+    key: "gender",
+    label: "성별",
+    hint: "Gender",
+    options: ["남자", "여자"],
+  },
+  {
     key: "ageRange",
     label: "나이대",
     hint: "Age Range",
@@ -553,7 +559,13 @@ function openActor(actorId) {
 }
 
 function getActorFilterValues(actor) {
-  if (actorFilterProfiles[actor.id]) return actorFilterProfiles[actor.id];
+  const genderValues = actor.gender === "male" ? ["남자"] : ["여자"];
+  if (actorFilterProfiles[actor.id]) {
+    return {
+      gender: genderValues,
+      ...actorFilterProfiles[actor.id],
+    };
+  }
 
   const toneMap = {
     bright: ["밝은", "활기찬", "청량한"],
@@ -579,6 +591,7 @@ function getActorFilterValues(actor) {
   };
 
   return {
+    gender: genderValues,
     ageRange: ageMap[actor.style] || [],
     tone: [...(toneMap[actor.tone] || []), ...(toneMap[actor.mood] || [])],
     texture: actor.gender === "male" ? ["중저음", "저음"] : ["고음"],
@@ -640,11 +653,14 @@ function renderFilterControls() {
       (group) => `
         <div class="filter-dropdown" data-filter="${group.key}">
           <button class="filter-toggle" type="button" aria-expanded="false">
-            <span>
+            <span class="filter-toggle-label">
               <strong>${group.label}</strong>
               <small>${group.hint}</small>
             </span>
-            <em class="filter-count" hidden></em>
+            <span class="filter-toggle-meta">
+              <em class="filter-count" hidden></em>
+              <i class="filter-chevron" aria-hidden="true"></i>
+            </span>
           </button>
           <div class="filter-panel">
             <div class="filter-panel-head">

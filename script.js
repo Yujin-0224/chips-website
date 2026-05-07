@@ -1,4 +1,4 @@
-const actors = [
+let actors = [
   {
     id: "haru",
     name: "유레이",
@@ -100,7 +100,7 @@ const actors = [
   },
 ];
 
-const sampleAudioSources = [
+let sampleAudioSources = [
   { src: "assets/sample_audio.mp3", type: "audio/mpeg" },
 ];
 
@@ -528,7 +528,7 @@ const actorFilterProfiles = {
   },
 };
 
-const newsArticles = [
+let newsArticles = [
   {
     id: "site-beta",
     title: "CHIPS Voice Portfolio 베타 페이지를 공개했습니다",
@@ -826,7 +826,7 @@ function renderSamples(list = actors) {
       (actor) => `
         <article class="sample-card" data-actor="${actor.id}" tabindex="0" role="button" aria-label="${actor.name} 프로필 보기">
           <div>
-            <img class="avatar" src="assets/sample_profile-optimized.webp" alt="${actor.name} 프로필 사진" />
+            <img class="avatar" src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" />
             <p class="sample-card-meta">
               <strong>${actor.name}</strong>
               <span>${actor.nameEn}</span>
@@ -849,7 +849,7 @@ function renderActors() {
       (actor) => `
         <button class="actor-card" type="button" data-actor="${actor.id}">
           <span class="actor-photo">
-            <img src="assets/sample_profile-optimized.webp" alt="${actor.name} 프로필 사진" />
+            <img src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" />
           </span>
           <span class="actor-card-info">
             <strong>${actor.name}</strong>
@@ -870,7 +870,7 @@ function openActor(actorId) {
   appPages.forEach((page) => {
     page.hidden = true;
   });
-  detailAvatar.innerHTML = `<img src="assets/sample_profile-optimized.webp" alt="${actor.name} 프로필 사진" />`;
+  detailAvatar.innerHTML = `<img src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" />`;
   detailName.textContent = actor.name;
   detailNameEn.textContent = actor.nameEn;
   detailBio.textContent = actor.bio;
@@ -1604,12 +1604,99 @@ function playRouteEnter(page) {
   page.classList.add("route-enter");
 }
 
-renderFilterControls();
-renderActors();
-sampleGrid.innerHTML = "";
-sampleEmpty.hidden = false;
-applyContactLocale(activeContactLocale);
-observeReveals();
-setupAudioPlayers();
-showRoute();
+function normalizeDriveLink(url = "") {
+  const value = `${url}`.trim();
+  if (!value.includes("drive.google.com")) return value;
+  const fileId = value.match(/\/d\/([^/]+)/)?.[1] || value.match(/[?&]id=([^&]+)/)?.[1];
+  return fileId ? `https://drive.google.com/uc?export=download&id=${fileId}` : value;
+}
+
+function normalizeAudioSources(sources = []) {
+  return sources
+    .map((source) => ({
+      src: normalizeDriveLink(source.src || source.audio_src || ""),
+      type: source.type || source.audio_type || "audio/mpeg",
+    }))
+    .filter((source) => source.src);
+}
+
+function normalizeCmsOption(value, map) {
+  const text = `${value || ""}`.trim();
+  return map[text] || text;
+}
+
+function normalizeCmsActor(actor) {
+  const genderMap = { 여성: "female", 여자: "female", 남성: "male", 남자: "male" };
+  const ageMap = { "10대": "teen", "20대": "twenties", "30대": "thirties", "40대": "forties" };
+  const toneMap = { 맑음: "clear", 밝음: "bright", 따뜻함: "warm", 차분함: "calm", 중저음: "deep" };
+  const categoryMap = { 애니메이션: "animation", 게임: "game", 광고: "commercial", 내레이션: "narration" };
+  const moodMap = { 밝음: "bright", 진지함: "serious", 귀여움: "cute", 차분함: "calm", 에너지: "energetic" };
+
+  return {
+    ...actor,
+    name: actor.name || actor.display_name || actor["성우 이름"],
+    nameEn: actor.nameEn || actor.name_en || actor["영문 이름"],
+    gender: normalizeCmsOption(actor.gender, genderMap),
+    style: normalizeCmsOption(actor.style || actor.ageRange, ageMap),
+    tone: normalizeCmsOption(actor.tone, toneMap),
+    category: normalizeCmsOption(actor.category, categoryMap),
+    mood: normalizeCmsOption(actor.mood, moodMap),
+    colors: Array.isArray(actor.colors) ? actor.colors : `${actor.colors || ""}`.split(",").map((value) => value.trim()).filter(Boolean),
+    tags: Array.isArray(actor.tags) ? actor.tags : `${actor.tags || ""}`.split(",").map((value) => value.trim()).filter(Boolean),
+    demos: Array.isArray(actor.demos) ? actor.demos : `${actor.demos || ""}`.split(",").map((value) => value.trim()).filter(Boolean),
+    audioSources: normalizeAudioSources(actor.audioSources || actor.audio_sources || []),
+    profileImage: normalizeDriveLink(actor.profileImage || actor.profile_image || ""),
+  };
+}
+
+function normalizeCmsArticle(article) {
+  return {
+    ...article,
+    datetime: article.datetime || article.date,
+    date: article.displayDate || article.date?.replaceAll("-", ".") || article.date,
+    categories: Array.isArray(article.categories)
+      ? article.categories
+      : `${article.categories || article.category || ""}`.split(/[,\s/]+/).map((value) => value.trim()).filter(Boolean),
+    image: normalizeDriveLink(article.image || article.thumbnail || article.hero_image || ""),
+    body: Array.isArray(article.body) ? article.body : `${article.body || ""}`.split(/\n+/).filter(Boolean),
+  };
+}
+
+async function loadCmsData() {
+  try {
+    const response = await fetch("data/cms-data.json", { cache: "no-store" });
+    if (!response.ok) return;
+
+    const cmsData = await response.json();
+    if (cmsData.enabled === false) return;
+
+    if (Array.isArray(cmsData.sampleAudioSources) && cmsData.sampleAudioSources.length) {
+      sampleAudioSources = normalizeAudioSources(cmsData.sampleAudioSources);
+    }
+
+    if (Array.isArray(cmsData.actors) && cmsData.actors.length) {
+      actors = cmsData.actors.map(normalizeCmsActor);
+    }
+
+    if (Array.isArray(cmsData.newsArticles) && cmsData.newsArticles.length) {
+      newsArticles = cmsData.newsArticles.map(normalizeCmsArticle);
+    }
+  } catch (error) {
+    console.info("Using built-in CHIPS sample data.");
+  }
+}
+
+async function initializeSite() {
+  await loadCmsData();
+  renderFilterControls();
+  renderActors();
+  sampleGrid.innerHTML = "";
+  sampleEmpty.hidden = false;
+  applyContactLocale(activeContactLocale);
+  observeReveals();
+  setupAudioPlayers();
+  showRoute();
+}
+
+initializeSite();
 window.addEventListener("hashchange", showRoute);

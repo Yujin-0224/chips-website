@@ -1521,6 +1521,7 @@ function showRoute() {
   const hash = window.location.hash || "#top";
   const articleMatch = hash.match(/^#news-article-(.+)$/);
   const isAppPage = ["#news", "#actors", "#services", "#contact"].includes(hash) || Boolean(articleMatch);
+  let activePage = null;
 
   homePage.hidden = isAppPage;
   appPages.forEach((page) => {
@@ -1530,9 +1531,11 @@ function showRoute() {
   if (articleMatch) {
     openNewsArticle(articleMatch[1]);
     newsArticleSection.hidden = false;
+    activePage = newsArticleSection;
     actorDetail.hidden = true;
     setActiveNav("#news");
     window.scrollTo({ top: 0, behavior: "auto" });
+    playRouteEnter(activePage);
     return;
   }
 
@@ -1540,11 +1543,13 @@ function showRoute() {
     const page = document.querySelector(hash);
     if (page) {
       page.hidden = false;
+      activePage = page;
       showPageReveals(page);
     }
     actorDetail.hidden = true;
     setActiveNav(hash);
     window.scrollTo({ top: 0, behavior: "auto" });
+    playRouteEnter(activePage);
     return;
   }
 
@@ -1556,6 +1561,13 @@ function showRoute() {
   } else {
     document.querySelector("#top").scrollIntoView({ behavior: "auto" });
   }
+}
+
+function playRouteEnter(page) {
+  if (!page) return;
+  page.classList.remove("route-enter");
+  void page.offsetWidth;
+  page.classList.add("route-enter");
 }
 
 renderFilterControls();

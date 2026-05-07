@@ -1377,6 +1377,36 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
   });
 });
 
+const heroSection = document.querySelector("#top");
+let heroWheelScrollLocked = false;
+
+if (heroSection) {
+  heroSection.addEventListener(
+    "wheel",
+    (event) => {
+      if (event.deltaY <= 0 || homePage.hidden) return;
+
+      const heroRect = heroSection.getBoundingClientRect();
+      const isHeroVisible = heroRect.top < window.innerHeight && heroRect.bottom > 1;
+      if (!isHeroVisible) return;
+
+      event.preventDefault();
+      if (heroWheelScrollLocked) return;
+
+      heroWheelScrollLocked = true;
+      window.scrollTo({
+        top: window.scrollY + heroRect.bottom,
+        behavior: "smooth",
+      });
+
+      window.setTimeout(() => {
+        heroWheelScrollLocked = false;
+      }, 900);
+    },
+    { passive: false },
+  );
+}
+
 document.querySelector("#back-to-actors").addEventListener("click", () => {
   homePage.hidden = true;
   appPages.forEach((page) => {

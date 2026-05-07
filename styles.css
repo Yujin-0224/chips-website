@@ -69,16 +69,325 @@ a {
   backdrop-filter: blur(12px);
 }
 
+.brand {
+  position: relative;
+  display: inline-grid;
+  align-items: center;
+  isolation: isolate;
+}
+
 .brand-logo {
+  position: relative;
+  z-index: 2;
   display: block;
   width: clamp(86px, 10vw, 132px);
   height: auto;
-  transition: transform 220ms ease, filter 220ms ease;
+  transition: opacity 120ms ease, transform 220ms ease, filter 220ms ease;
 }
 
-.brand:hover .brand-logo {
-  transform: translateY(-2px) rotate(-1deg);
+.brand:hover .brand-logo,
+.brand:focus-visible .brand-logo {
+  animation: brandCrunchLogo 520ms ease both;
+  opacity: 0.08;
   filter: drop-shadow(0 10px 20px rgba(246, 185, 59, 0.22));
+}
+
+.brand-shard {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background-image: url("assets/chips_logo_1.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0) rotate(0deg);
+  transform-origin: center;
+  filter: drop-shadow(0 10px 18px rgba(246, 185, 59, 0.14));
+}
+
+.brand-shard-top {
+  clip-path: polygon(0 0, 100% 0, 100% 28%, 63% 22%, 42% 34%, 0 27%);
+}
+
+.brand-shard-mid-left {
+  clip-path: polygon(0 25%, 45% 33%, 56% 52%, 37% 70%, 0 64%);
+}
+
+.brand-shard-mid-right {
+  clip-path: polygon(43% 31%, 100% 27%, 100% 70%, 58% 62%, 48% 51%);
+}
+
+.brand-shard-bottom {
+  clip-path: polygon(0 62%, 40% 68%, 56% 60%, 100% 71%, 100% 100%, 0 100%);
+}
+
+.brand:hover .brand-shard,
+.brand:focus-visible .brand-shard {
+  opacity: 1;
+  animation: brandShardCrack 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.brand:hover .brand-shard-top,
+.brand:focus-visible .brand-shard-top {
+  animation-name: brandShardCrackTop;
+}
+
+.brand:hover .brand-shard-mid-left,
+.brand:focus-visible .brand-shard-mid-left {
+  animation-name: brandShardCrackMidLeft;
+  animation-delay: 24ms;
+}
+
+.brand:hover .brand-shard-mid-right,
+.brand:focus-visible .brand-shard-mid-right {
+  animation-name: brandShardCrackMidRight;
+  animation-delay: 42ms;
+}
+
+.brand:hover .brand-shard-bottom,
+.brand:focus-visible .brand-shard-bottom {
+  animation-name: brandShardCrackBottom;
+  animation-delay: 62ms;
+}
+
+.brand-crumb {
+  position: absolute;
+  z-index: 1;
+  left: 58%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 45% 55% 48% 52%;
+  background: var(--chip-yellow-deep);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+}
+
+.brand-crumb-two,
+.brand-crumb-four {
+  width: 7px;
+  height: 7px;
+  background: var(--chip-yellow);
+}
+
+.brand-crumb-three {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.brand:hover .brand-crumb,
+.brand:focus-visible .brand-crumb {
+  animation: brandCrumbBurst 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.brand:hover .brand-crumb-two,
+.brand:focus-visible .brand-crumb-two {
+  animation-name: brandCrumbBurstTwo;
+  animation-delay: 30ms;
+}
+
+.brand:hover .brand-crumb-three,
+.brand:focus-visible .brand-crumb-three {
+  animation-name: brandCrumbBurstThree;
+  animation-delay: 55ms;
+}
+
+.brand:hover .brand-crumb-four,
+.brand:focus-visible .brand-crumb-four {
+  animation-name: brandCrumbBurstFour;
+  animation-delay: 80ms;
+}
+
+.brand:hover .brand-crumb-five,
+.brand:focus-visible .brand-crumb-five {
+  animation-name: brandCrumbBurstFive;
+  animation-delay: 100ms;
+}
+
+@keyframes brandCrunchLogo {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+
+  22% {
+    transform: translateY(1px) rotate(1.2deg) scale(0.985);
+  }
+
+  48% {
+    transform: translateY(-3px) rotate(-1.8deg) scale(1.035);
+    opacity: 0.08;
+  }
+
+  72% {
+    transform: translateY(0) rotate(0.8deg) scale(1.01);
+    opacity: 0.08;
+  }
+
+  100% {
+    transform: translateY(-2px) rotate(-1deg) scale(1);
+    opacity: 0.08;
+  }
+}
+
+@keyframes brandShardCrackTop {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  46% {
+    transform: translate3d(-5px, -3px, 0) rotate(-2.4deg);
+  }
+
+  100% {
+    transform: translate3d(-3px, -2px, 0) rotate(-1.3deg);
+  }
+}
+
+@keyframes brandShardCrackMidLeft {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  46% {
+    transform: translate3d(-7px, 1px, 0) rotate(2deg);
+  }
+
+  100% {
+    transform: translate3d(-4px, 0, 0) rotate(1deg);
+  }
+}
+
+@keyframes brandShardCrackMidRight {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  46% {
+    transform: translate3d(7px, -1px, 0) rotate(-1.8deg);
+  }
+
+  100% {
+    transform: translate3d(4px, 0, 0) rotate(-0.8deg);
+  }
+}
+
+@keyframes brandShardCrackBottom {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  46% {
+    transform: translate3d(3px, 5px, 0) rotate(2.8deg);
+  }
+
+  100% {
+    transform: translate3d(2px, 3px, 0) rotate(1.4deg);
+  }
+}
+
+@keyframes brandCrumbBurst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-44px, -26px) scale(1) rotate(170deg);
+  }
+}
+
+@keyframes brandCrumbBurstTwo {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(34px, -22px) scale(0.92) rotate(-140deg);
+  }
+}
+
+@keyframes brandCrumbBurstThree {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(46px, 18px) scale(0.84);
+  }
+}
+
+@keyframes brandCrumbBurstFour {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-22px, 28px) scale(0.78) rotate(125deg);
+  }
+}
+
+@keyframes brandCrumbBurstFive {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(18px, 34px) scale(0.72) rotate(-110deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand:hover .brand-logo,
+  .brand:focus-visible .brand-logo,
+  .brand:hover .brand-shard,
+  .brand:focus-visible .brand-shard,
+  .brand:hover .brand-crumb,
+  .brand:focus-visible .brand-crumb {
+    animation: none;
+  }
+
+  .brand:hover .brand-logo,
+  .brand:focus-visible .brand-logo {
+    opacity: 1;
+  }
+
+  .brand:hover .brand-shard,
+  .brand:focus-visible .brand-shard {
+    opacity: 0;
+  }
 }
 
 .main-nav {

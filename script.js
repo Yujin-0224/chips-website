@@ -1378,7 +1378,9 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 });
 
 const heroSection = document.querySelector("#top");
+const voiceSampleSection = document.querySelector("#voice-sample");
 let heroWheelScrollLocked = false;
+let voiceSampleWheelScrollLocked = false;
 
 if (heroSection) {
   heroSection.addEventListener(
@@ -1401,6 +1403,38 @@ if (heroSection) {
 
       window.setTimeout(() => {
         heroWheelScrollLocked = false;
+      }, 900);
+    },
+    { passive: false },
+  );
+}
+
+if (heroSection && voiceSampleSection) {
+  voiceSampleSection.addEventListener(
+    "wheel",
+    (event) => {
+      if (event.deltaY >= 0 || homePage.hidden) return;
+
+      const voiceSampleTop = voiceSampleSection.offsetTop;
+      const isNearVoiceSampleStart = window.scrollY <= voiceSampleTop + 120;
+      if (!isNearVoiceSampleStart) return;
+
+      event.preventDefault();
+      if (voiceSampleWheelScrollLocked) return;
+
+      voiceSampleWheelScrollLocked = true;
+      window.scrollTo({
+        top: heroSection.offsetTop,
+        behavior: "smooth",
+      });
+
+      if (window.location.hash === "#voice-sample") {
+        window.history.replaceState(null, "", "#top");
+        setActiveNav("#top");
+      }
+
+      window.setTimeout(() => {
+        voiceSampleWheelScrollLocked = false;
       }, 900);
     },
     { passive: false },

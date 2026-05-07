@@ -539,7 +539,7 @@ const newsArticles = [
     lead: "성우 샘플 검색, 프로필 보기, 문의 접수 기능을 한곳에서 확인할 수 있는 CHIPS의 첫 번째 웹사이트 버전을 공개했습니다.",
     body: [
       "CHIPS Voice Portfolio는 성우 샘플을 더 빠르게 탐색하고, 프로젝트 성격에 맞는 보이스를 직관적으로 비교할 수 있도록 준비한 베타 페이지입니다. 기존에는 성우별 샘플을 개별적으로 확인해야 했다면, 이번 페이지에서는 나이대, 톤, 감정, 언어, 억양, 캐릭터 타입 등 여러 조건으로 샘플을 좁혀볼 수 있습니다.",
-      "이번 베타 버전에서는 실제 운영 전에 필요한 기본 흐름을 먼저 점검하는 데 초점을 맞췄습니다. CONTACT 폼은 Formspree와 연결해 문의가 바로 접수되도록 구성했고, 성우 카드에서는 음성 미리듣기와 프로필 이동을 분리해 탐색 중 실수로 페이지가 바뀌지 않도록 다듬었습니다.",
+      "이번 베타 버전에서는 실제 운영 전에 필요한 기본 흐름을 먼저 점검하는 데 초점을 맞췄습니다. CONTACT 폼은 Basin과 연결해 문의가 바로 접수되도록 구성했고, 성우 카드에서는 음성 미리듣기와 프로필 이동을 분리해 탐색 중 실수로 페이지가 바뀌지 않도록 다듬었습니다.",
       "앞으로는 성우별 프로필 이미지, 데모릴, 장르별 샘플, 캐스팅 상담 안내를 순차적으로 보강할 예정입니다. 특히 게임, 애니메이션, 광고, 내레이션 프로젝트에서 필요한 조건을 빠르게 찾을 수 있도록 검색 카테고리와 샘플 태그를 계속 정리해나가겠습니다.",
     ],
   },
@@ -596,7 +596,7 @@ const newsArticles = [
     body: [
       "CHIPS Voice Portfolio에는 앞으로 신규 성우 프로필이 순차적으로 추가될 예정입니다. 각 프로필에는 간단한 소개, 영문 표기, 대표 톤, 추천 캐릭터 타입, 데모 샘플이 함께 정리됩니다.",
       "성우 프로필은 단순한 이력 소개보다 실제 캐스팅 판단에 도움이 되는 정보를 중심으로 구성할 계획입니다. 의뢰자가 빠르게 비교할 수 있도록 대표 샘플, 톤 키워드, 감정 표현 범위, 언어와 억양 가능 여부를 함께 표시하는 방향을 검토하고 있습니다.",
-      "업데이트가 완료되면 NEWS 페이지를 통해 추가 소식을 안내드리겠습니다. 새롭게 공개되는 프로필은 VOICE SAMPLE 검색 결과와도 연결되어, 조건 검색을 통해 바로 확인할 수 있도록 준비하겠습니다.",
+      "업데이트가 완료되면 STUDIO 페이지를 통해 추가 소식을 안내드리겠습니다. 새롭게 공개되는 프로필은 VOICE SAMPLE 검색 결과와도 연결되어, 조건 검색을 통해 바로 확인할 수 있도록 준비하겠습니다.",
     ],
   },
 ];
@@ -663,7 +663,7 @@ const contactLocales = {
       privacyLabel: "개인정보 수집 및 이용에 동의합니다.",
       privacyDetailsToggle: "자세히 보기",
       privacyDetailsBody:
-        "<dl><div><dt>수집 항목</dt><dd>성명, 이메일, 연락처, 회사명 또는 개인명, 문의 유형, 문의 내용, 첨부파일</dd></div><div><dt>수집 목적</dt><dd>문의 접수, 본인 확인, 답변 및 상담 진행</dd></div><div><dt>보유 기간</dt><dd>문의 처리 완료 후 1년간 보관 후 파기</dd></div><div><dt>동의 거부권</dt><dd>동의하지 않을 경우 문의 접수가 제한될 수 있습니다.</dd></div><div><dt>처리 위탁</dt><dd>문의 접수 및 이메일 전달을 위해 Formspree 서비스를 이용합니다.</dd></div></dl>",
+        "<dl><div><dt>수집 항목</dt><dd>성명, 이메일, 연락처, 회사명 또는 개인명, 문의 유형, 문의 내용, 첨부파일</dd></div><div><dt>수집 목적</dt><dd>문의 접수, 본인 확인, 답변 및 상담 진행</dd></div><div><dt>보유 기간</dt><dd>문의 처리 완료 후 1년간 보관 후 파기</dd></div><div><dt>동의 거부권</dt><dd>동의하지 않을 경우 문의 접수가 제한될 수 있습니다.</dd></div><div><dt>처리 위탁</dt><dd>문의 접수 및 이메일 전달을 위해 Basin 서비스를 이용합니다.</dd></div></dl>",
       submitLabel: "문의 접수하기",
       toastTitle: "문의가 정상적으로 접수되었습니다.",
       toastBody: "확인 후 1~2일 이내에 이메일로 답변드리겠습니다.",
@@ -737,7 +737,7 @@ const contactLocales = {
       privacyLabel: "I agree to the collection and use of personal information.",
       privacyDetailsToggle: "View details",
       privacyDetailsBody:
-        "<dl><div><dt>Items collected</dt><dd>Full name, email address, phone number, company or individual name, inquiry type, inquiry details, and attachments</dd></div><div><dt>Purpose of collection</dt><dd>Receiving inquiries, confirming the requester, and responding or consulting about the request</dd></div><div><dt>Retention period</dt><dd>Retained for 1 year after the inquiry is resolved, then deleted</dd></div><div><dt>Right to refuse consent</dt><dd>You may refuse consent, but inquiry submission may be limited.</dd></div><div><dt>Processing service</dt><dd>Formspree is used to receive inquiries and forward them by email.</dd></div></dl>",
+        "<dl><div><dt>Items collected</dt><dd>Full name, email address, phone number, company or individual name, inquiry type, inquiry details, and attachments</dd></div><div><dt>Purpose of collection</dt><dd>Receiving inquiries, confirming the requester, and responding or consulting about the request</dd></div><div><dt>Retention period</dt><dd>Retained for 1 year after the inquiry is resolved, then deleted</dd></div><div><dt>Right to refuse consent</dt><dd>You may refuse consent, but inquiry submission may be limited.</dd></div><div><dt>Processing service</dt><dd>Basin is used to receive inquiries and forward them by email.</dd></div></dl>",
       submitLabel: "Submit inquiry",
       toastTitle: "Your inquiry has been submitted.",
       toastBody: "We will review it and reply by email within 1-2 business days.",
@@ -1402,7 +1402,7 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
   const submitButton = form.querySelector(".submit-button");
   const data = new FormData(form);
 
-  data.append("_subject", `[CHIPS 문의] ${data.get("name")}님 문의`);
+  data.set("subject", `[CHIPS 문의] ${data.get("name")}님 문의`);
 
   submitButton.disabled = true;
   contactToast.hidden = true;
@@ -1417,7 +1417,7 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
       },
     });
 
-    if (!response.ok) throw new Error("Formspree request failed");
+    if (!response.ok) throw new Error("Basin request failed");
 
     form.reset();
     statusEl.textContent = contactLocales[activeContactLocale].status.success;

@@ -20,6 +20,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -31,6 +32,7 @@ body {
   color: var(--ink);
   font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   font-weight: 500;
+  overflow-x: clip;
 }
 
 [hidden] {
@@ -2338,7 +2340,6 @@ a {
   border-left-color: var(--coral);
 }
 
-/* Mobile overrides temporarily disabled so phones use the same layout as desktop.
 @media (max-width: 860px) {
   .site-header {
     width: min(100% - 18px, 1180px);
@@ -2354,10 +2355,16 @@ a {
   }
 
   .main-nav {
+    flex: 1 1 auto;
+    min-width: 0;
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 4px 14px;
     font-size: 12px;
+  }
+
+  .nav-link {
+    white-space: nowrap;
   }
 
   .section-panel {
@@ -2452,10 +2459,38 @@ a {
 
 @media (max-width: 560px) {
   .site-header {
-    position: sticky;
+    position: fixed;
+    top: 0;
     margin-top: 0;
     width: 100%;
     border-radius: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 12px;
+    padding: 8px 10px;
+  }
+
+  .brand-logo {
+    width: 74px;
+  }
+
+  .main-nav {
+    flex: 1 1 100%;
+    justify-content: center;
+    gap: 2px 11px;
+    font-size: 11px;
+  }
+
+  .nav-link {
+    padding: 7px 0 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .contact-aside p,
+  .page-heading > p:not(.eyebrow),
+  .sample-empty {
+    overflow-wrap: anywhere;
   }
 
   .section-title-row {
@@ -2474,6 +2509,7 @@ a {
 
   .filter-panel {
     width: calc(100vw - 32px);
+    max-width: calc(100vw - 32px);
   }
 
   .filter-panel-head {
@@ -2545,6 +2581,25 @@ a {
     grid-template-columns: 1fr;
   }
 
+  .file-upload-ui {
+    align-items: stretch;
+  }
+
+  .file-upload-actions {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-end;
+  }
+
+  .contact-status-bar,
+  .contact-toast {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: auto;
+    transform: none;
+  }
+
   .privacy-copy {
     white-space: normal;
   }
@@ -2590,4 +2645,3 @@ a {
     border-width: 2px;
   }
 }
-*/

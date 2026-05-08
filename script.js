@@ -621,6 +621,7 @@ const contactLocaleButtons = [...document.querySelectorAll("[data-contact-locale
 const sampleEmpty = document.querySelector("#sample-empty");
 const statusEl = document.querySelector("#form-status");
 const contactToast = document.querySelector("#contact-toast");
+const contactStatusBar = document.querySelector("#contact-status-bar");
 const fileInput = document.querySelector(".file-input");
 const fileUploadName = document.querySelector("#file-upload-name");
 const fileUploadActions = document.querySelector("#file-upload-actions");
@@ -793,6 +794,7 @@ const contactLocales = {
 
 const initialContactLocale = new URLSearchParams(window.location.search).get("contactLocale");
 let activeContactLocale = contactLocales[initialContactLocale] ? initialContactLocale : "ko";
+let contactStatusTimer = null;
 const newsArticleSection = document.querySelector("#news-article");
 const newsArticleContent = document.querySelector("#news-article-content");
 const topNewsRail = document.querySelector("#top-news-rail");
@@ -802,6 +804,26 @@ document
     ".section-title-row, .page-heading, .sample-filter, .sample-empty, .info-content, .actor-card, .sample-card, .demo-card, .contact-aside, .contact-form",
   )
   .forEach((element) => element.classList.add("reveal"));
+
+function showContactStatusBar(message, type = "warning", autoHideDelay = 5200) {
+  if (!contactStatusBar) return;
+  window.clearTimeout(contactStatusTimer);
+  contactStatusBar.textContent = message;
+  contactStatusBar.classList.remove("is-info", "is-error", "is-warning");
+  contactStatusBar.classList.add(`is-${type}`);
+  contactStatusBar.hidden = false;
+  if (autoHideDelay) {
+    contactStatusTimer = window.setTimeout(() => {
+      contactStatusBar.hidden = true;
+    }, autoHideDelay);
+  }
+}
+
+function hideContactStatusBar() {
+  if (!contactStatusBar) return;
+  window.clearTimeout(contactStatusTimer);
+  contactStatusBar.hidden = true;
+}
 
 function formatTime(seconds = 0) {
   if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
@@ -994,12 +1016,14 @@ function syncFileUploadUi() {
     fileUploadName.textContent = contactLocales[activeContactLocale].text.fileNone;
     if (fileUploadActions) fileUploadActions.hidden = true;
     if (statusEl) statusEl.textContent = contactLocales[activeContactLocale].text.fileTooLarge;
+    showContactStatusBar(contactLocales[activeContactLocale].text.fileTooLarge, "warning", 6200);
     return;
   }
   fileUploadName.textContent = selectedFile?.name || contactLocales[activeContactLocale].text.fileNone;
   if (fileUploadActions) fileUploadActions.hidden = !selectedFile;
   if (selectedFile && statusEl?.textContent === contactLocales[activeContactLocale].text.fileTooLarge) {
     statusEl.textContent = "";
+    hideContactStatusBar();
   }
 }
 
@@ -1493,6 +1517,7 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
     fileInput.value = "";
     syncFileUploadUi();
     statusEl.textContent = contactLocales[activeContactLocale].text.fileTooLarge;
+    showContactStatusBar(contactLocales[activeContactLocale].text.fileTooLarge, "warning", 6200);
     return;
   }
   const data = new FormData(form);
@@ -1502,6 +1527,7 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
   submitButton.disabled = true;
   contactToast.hidden = true;
   statusEl.textContent = contactLocales[activeContactLocale].status.sending;
+  showContactStatusBar(contactLocales[activeContactLocale].status.sending, "info", 0);
 
   try {
     const response = await fetch(form.action, {
@@ -1513,12 +1539,14 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
 
     form.reset();
     statusEl.textContent = contactLocales[activeContactLocale].status.success;
+    hideContactStatusBar();
     contactToast.hidden = false;
     window.setTimeout(() => {
       contactToast.hidden = true;
     }, 5200);
   } catch (error) {
     statusEl.textContent = contactLocales[activeContactLocale].status.error;
+    showContactStatusBar(contactLocales[activeContactLocale].status.error, "error", 7000);
   } finally {
     submitButton.disabled = false;
   }

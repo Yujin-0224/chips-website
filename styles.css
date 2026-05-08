@@ -2142,6 +2142,7 @@ a {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
   min-height: 48px;
   padding: 10px;
   border: 1px solid rgba(32, 26, 18, 0.12);
@@ -2164,9 +2165,37 @@ a {
 }
 
 .file-upload-name {
+  flex: 1 1 180px;
+  min-width: 0;
   color: var(--ink);
   font-size: 13px;
   font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.file-upload-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.file-upload-action {
+  min-height: 30px;
+  padding: 6px 10px;
+  border: 1px solid rgba(32, 26, 18, 0.14);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.78);
+  color: rgba(23, 19, 13, 0.72);
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.file-upload-action:hover {
+  color: var(--ink);
+  border-color: rgba(246, 185, 59, 0.6);
+  background: #fffaf0;
 }
 
 .file-field small {

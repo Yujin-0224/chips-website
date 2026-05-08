@@ -623,6 +623,10 @@ const statusEl = document.querySelector("#form-status");
 const contactToast = document.querySelector("#contact-toast");
 const fileInput = document.querySelector(".file-input");
 const fileUploadName = document.querySelector("#file-upload-name");
+const fileUploadActions = document.querySelector("#file-upload-actions");
+const fileChangeButton = document.querySelector("#file-change-button");
+const fileRemoveButton = document.querySelector("#file-remove-button");
+const maxAttachmentSize = 5 * 1024 * 1024;
 const privacyDetails = document.querySelector(".privacy-details");
 const privacyInput = document.querySelector(".privacy-native-input");
 const privacyCheckControl = document.querySelector(".privacy-check-control");
@@ -657,9 +661,12 @@ const contactLocales = {
       messageLabel: "신청 내용",
       referenceLabel: "파일 또는 참고 링크",
       attachmentLabel: "파일 첨부",
-      attachmentHelp: "대본, 영상, 참고 자료를 첨부하거나 위 링크란에 공유 링크를 남겨주세요.",
+      attachmentHelp: "첨부파일은 1개만 가능하며, 5MB 이하 파일만 첨부할 수 있습니다. 큰 파일은 위 링크란에 공유 링크를 남겨주세요.",
       fileChoose: "파일 선택",
+      fileChange: "변경",
+      fileRemove: "삭제",
       fileNone: "선택된 파일 없음",
+      fileTooLarge: "첨부파일은 5MB 이하만 가능합니다. 큰 파일은 공유 링크로 남겨주세요.",
       privacyLabel: "개인정보 수집 및 이용에 동의합니다.",
       privacyDetailsToggle: "자세히 보기",
       privacyDetailsBody:
@@ -731,9 +738,12 @@ const contactLocales = {
       messageLabel: "Inquiry details",
       referenceLabel: "File or reference link",
       attachmentLabel: "File attachment",
-      attachmentHelp: "Attach scripts, videos, or references here, or paste a shared link in the field above.",
+      attachmentHelp: "Attach one file only, up to 5MB. For large files, paste a shared link in the field above.",
       fileChoose: "Choose file",
+      fileChange: "Change",
+      fileRemove: "Remove",
       fileNone: "No file selected",
+      fileTooLarge: "Attachments must be 5MB or smaller. Please use a shared link for larger files.",
       privacyLabel: "I agree to the collection and use of personal information.",
       privacyDetailsToggle: "View details",
       privacyDetailsBody:
@@ -973,8 +983,23 @@ function applyContactLocale(locale) {
     button.classList.toggle("is-active", button.dataset.contactLocale === locale);
   });
 
-  if (fileUploadName && fileInput && !fileInput.files.length) {
-    fileUploadName.textContent = config.text.fileNone;
+  if (fileUploadName && fileInput && !fileInput.files.length) syncFileUploadUi();
+}
+
+function syncFileUploadUi() {
+  if (!fileInput || !fileUploadName) return;
+  const selectedFile = fileInput.files[0];
+  if (selectedFile && selectedFile.size > maxAttachmentSize) {
+    fileInput.value = "";
+    fileUploadName.textContent = contactLocales[activeContactLocale].text.fileNone;
+    if (fileUploadActions) fileUploadActions.hidden = true;
+    if (statusEl) statusEl.textContent = contactLocales[activeContactLocale].text.fileTooLarge;
+    return;
+  }
+  fileUploadName.textContent = selectedFile?.name || contactLocales[activeContactLocale].text.fileNone;
+  if (fileUploadActions) fileUploadActions.hidden = !selectedFile;
+  if (selectedFile && statusEl?.textContent === contactLocales[activeContactLocale].text.fileTooLarge) {
+    statusEl.textContent = "";
   }
 }
 
@@ -1464,6 +1489,12 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
   event.preventDefault();
   const form = event.currentTarget;
   const submitButton = form.querySelector(".submit-button");
+  if (fileInput?.files[0] && fileInput.files[0].size > maxAttachmentSize) {
+    fileInput.value = "";
+    syncFileUploadUi();
+    statusEl.textContent = contactLocales[activeContactLocale].text.fileTooLarge;
+    return;
+  }
   const data = new FormData(form);
 
   data.set("subject", `[CHIPS 문의] ${data.get("name")}님 문의`);
@@ -1476,9 +1507,6 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
     const response = await fetch(form.action, {
       method: form.method,
       body: data,
-      headers: {
-        Accept: "application/json",
-      },
     });
 
     if (!response.ok) throw new Error("Basin request failed");
@@ -1497,9 +1525,11 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
 });
 
 if (fileInput && fileUploadName) {
-  fileInput.addEventListener("change", () => {
-    fileUploadName.textContent =
-      fileInput.files[0]?.name || contactLocales[activeContactLocale].text.fileNone;
+  fileInput.addEventListener("change", syncFileUploadUi);
+  fileChangeButton?.addEventListener("click", () => fileInput.click());
+  fileRemoveButton?.addEventListener("click", () => {
+    fileInput.value = "";
+    syncFileUploadUi();
   });
 }
 

@@ -346,12 +346,16 @@
             </label>
             <label class="file-field full-field">
               <span><span data-contact-text="attachmentLabel">파일 첨부</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
-              <input class="file-input" name="attachment" type="file" />
+              <input class="file-input" name="attachment" type="file" accept=".pdf,.doc,.docx,.txt,.rtf,.zip,.mp3,.wav,.m4a,.mp4,.mov,.jpg,.jpeg,.png,.webp" />
               <span class="file-upload-ui">
                 <span class="file-upload-button" data-contact-text="fileChoose">파일 선택</span>
                 <span class="file-upload-name" id="file-upload-name" data-contact-text="fileNone">선택된 파일 없음</span>
+                <span class="file-upload-actions" id="file-upload-actions" hidden>
+                  <button class="file-upload-action" type="button" id="file-change-button" data-contact-text="fileChange">변경</button>
+                  <button class="file-upload-action" type="button" id="file-remove-button" data-contact-text="fileRemove">삭제</button>
+                </span>
               </span>
-              <small data-contact-text="attachmentHelp">대본, 영상, 참고 자료를 첨부하거나 위 링크란에 공유 링크를 남겨주세요.</small>
+              <small data-contact-text="attachmentHelp">첨부파일은 1개만 가능하며, 5MB 이하 파일만 첨부할 수 있습니다. 큰 파일은 위 링크란에 공유 링크를 남겨주세요.</small>
             </label>
             <div class="privacy-group full-field">
               <details class="privacy-details">

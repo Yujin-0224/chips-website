@@ -148,6 +148,25 @@ a {
   position: relative;
   z-index: 2;
   overflow: visible;
+  isolation: isolate;
+}
+
+.home-page::before {
+  content: "";
+  position: absolute;
+  inset: calc(100svh - 96px) 0 -36px;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, var(--paper) 0%, rgba(255, 250, 240, 0.1) 18%, rgba(255, 250, 240, 0.46) 72%, var(--paper) 100%),
+    url("assets/chips-poster-bg.webp") center top / cover no-repeat;
+  opacity: 0.2;
+  filter: saturate(0.88) brightness(1.05);
+}
+
+.home-page > .section-panel {
+  position: relative;
+  z-index: 1;
 }
 
 .hero.section-panel {
@@ -162,6 +181,7 @@ a {
   padding: 0;
   overflow: hidden;
   background: #fff3d4;
+  z-index: 2;
 }
 
 .info-content h2 {

@@ -2338,6 +2338,7 @@ a {
   border-left-color: var(--coral);
 }
 
+/* Mobile overrides temporarily disabled so phones use the same layout as desktop.
 @media (max-width: 860px) {
   .site-header {
     width: min(100% - 18px, 1180px);
@@ -2589,3 +2590,4 @@ a {
     border-width: 2px;
   }
 }
+*/

@@ -2511,10 +2511,12 @@ a {
   .news-item {
     grid-template-columns: 1fr;
     gap: 10px;
+    align-items: start;
   }
 
   .news-thumb {
     aspect-ratio: 16 / 9;
+    height: auto;
     min-height: 0;
   }
 

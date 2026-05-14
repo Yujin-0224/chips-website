@@ -1729,7 +1729,9 @@ function normalizeDriveLink(url = "") {
 function normalizeDriveAudioLink(url = "") {
   const value = `${url}`.trim();
   const fileId = getDriveFileId(value);
-  return fileId ? `/api/drive-audio/${fileId}` : normalizeDriveLink(value);
+  const canUseLocalProxy = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+  if (fileId && canUseLocalProxy) return `/api/drive-audio/${fileId}`;
+  return normalizeDriveLink(value);
 }
 
 function normalizeAudioSources(sources = []) {

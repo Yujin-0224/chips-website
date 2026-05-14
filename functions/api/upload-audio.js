@@ -106,22 +106,7 @@ export async function onRequestPost({ request, env }) {
       r2Key,
       r2Url,
       metadataKey,
-      sheetRow: {
-        actor_name: actorName,
-        sample_title: sampleTitle,
-        category: Object.values(metadata.categories).flat().join(", "),
-        google_drive_link: "",
-        published: "true",
-        notes: metadata.notes,
-        generated_id: sampleId,
-        actor_id: actorId,
-        r2_url: r2Url,
-        audio_type: metadata.audioType,
-        r2_key: r2Key,
-        sync_status: "uploaded",
-        synced_at: metadata.uploadedAt,
-        error_message: "",
-      },
+      metadata,
     });
   } catch (error) {
     return json({ error: error.message || "Upload failed." }, 500);

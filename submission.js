@@ -16,10 +16,39 @@ const chipsCategoryGroups = [
     label: "톤",
     hint: "Tone / Voice Color",
     options: [
-      "밝은", "차분한", "따뜻한", "부드러운", "시크한", "진지한", "무게감 있는", "고급스러운",
-      "신뢰감 있는", "친근한", "활기찬", "하이텐션", "로우텐션", "청량한", "귀여운", "장난스러운",
-      "차가운", "강한", "카리스마", "섹시한", "몽환적인", "맑은", "거친", "빠른", "느린",
-      "담백한", "감성적인", "아나운서", "상담원", "강사", "MC", "DJ", "방송 진행",
+      "밝은",
+      "차분한",
+      "따뜻한",
+      "부드러운",
+      "시크한",
+      "진지한",
+      "무게감 있는",
+      "고급스러운",
+      "신뢰감 있는",
+      "친근한",
+      "활기찬",
+      "하이텐션",
+      "로우텐션",
+      "청량한",
+      "귀여운",
+      "장난스러운",
+      "차가운",
+      "강한",
+      "카리스마",
+      "섹시한",
+      "몽환적인",
+      "맑은",
+      "거친",
+      "빠른",
+      "느린",
+      "담백한",
+      "감성적인",
+      "아나운서",
+      "상담원",
+      "강사",
+      "MC",
+      "DJ",
+      "방송 진행",
     ],
   },
   {
@@ -33,10 +62,46 @@ const chipsCategoryGroups = [
     label: "감정",
     hint: "Emotion",
     options: [
-      "무감정", "행복", "기쁨", "설렘", "기대", "자신감", "감동", "따뜻함", "위로", "사랑스러운",
-      "친절한", "공손한", "진지한", "긴장", "불안", "공포", "당황", "놀람", "분노", "짜증",
-      "경멸", "냉소", "우울", "슬픔", "울음", "체념", "절망", "후회", "지침", "고통",
-      "비명", "광기", "의심", "조급함", "무서운", "위협", "명령", "간절한", "부탁", "수줍음",
+      "무감정",
+      "행복",
+      "기쁨",
+      "설렘",
+      "기대",
+      "자신감",
+      "감동",
+      "따뜻함",
+      "위로",
+      "사랑스러운",
+      "친절한",
+      "공손한",
+      "진지한",
+      "긴장",
+      "불안",
+      "공포",
+      "당황",
+      "놀람",
+      "분노",
+      "짜증",
+      "경멸",
+      "냉소",
+      "우울",
+      "슬픔",
+      "울음",
+      "체념",
+      "절망",
+      "후회",
+      "지침",
+      "고통",
+      "비명",
+      "광기",
+      "의심",
+      "조급함",
+      "무서운",
+      "위협",
+      "명령",
+      "간절한",
+      "부탁",
+      "수줍음",
     ],
   },
   {
@@ -56,11 +121,40 @@ const chipsCategoryGroups = [
     label: "캐릭터 타입",
     hint: "Character Type",
     options: [
-      "히어로", "빌런", "천재 캐릭터", "바보/허당 캐릭터", "츤데레", "차가운 미인", "다정한 캐릭터",
-      "엄격한 상사", "선생님/교관", "의사/간호사", "공주", "경찰", "군인", "기사/전사", "마법사",
-      "왕/여왕", "귀족", "아이돌", "학생", "엄마", "아빠", "할아버지", "할머니", "아기 캐릭터",
-      "로봇", "AI 비서", "나레이터형 캐릭터", "마스코트 캐릭터", "동물 캐릭터", "괴물/크리처",
-      "외계인", "유령", "좀비", "신/악마",
+      "히어로",
+      "빌런",
+      "천재 캐릭터",
+      "바보/허당 캐릭터",
+      "츤데레",
+      "차가운 미인",
+      "다정한 캐릭터",
+      "엄격한 상사",
+      "선생님/교관",
+      "의사/간호사",
+      "공주",
+      "경찰",
+      "군인",
+      "기사/전사",
+      "마법사",
+      "왕/여왕",
+      "귀족",
+      "아이돌",
+      "학생",
+      "엄마",
+      "아빠",
+      "할아버지",
+      "할머니",
+      "아기 캐릭터",
+      "로봇",
+      "AI 비서",
+      "나레이터형 캐릭터",
+      "마스코트 캐릭터",
+      "동물 캐릭터",
+      "괴물/크리처",
+      "외계인",
+      "유령",
+      "좀비",
+      "신/악마",
     ],
   },
 ];
@@ -129,10 +223,44 @@ function showResult(target, value) {
   target.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
 }
 
+async function loadActors() {
+  const response = await fetch("data/cms-data.json", { cache: "no-store" });
+  if (!response.ok) throw new Error("성우 목록을 불러오지 못했습니다.");
+  const data = await response.json();
+  return [...(data.actors || [])]
+    .filter((actor) => actor.id && actor.name)
+    .sort((a, b) => `${a.name}`.localeCompare(`${b.name}`, "ko"));
+}
+
+async function populateActorSelect() {
+  const select = document.getElementById("actor-select");
+  const actorName = document.getElementById("actor-name");
+  if (!select || !actorName) return;
+
+  try {
+    const actors = await loadActors();
+    select.innerHTML = `<option value="">성우를 선택하세요</option>${actors
+      .map(
+        (actor) =>
+          `<option value="${actor.id}" data-name="${actor.name}">${actor.name}${actor.nameEn ? ` / ${actor.nameEn}` : ""}</option>`,
+      )
+      .join("")}`;
+  } catch (error) {
+    select.innerHTML = `<option value="">성우 목록 로드 실패</option>`;
+    select.disabled = true;
+  }
+
+  select.addEventListener("change", () => {
+    actorName.value = select.selectedOptions[0]?.dataset.name || "";
+  });
+}
+
 function bindAudioForm() {
   const form = document.getElementById("audio-form");
   if (!form) return;
 
+  const actorSelect = document.getElementById("actor-select");
+  const actorName = document.getElementById("actor-name");
   const fileInput = document.getElementById("audio-file");
   const fileName = document.getElementById("file-name");
   const result = document.getElementById("audio-result");
@@ -142,23 +270,32 @@ function bindAudioForm() {
     fileName.textContent = fileInput.files[0]?.name || "파일 선택";
   });
 
+  form.addEventListener("reset", () => {
+    window.setTimeout(() => {
+      fileName.textContent = "파일 선택";
+      result.hidden = true;
+      actorName.value = "";
+    });
+  });
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const file = fileInput.files[0];
-    if (!file) return;
+    if (!file || !actorSelect.value) return;
 
+    const selectedActorName = actorSelect.selectedOptions[0]?.dataset.name || "";
+    actorName.value = selectedActorName;
     button.disabled = true;
     button.textContent = "업로드 중";
 
     const data = new FormData(form);
-    const actorName = data.get("actor_name");
-    const actorId = data.get("actor_id") || slugify(actorName, "actor");
+    const actorId = data.get("actor_id");
     const sampleTitle = data.get("sample_title");
     const sampleId = `${slugify(actorId, "actor")}-${slugify(sampleTitle, "sample")}`;
     const ext = mimeExtensions[file.type] || file.name.split(".").pop() || "mp3";
     const r2Key = `audio/${slugify(actorId, "actor")}/${sampleId}.${ext}`;
 
-    data.set("actor_id", actorId);
+    data.set("actor_name", selectedActorName);
     data.set("sample_id", sampleId);
     data.set("r2_key", r2Key);
     data.set("categories_json", JSON.stringify(collectCategoryValues(form)));
@@ -169,9 +306,11 @@ function bindAudioForm() {
       if (!response.ok) throw new Error(payload.error || "Upload failed");
       showResult(result, {
         message: "업로드 완료",
-        sheetRow: payload.sheetRow,
+        actor: selectedActorName,
+        sampleTitle,
         r2Url: payload.r2Url,
         r2Key: payload.r2Key,
+        metadataKey: payload.metadataKey,
       });
     } catch (error) {
       showResult(result, { error: error.message });
@@ -206,6 +345,7 @@ function bindProfileForm() {
         message: "프로필 제출 완료",
         profileId: payload.profileId,
         metadataKey: payload.metadataKey,
+        profileImageUrl: payload.profileImageUrl,
       });
     } catch (error) {
       showResult(result, { error: error.message });
@@ -218,5 +358,6 @@ function bindProfileForm() {
 
 renderCategoryGrid("audio-category-grid", "audio");
 renderCategoryGrid("profile-category-grid", "profile");
+populateActorSelect();
 bindAudioForm();
 bindProfileForm();

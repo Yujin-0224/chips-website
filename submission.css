@@ -42,20 +42,14 @@ a {
 .brand-mark {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  color: var(--ink);
-  font-weight: 900;
+  width: 116px;
   text-decoration: none;
 }
 
-.brand-mark span {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: var(--chip-yellow);
-  color: #fff;
+.brand-mark img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .submission-nav {

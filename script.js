@@ -602,6 +602,7 @@ let newsArticles = [
 ];
 
 let activePlayer = null;
+let preferredAudioVolume = 0.85;
 
 const sampleGrid = document.querySelector("#sample-grid");
 const actorGrid = document.querySelector("#actor-grid");
@@ -879,7 +880,7 @@ function audioMarkup(label, sourcesList = sampleAudioSources, options = {}) {
         showVolume
           ? `<label class="volume-control" aria-label="${label} 볼륨">
               <span>VOL</span>
-              <input type="range" min="0" max="1" step="0.01" value="0.85" />
+              <input type="range" min="0" max="1" step="0.01" value="${preferredAudioVolume}" />
             </label>`
           : ""
       }
@@ -1423,7 +1424,7 @@ function resetPlayer(player, resetTime = false) {
   if (resetTime) audio.currentTime = 0;
   button.textContent = "▶";
   if (progress && resetTime) progress.style.width = "0%";
-  if (time && audio.duration) time.textContent = formatTime(audio.duration);
+  if (time && audio.duration) time.textContent = formatTime(resetTime ? audio.duration : audio.duration - audio.currentTime);
 }
 
 function togglePlayer(player) {
@@ -1465,9 +1466,13 @@ function setupAudioPlayers(scope = document) {
     const volume = player.querySelector(".volume-control input");
 
     player.dataset.audioReady = "true";
-    audio.volume = volume ? Number(volume.value) : 0.85;
+    if (volume) volume.value = `${preferredAudioVolume}`;
+    audio.volume = volume ? Number(volume.value) : preferredAudioVolume;
     const syncDuration = () => {
       if (time && audio.duration) time.textContent = formatTime(audio.duration);
+    };
+    const syncRemaining = () => {
+      if (time && audio.duration) time.textContent = formatTime(audio.duration - audio.currentTime);
     };
 
     audio.addEventListener("loadstart", () => {
@@ -1496,12 +1501,13 @@ function setupAudioPlayers(scope = document) {
     audio.addEventListener("playing", () => {
       setPlayerLoading(player, false);
       setPlayerError(player, false);
+      syncRemaining();
     });
 
     audio.addEventListener("timeupdate", () => {
       const ratio = audio.duration ? audio.currentTime / audio.duration : 0;
       progress.style.width = `${Math.min(ratio * 100, 100)}%`;
-      syncDuration();
+      syncRemaining();
     });
 
     audio.addEventListener("error", () => {
@@ -1518,7 +1524,8 @@ function setupAudioPlayers(scope = document) {
 
     if (volume) {
       volume.addEventListener("input", () => {
-        audio.volume = Number(volume.value);
+        preferredAudioVolume = Number(volume.value);
+        audio.volume = preferredAudioVolume;
       });
     }
 

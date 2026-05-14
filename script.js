@@ -965,7 +965,8 @@ function getProfileAudioOptions(actor) {
   return options;
 }
 
-function renderDetailAudioOption(index = 0) {
+function renderDetailAudioOption(index = 0, options = {}) {
+  const shouldAutoplay = options.autoplay === true;
   const option = detailAudioOptions[index];
   if (!option) {
     introDemo.hidden = true;
@@ -983,6 +984,10 @@ function renderDetailAudioOption(index = 0) {
     button.setAttribute("aria-pressed", `${isActive}`);
   });
   setupAudioPlayers(introDemoPlayer);
+  if (shouldAutoplay) {
+    const nextPlayer = introDemoPlayer.querySelector(".sample-player");
+    togglePlayer(nextPlayer);
+  }
 }
 
 function renderSamples(list = actors) {
@@ -1613,7 +1618,7 @@ document.addEventListener("click", (event) => {
   const audioOptionButton = event.target.closest("[data-audio-option]");
   if (audioOptionButton) {
     event.stopPropagation();
-    renderDetailAudioOption(Number(audioOptionButton.dataset.audioOption));
+    renderDetailAudioOption(Number(audioOptionButton.dataset.audioOption), { autoplay: true });
     return;
   }
 

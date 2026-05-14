@@ -35,6 +35,14 @@ function publicUrl(key) {
   return `${PUBLIC_BASE_URL}/${key.split("/").map(encodeURIComponent).join("/")}`;
 }
 
+function parseJson(value, fallback) {
+  try {
+    return JSON.parse(`${value || ""}`);
+  } catch {
+    return fallback;
+  }
+}
+
 export async function onRequestOptions() {
   return new Response(null, {
     headers: {
@@ -80,7 +88,7 @@ export async function onRequestPost({ request, env }) {
       actorId,
       sampleTitle,
       sampleId,
-      categories: JSON.parse(`${form.get("categories_json") || "{}"}`),
+      categories: parseJson(form.get("categories_json"), {}),
       notes: `${form.get("notes") || ""}`,
       r2Key,
       r2Url,

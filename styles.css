@@ -1801,46 +1801,12 @@ a {
 }
 
 .profile-intro-demo {
-  display: grid;
-  grid-template-columns: minmax(120px, 150px) minmax(0, 1fr);
-  gap: clamp(18px, 3vw, 28px);
-  align-items: center;
+  display: block;
   margin: 0 0 26px;
 }
 
 .profile-intro-demo #intro-demo-player {
   max-width: 540px;
-}
-
-.profile-audio-label {
-  display: grid;
-  place-items: center;
-  min-height: 92px;
-  padding: 16px 14px;
-  border: 2px solid rgba(32, 26, 18, 0.12);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.78);
-  color: var(--ink);
-  text-align: center;
-}
-
-.profile-audio-label span,
-.profile-audio-label strong {
-  display: block;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  line-height: 1;
-}
-
-.profile-audio-label span {
-  color: var(--blue);
-  font-size: 15px;
-}
-
-.profile-audio-label strong {
-  margin-top: 6px;
-  color: var(--chip-yellow);
-  font-size: clamp(24px, 3vw, 32px);
 }
 
 .profile-intro-copy {
@@ -1866,6 +1832,15 @@ a {
 .profile-section-head h3 {
   margin: 0;
   font-size: clamp(26px, 3.2vw, 38px);
+}
+
+.profile-player-head {
+  display: block;
+}
+
+.profile-player-head span {
+  display: block;
+  margin-bottom: 12px;
 }
 
 .demo-grid {
@@ -2679,14 +2654,6 @@ a {
 
   .profile-capabilities {
     max-width: none;
-  }
-
-  .profile-intro-demo {
-    grid-template-columns: 1fr;
-  }
-
-  .profile-audio-label {
-    width: min(220px, 100%);
   }
 
   .contact-layout {

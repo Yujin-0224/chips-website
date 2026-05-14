@@ -617,7 +617,7 @@ const detailCapabilities = document.querySelector("#detail-capabilities");
 const introDemo = document.querySelector("#intro-demo");
 const introDemoPlayer = document.querySelector("#intro-demo-player");
 const activeDemoTitle = document.querySelector("#active-demo-title");
-const detailTags = document.querySelector("#detail-tags");
+const detailCareer = document.querySelector("#detail-career");
 const demoGrid = document.querySelector("#demo-grid");
 const filterForm = document.querySelector(".sample-filter");
 const filterControls = document.querySelector("#filter-controls");
@@ -819,7 +819,9 @@ const revealSelector = [
   ".profile-heading-block",
   ".profile-portrait",
   ".profile-copy",
-  ".profile-tags",
+  ".profile-audio-card",
+  ".profile-summary-card",
+  ".profile-career",
   ".contact-aside",
   ".contact-form",
   ".services-placeholder > .eyebrow",
@@ -905,6 +907,13 @@ function getActorCapabilities(actor) {
   if (Array.isArray(capabilities) && capabilities.length) return capabilities.filter(Boolean);
   if (typeof capabilities === "string" && capabilities.trim()) return capabilities.split(",").map((item) => item.trim()).filter(Boolean);
   return ["홈레코딩 가능", "원격 디렉팅 가능", "빠른 납기"];
+}
+
+function getActorCareerItems(actor) {
+  const career = actor.career || actor.careers || actor.credits || actor.profileCareer || actor.workHistory;
+  if (Array.isArray(career) && career.length) return career.filter(Boolean);
+  if (typeof career === "string" && career.trim()) return career.split(/\n|,/).map((item) => item.trim()).filter(Boolean);
+  return ["경력 사항은 준비 중입니다."];
 }
 
 function getIntroAudioSources(actor) {
@@ -1028,12 +1037,30 @@ function openActor(actorId) {
   detailAvatar.innerHTML = `<img src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" loading="lazy" decoding="async" />`;
   detailName.textContent = actor.name;
   detailNameEn.textContent = actor.nameEn;
-  detailHighlights.innerHTML = getActorHighlightLines(actor).map((line) => `<p>${escapeHtml(line)}</p>`).join("");
+  detailHighlights.innerHTML = getActorHighlightLines(actor)
+    .map((line, index) => {
+      const labels = ["브랜딩 문장", "실무 분야"];
+      return `
+        <article class="profile-highlight-card">
+          <span>${labels[index] || "프로필 메모"}</span>
+          <p>${escapeHtml(line)}</p>
+        </article>
+      `;
+    })
+    .join("");
   detailBio.textContent = actor.bio;
   detailCapabilities.textContent = getActorCapabilities(actor).join(" · ");
 
   detailAudioOptions = getProfileAudioOptions(actor);
-  detailTags.textContent = actor.tags?.length ? `보이스 키워드 · ${actor.tags.join(" · ")}` : "";
+  detailCareer.innerHTML = `
+    <div class="profile-section-head">
+      <span>CAREER</span>
+      <h3>경력</h3>
+    </div>
+    <ul>
+      ${getActorCareerItems(actor).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+    </ul>
+  `;
   demoGrid.innerHTML = detailAudioOptions
     .map(
       (option, index) => `

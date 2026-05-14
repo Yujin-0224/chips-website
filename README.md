@@ -1,8 +1,30 @@
 # CHIPS Portfolio Website
 
+## Google Sheet CMS
+
+The site can be updated from Google Sheets without editing the HTML by hand.
+
+- Scheduled sync: every 30 minutes through GitHub Actions
+- Manual sync: GitHub Actions > `Sync CMS from Google Sheet` > `Run workflow`
+- Local sync: `powershell -ExecutionPolicy Bypass -File scripts/sync-cms-from-google-sheet.ps1`
+- Styled workbook template: `docs/templates/chips-cms-template.xlsx`
+- CMS docs: `docs/google-sheet-cms.md`
+
 CHIPS 팀 성우 포트폴리오 웹사이트의 첫 정적 프로토타입입니다.
 
 ## 실행
+
+로컬 백엔드 프록시까지 포함해서 실행:
+
+```powershell
+npm start
+```
+
+사이트 주소:
+
+```text
+http://127.0.0.1:8000
+```
 
 VS Code에서 이 폴더를 열고 `index.html`을 브라우저로 열면 바로 확인할 수 있습니다.
 

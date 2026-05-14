@@ -1,0 +1,56 @@
+name: Sync CMS from Google Sheet
+
+on:
+  workflow_dispatch:
+    inputs:
+      spreadsheet_id:
+        description: "Optional Google Sheet ID. Leave empty to use the repository variable or default script value."
+        required: false
+        type: string
+  schedule:
+    - cron: "*/30 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-cms-from-google-sheet
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Sync Google Sheet data
+        shell: pwsh
+        env:
+          DEFAULT_SPREADSHEET_ID: "1UJb5t-mcQt9MUo_9mlq1JXvk-pfUcGZUrw38qWDo85g"
+          REPOSITORY_SPREADSHEET_ID: ${{ vars.CMS_SPREADSHEET_ID }}
+          MANUAL_SPREADSHEET_ID: ${{ github.event.inputs.spreadsheet_id }}
+        run: |
+          $spreadsheetId = $env:MANUAL_SPREADSHEET_ID
+          if ([string]::IsNullOrWhiteSpace($spreadsheetId)) {
+            $spreadsheetId = $env:REPOSITORY_SPREADSHEET_ID
+          }
+          if ([string]::IsNullOrWhiteSpace($spreadsheetId)) {
+            $spreadsheetId = $env:DEFAULT_SPREADSHEET_ID
+          }
+
+          ./scripts/sync-cms-from-google-sheet.ps1 -SpreadsheetId $spreadsheetId
+
+      - name: Commit CMS data when changed
+        shell: bash
+        run: |
+          if git diff --quiet -- data/cms-data.json; then
+            echo "No CMS changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/cms-data.json
+          git commit -m "chore: sync CMS data from Google Sheet"
+          git push

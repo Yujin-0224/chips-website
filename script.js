@@ -839,7 +839,7 @@ function audioMarkup(label, sourcesList = sampleAudioSources) {
 
   return `
     <div class="sample-player">
-      <audio preload="metadata">${sources}</audio>
+      <audio preload="none" crossorigin="anonymous">${sources}</audio>
       <button class="play-button" type="button" aria-label="${label} 재생">▶</button>
       <div class="wave" aria-hidden="true"><span></span></div>
       <small class="time-left">0:00</small>
@@ -858,7 +858,7 @@ function renderSamples(list = actors) {
       (actor) => `
         <article class="sample-card" data-actor="${actor.id}" tabindex="0" role="button" aria-label="${actor.name} 프로필 보기">
           <div>
-            <img class="avatar" src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" />
+            <img class="avatar" src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" loading="lazy" decoding="async" />
             <p class="sample-card-meta">
               <strong>${actor.name}</strong>
               <span>${actor.nameEn}</span>
@@ -881,7 +881,7 @@ function renderActors() {
       (actor) => `
         <button class="actor-card" type="button" data-actor="${actor.id}">
           <span class="actor-photo">
-            <img src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" />
+            <img src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" loading="lazy" decoding="async" />
           </span>
           <span class="actor-card-info">
             <strong>${actor.name}</strong>
@@ -902,7 +902,7 @@ function openActor(actorId) {
   appPages.forEach((page) => {
     page.hidden = true;
   });
-  detailAvatar.innerHTML = `<img src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" />`;
+  detailAvatar.innerHTML = `<img src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" loading="lazy" decoding="async" />`;
   detailName.textContent = actor.name;
   detailNameEn.textContent = actor.nameEn;
   detailBio.textContent = actor.bio;
@@ -1245,6 +1245,17 @@ function openNewsArticle(articleId) {
   `;
 }
 
+function setPlayerLoading(player, isLoading) {
+  if (!player) return;
+  player.classList.toggle("is-loading", isLoading);
+  player.setAttribute("aria-busy", isLoading ? "true" : "false");
+}
+
+function setPlayerError(player, hasError) {
+  if (!player) return;
+  player.classList.toggle("is-error", hasError);
+}
+
 function resetPlayer(player, resetTime = false) {
   const audio = player.querySelector("audio");
   const button = player.querySelector(".play-button");
@@ -1252,6 +1263,8 @@ function resetPlayer(player, resetTime = false) {
   const time = player.querySelector(".time-left");
 
   audio.pause();
+  setPlayerLoading(player, false);
+  setPlayerError(player, false);
   if (resetTime) audio.currentTime = 0;
   button.textContent = "▶";
   if (progress && resetTime) progress.style.width = "0%";
@@ -1267,12 +1280,19 @@ function togglePlayer(player) {
 
   if (audio.paused) {
     activePlayer = player;
+    setPlayerError(player, false);
+    setPlayerLoading(player, true);
     audio
       .play()
       .then(() => {
+        if (activePlayer !== player || audio.paused) return;
+        setPlayerLoading(player, false);
         button.textContent = "Ⅱ";
       })
       .catch(() => {
+        setPlayerLoading(player, false);
+        setPlayerError(player, true);
+        if (activePlayer === player) activePlayer = null;
         button.textContent = "▶";
       });
   } else {
@@ -1292,14 +1312,43 @@ function setupAudioPlayers(scope = document) {
     player.dataset.audioReady = "true";
     audio.volume = Number(volume.value);
 
+    audio.addEventListener("loadstart", () => {
+      if (activePlayer === player) setPlayerLoading(player, true);
+    });
+
     audio.addEventListener("loadedmetadata", () => {
+      setPlayerLoading(player, false);
       time.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener("waiting", () => {
+      if (activePlayer === player) setPlayerLoading(player, true);
+    });
+
+    audio.addEventListener("stalled", () => {
+      if (activePlayer === player) setPlayerLoading(player, true);
+    });
+
+    audio.addEventListener("canplay", () => {
+      setPlayerLoading(player, false);
+    });
+
+    audio.addEventListener("playing", () => {
+      setPlayerLoading(player, false);
+      setPlayerError(player, false);
     });
 
     audio.addEventListener("timeupdate", () => {
       const ratio = audio.duration ? audio.currentTime / audio.duration : 0;
       progress.style.width = `${Math.min(ratio * 100, 100)}%`;
       time.textContent = formatTime(audio.duration - audio.currentTime);
+    });
+
+    audio.addEventListener("error", () => {
+      setPlayerLoading(player, false);
+      setPlayerError(player, true);
+      time.textContent = "ERR";
+      if (activePlayer === player) activePlayer = null;
     });
 
     audio.addEventListener("ended", () => {
@@ -1491,6 +1540,7 @@ if (heroSection && voiceSampleSection) {
 }
 
 document.querySelector("#back-to-actors").addEventListener("click", () => {
+  stopActivePlayer();
   homePage.hidden = true;
   appPages.forEach((page) => {
     page.hidden = true;
@@ -1662,17 +1712,31 @@ function playRouteEnter(page) {
   page.classList.add("route-enter");
 }
 
+function getDriveFileId(url = "") {
+  const value = `${url}`.trim();
+  if (!value.includes("drive.google.com") && !value.includes("drive.usercontent.google.com")) return "";
+  const fileId = value.match(/\/d\/([^/]+)/)?.[1] || value.match(/[?&]id=([^&]+)/)?.[1];
+  return fileId || "";
+}
+
 function normalizeDriveLink(url = "") {
   const value = `${url}`.trim();
-  if (!value.includes("drive.google.com")) return value;
-  const fileId = value.match(/\/d\/([^/]+)/)?.[1] || value.match(/[?&]id=([^&]+)/)?.[1];
-  return fileId ? `https://drive.google.com/uc?export=download&id=${fileId}` : value;
+  if (!value.includes("drive.google.com") && !value.includes("drive.usercontent.google.com")) return value;
+  const fileId = getDriveFileId(value);
+  return fileId ? `https://drive.usercontent.google.com/download?id=${fileId}&export=download` : value;
+}
+
+function normalizeDriveAudioLink(url = "") {
+  const value = `${url}`.trim();
+  const fileId = getDriveFileId(value);
+  return fileId ? `/api/drive-audio/${fileId}` : normalizeDriveLink(value);
 }
 
 function normalizeAudioSources(sources = []) {
   return sources
+    .filter(Boolean)
     .map((source) => ({
-      src: normalizeDriveLink(source.src || source.audio_src || ""),
+      src: normalizeDriveAudioLink(source.src || source.audio_src || ""),
       type: source.type || source.audio_type || "audio/mpeg",
     }))
     .filter((source) => source.src);
@@ -1758,3 +1822,7 @@ async function initializeSite() {
 
 initializeSite();
 window.addEventListener("hashchange", showRoute);
+window.addEventListener("pagehide", stopActivePlayer);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) stopActivePlayer();
+});

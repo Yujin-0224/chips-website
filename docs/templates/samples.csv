@@ -1,0 +1,2 @@
+id,actor_id,title,category,tone,language,description,audio_src,audio_type,sort_order,notes,published
+kim-haru-character,kim-haru,Character sample,animation,bright,ko,Short sample description,https://drive.google.com/file/d/FILE_ID/view,audio/mpeg,1,,false

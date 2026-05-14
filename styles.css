@@ -1690,34 +1690,19 @@ a {
 .actor-profile {
   display: grid;
   grid-template-columns: minmax(240px, 318px) minmax(0, 1fr);
-  grid-template-areas:
-    "heading heading"
-    "portrait copy";
-  gap: 32px clamp(28px, 4vw, 48px);
+  gap: clamp(28px, 4vw, 48px);
   align-items: start;
   width: 100%;
   margin: 0 auto;
   padding: 0;
 }
 
-.profile-heading-block {
-  grid-area: heading;
-  text-align: center;
-}
-
-.profile-heading-block .eyebrow {
-  margin-bottom: 8px;
-}
-
-.profile-heading-block h2 {
-  margin: 0;
-  font-size: clamp(38px, 5.4vw, 56px);
-  line-height: 0.95;
-  letter-spacing: 0;
+.profile-sidebar {
+  display: grid;
+  gap: 14px;
 }
 
 .profile-portrait {
-  grid-area: portrait;
   aspect-ratio: 3 / 4;
   border-radius: 8px;
   background: #c7bea9;
@@ -1732,8 +1717,67 @@ a {
   object-position: center;
 }
 
+.profile-identity-card {
+  overflow: hidden;
+  border: 1px solid rgba(32, 26, 18, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.56);
+  box-shadow: 0 12px 30px rgba(73, 52, 25, 0.06);
+}
+
+.profile-identity-title {
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid rgba(32, 26, 18, 0.1);
+  background: rgba(255, 248, 230, 0.62);
+  text-align: center;
+}
+
+.profile-identity-title h2 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.profile-identity-card dl {
+  margin: 0;
+}
+
+.profile-identity-card dl div {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  min-height: 38px;
+  border-top: 1px solid rgba(32, 26, 18, 0.08);
+}
+
+.profile-identity-card dl div:first-child {
+  border-top: 0;
+}
+
+.profile-identity-card dt,
+.profile-identity-card dd {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.profile-identity-card dt {
+  justify-content: center;
+  border-right: 1px solid rgba(32, 26, 18, 0.08);
+  background: rgba(255, 250, 240, 0.74);
+  color: var(--blue);
+  font-weight: 900;
+}
+
+.profile-identity-card dd {
+  color: var(--ink);
+  font-weight: 800;
+}
+
 .profile-copy {
-  grid-area: copy;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -1745,7 +1789,7 @@ a {
 .profile-name-en {
   margin: 4px 0 0;
   color: var(--blue);
-  font-size: clamp(16px, 1.8vw, 20px);
+  font-size: 15px;
   font-weight: 900;
   letter-spacing: 0;
   text-transform: uppercase;
@@ -2717,11 +2761,12 @@ a {
   }
 
   .actor-profile {
-    grid-template-areas:
-      "heading"
-      "portrait"
-      "copy";
     gap: 24px;
+  }
+
+  .profile-sidebar {
+    width: min(360px, 100%);
+    margin: 0 auto;
   }
 
   .profile-highlights {
@@ -2751,10 +2796,6 @@ a {
     max-height: none;
   }
 
-  .profile-portrait {
-    width: min(360px, 100%);
-    margin: 0 auto;
-  }
 }
 
 @media (max-width: 560px) {

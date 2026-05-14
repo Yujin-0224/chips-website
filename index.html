@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260514-profile-panels" />
+    <link rel="stylesheet" href="styles.css?v=20260514-profile-info-card" />
   </head>
   <body>
     <header class="site-header" aria-label="CHIPS main navigation">
@@ -233,12 +233,25 @@
       <section id="actor-detail" class="section-panel actor-detail-section app-page" hidden>
         <button class="back-button" type="button" id="back-to-actors">← TALENT</button>
         <article class="actor-profile">
-          <div class="profile-heading-block">
-            <p class="eyebrow" id="detail-role">Voice Actor</p>
-            <h2 id="detail-name">성우 이름</h2>
-            <p class="profile-name-en" id="detail-name-en">English Name</p>
+          <div class="profile-sidebar">
+            <div class="profile-portrait" id="detail-avatar" aria-hidden="true"></div>
+            <div class="profile-identity-card">
+              <div class="profile-identity-title">
+                <h2 id="detail-name">성우 이름</h2>
+                <p class="profile-name-en" id="detail-name-en">English Name</p>
+              </div>
+              <dl>
+                <div>
+                  <dt>분류</dt>
+                  <dd>성우</dd>
+                </div>
+                <div>
+                  <dt>소속</dt>
+                  <dd>CHIPS Talent</dd>
+                </div>
+              </dl>
+            </div>
           </div>
-          <div class="profile-portrait" id="detail-avatar" aria-hidden="true"></div>
           <div class="profile-copy">
             <div class="profile-audio-card">
               <div class="profile-intro-demo" id="intro-demo" hidden>
@@ -447,6 +460,6 @@
 
     <div class="contact-status-bar" id="contact-status-bar" hidden role="alert"></div>
 
-    <script src="script.js?v=20260514-profile-panels"></script>
+    <script src="script.js?v=20260514-profile-info-card"></script>
   </body>
 </html>

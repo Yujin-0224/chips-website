@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260514-audio-stop" />
+    <link rel="stylesheet" href="styles.css?v=20260514-profile-detail" />
   </head>
   <body>
     <header class="site-header" aria-label="CHIPS main navigation">
@@ -238,11 +238,17 @@
             <p class="eyebrow" id="detail-role">Voice Actor</p>
             <h2 id="detail-name">성우 이름</h2>
             <p class="profile-name-en" id="detail-name-en">English Name</p>
+            <div class="profile-highlights" id="detail-highlights"></div>
             <p id="detail-bio"></p>
+            <p class="profile-capabilities" id="detail-capabilities"></p>
           </div>
         </article>
+        <div class="voice-demo profile-intro-demo" id="intro-demo" hidden>
+          <h3>대표 자기소개 샘플</h3>
+          <div id="intro-demo-player"></div>
+        </div>
         <div class="voice-demo">
-          <h3>Voice Demo</h3>
+          <h3>추가 보이스</h3>
           <div class="demo-grid" id="demo-grid"></div>
         </div>
         <div class="profile-tags" id="detail-tags"></div>
@@ -423,6 +429,6 @@
 
     <div class="contact-status-bar" id="contact-status-bar" hidden role="alert"></div>
 
-    <script src="script.js?v=20260514-pages-audio"></script>
+    <script src="script.js?v=20260514-profile-detail"></script>
   </body>
 </html>

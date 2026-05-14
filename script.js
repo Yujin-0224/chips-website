@@ -612,6 +612,10 @@ const detailAvatar = document.querySelector("#detail-avatar");
 const detailName = document.querySelector("#detail-name");
 const detailNameEn = document.querySelector("#detail-name-en");
 const detailBio = document.querySelector("#detail-bio");
+const detailHighlights = document.querySelector("#detail-highlights");
+const detailCapabilities = document.querySelector("#detail-capabilities");
+const introDemo = document.querySelector("#intro-demo");
+const introDemoPlayer = document.querySelector("#intro-demo-player");
 const detailTags = document.querySelector("#detail-tags");
 const demoGrid = document.querySelector("#demo-grid");
 const filterForm = document.querySelector(".sample-filter");
@@ -851,6 +855,43 @@ function audioMarkup(label, sourcesList = sampleAudioSources) {
   `;
 }
 
+function escapeHtml(value = "") {
+  return `${value}`.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+}
+
+function getActorHighlightLines(actor) {
+  const lines = actor.highlights || actor.profileHighlights || actor.brandingLines;
+  if (Array.isArray(lines) && lines.length) return lines.filter(Boolean);
+
+  const branding = actor.brandingLine || actor.branding || actor.tagline;
+  const fields = actor.workFields || actor.practiceFields || actor.experienceLine;
+  return [
+    branding || "청량한 소년 청년톤 중심의 캐릭터 보이스.",
+    fields || "애니메이션, 게임, 광고 샘플 경험 다수.",
+  ].filter(Boolean);
+}
+
+function getActorCapabilities(actor) {
+  const capabilities = actor.capabilities || actor.profileCapabilities || actor.workOptions;
+  if (Array.isArray(capabilities) && capabilities.length) return capabilities.filter(Boolean);
+  if (typeof capabilities === "string" && capabilities.trim()) return capabilities.split(",").map((item) => item.trim()).filter(Boolean);
+  return ["홈레코딩 가능", "원격 디렉팅 가능", "빠른 납기"];
+}
+
+function getIntroAudioSources(actor) {
+  const intro = actor.introAudio || actor.introductionAudio || actor.representativeAudio || actor.selfIntroAudio;
+  if (Array.isArray(intro)) return normalizeAudioSources(intro);
+  if (intro?.src || intro?.audio_src) return normalizeAudioSources([intro]);
+  return [];
+}
+
+function getAdditionalDemos(actor, introSources) {
+  const introSrcs = new Set(introSources.map((source) => source.src));
+  const sampleSources = (actor.audioSources || []).filter((source) => !introSrcs.has(source.src));
+  const demos = actor.demos?.length ? actor.demos : sampleSources.map((source) => source.title || source.category).filter(Boolean);
+  return { demos, sampleSources };
+}
+
 function renderSamples(list = actors) {
   sampleEmpty.hidden = true;
   sampleGrid.innerHTML = list
@@ -905,20 +946,29 @@ function openActor(actorId) {
   detailAvatar.innerHTML = `<img src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" loading="lazy" decoding="async" />`;
   detailName.textContent = actor.name;
   detailNameEn.textContent = actor.nameEn;
+  detailHighlights.innerHTML = getActorHighlightLines(actor).map((line) => `<p>${escapeHtml(line)}</p>`).join("");
   detailBio.textContent = actor.bio;
-  detailTags.textContent = `추천 감정 · ${actor.tags.join(" · ")}`;
-  demoGrid.innerHTML = actor.demos
+  detailCapabilities.textContent = getActorCapabilities(actor).join(" · ");
+
+  const introSources = getIntroAudioSources(actor);
+  const introPlayerSources = introSources.length ? introSources : (actor.audioSources || []).slice(0, 1);
+  introDemo.hidden = !introPlayerSources.length;
+  introDemoPlayer.innerHTML = introPlayerSources.length ? audioMarkup(`${actor.name} 자기소개`, introPlayerSources) : "";
+
+  const { demos, sampleSources } = getAdditionalDemos(actor, introPlayerSources);
+  detailTags.textContent = actor.tags?.length ? `보이스 키워드 · ${actor.tags.join(" · ")}` : "";
+  demoGrid.innerHTML = demos
     .map(
       (demo) => `
         <div class="demo-card">
           <strong>${demo}</strong>
-          ${audioMarkup(demo, actor.audioSources)}
+          ${audioMarkup(demo, sampleSources.length ? sampleSources : actor.audioSources)}
         </div>
       `,
     )
     .join("");
   document.querySelectorAll(".demo-card").forEach((element) => element.classList.add("reveal"));
-  setupAudioPlayers(demoGrid);
+  setupAudioPlayers(actorDetail);
   observeReveals();
   actorDetail.hidden = false;
   document.querySelector("#actors").hidden = true;
@@ -1769,6 +1819,9 @@ function normalizeCmsActor(actor) {
     tags: Array.isArray(actor.tags) ? actor.tags : `${actor.tags || ""}`.split(",").map((value) => value.trim()).filter(Boolean),
     demos: Array.isArray(actor.demos) ? actor.demos : `${actor.demos || ""}`.split(",").map((value) => value.trim()).filter(Boolean),
     audioSources: normalizeAudioSources(actor.audioSources || actor.audio_sources || []),
+    introAudio: normalizeAudioSources(actor.introAudio || actor.intro_audio || actor.selfIntroAudio || actor.self_intro_audio || []),
+    highlights: Array.isArray(actor.highlights) ? actor.highlights : `${actor.highlights || ""}`.split(/\n|,/).map((value) => value.trim()).filter(Boolean),
+    capabilities: Array.isArray(actor.capabilities) ? actor.capabilities : `${actor.capabilities || ""}`.split(",").map((value) => value.trim()).filter(Boolean),
     profileImage: normalizeDriveLink(actor.profileImage || actor.profile_image || ""),
   };
 }

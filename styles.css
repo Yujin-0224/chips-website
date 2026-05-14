@@ -1718,13 +1718,46 @@ a {
   font-weight: 800;
 }
 
-.profile-copy p:last-child {
+.profile-highlights {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 20px;
+}
+
+.profile-highlights p {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 5px solid var(--chip-yellow);
+  border-radius: 8px;
+  background: rgba(255, 194, 71, 0.14);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.profile-copy #detail-bio {
   line-height: 1.9;
+}
+
+.profile-capabilities {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
 }
 
 .voice-demo {
   width: min(840px, 100%);
   margin: 0 auto;
+}
+
+.profile-intro-demo {
+  margin-bottom: 30px;
+}
+
+.profile-intro-demo #intro-demo-player {
+  max-width: 560px;
 }
 
 .voice-demo h3 {

@@ -5,7 +5,7 @@
         "level":  "info",
         "sourceUrl":  "assets/gamza_sample.mp3",
         "status":  "external",
-        "syncedAt":  "2026-05-14T12:07:10",
+        "syncedAt":  "2026-05-14T12:20:17",
         "r2Key":  "",
         "message":  "Using existing audio URL."
     },
@@ -15,7 +15,7 @@
         "level":  "info",
         "sourceUrl":  "assets/sample_audio.mp3",
         "status":  "external",
-        "syncedAt":  "2026-05-14T12:07:10",
+        "syncedAt":  "2026-05-14T12:20:17",
         "r2Key":  "",
         "message":  "Using existing audio URL."
     },
@@ -25,7 +25,7 @@
         "level":  "info",
         "sourceUrl":  "assets/sample_audio.mp3",
         "status":  "external",
-        "syncedAt":  "2026-05-14T12:07:10",
+        "syncedAt":  "2026-05-14T12:20:17",
         "r2Key":  "",
         "message":  "Using existing audio URL."
     },
@@ -35,7 +35,7 @@
         "level":  "info",
         "sourceUrl":  "assets/sample_audio.mp3",
         "status":  "external",
-        "syncedAt":  "2026-05-14T12:07:10",
+        "syncedAt":  "2026-05-14T12:20:17",
         "r2Key":  "",
         "message":  "Using existing audio URL."
     },
@@ -45,7 +45,7 @@
         "level":  "info",
         "sourceUrl":  "assets/sample_audio.mp3",
         "status":  "external",
-        "syncedAt":  "2026-05-14T12:07:10",
+        "syncedAt":  "2026-05-14T12:20:17",
         "r2Key":  "",
         "message":  "Using existing audio URL."
     },
@@ -55,7 +55,7 @@
         "level":  "info",
         "sourceUrl":  "assets/sample_audio.mp3",
         "status":  "external",
-        "syncedAt":  "2026-05-14T12:07:10",
+        "syncedAt":  "2026-05-14T12:20:17",
         "r2Key":  "",
         "message":  "Using existing audio URL."
     },
@@ -65,7 +65,7 @@
         "level":  "info",
         "sourceUrl":  "assets/sample_audio.mp3",
         "status":  "external",
-        "syncedAt":  "2026-05-14T12:07:10",
+        "syncedAt":  "2026-05-14T12:20:17",
         "r2Key":  "",
         "message":  "Using existing audio URL."
     },
@@ -73,10 +73,10 @@
         "sampleTitle":  "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
         "actorName":  "거누",
         "level":  "info",
-        "sourceUrl":  "https://drive.google.com/file/d/1qJlPkC13pJ_tTkoPenBf3IbC2glkjDje/view?usp=drive_link",
-        "status":  "drive-link",
-        "syncedAt":  "2026-05-14T12:07:10",
-        "r2Key":  "",
-        "message":  "Cloudflare credentials were not provided; using the Drive download URL."
+        "sourceUrl":  "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/audio/geonu/geonu-10-20.wav",
+        "status":  "external",
+        "syncedAt":  "2026-05-14T12:20:17",
+        "r2Key":  "audio/geonu/geonu-10-20.wav",
+        "message":  "Using existing audio URL."
     }
 ]

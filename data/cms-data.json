@@ -88,7 +88,7 @@
                          }
                      ],
     "source":  {
-                   "syncedAt":  "2026-05-14T12:07:10",
+                   "syncedAt":  "2026-05-14T12:20:17",
                    "r2Bucket":  "chips-media",
                    "spreadsheetId":  "1UJb5t-mcQt9MUo_9mlq1JXvk-pfUcGZUrw38qWDo85g",
                    "r2PublicBaseUrl":  "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev"
@@ -358,7 +358,7 @@
                                                 "category":  "game, animation, voice drama",
                                                 "id":  "geonu-10-20",
                                                 "type":  "audio/wav",
-                                                "src":  "https://drive.usercontent.google.com/download?id=1qJlPkC13pJ_tTkoPenBf3IbC2glkjDje\u0026export=download"
+                                                "src":  "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/audio/geonu/geonu-10-20.wav"
                                             }
                                         ],
                        "tone":  "warm",

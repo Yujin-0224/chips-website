@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260514-voicekit-profile" />
+    <link rel="stylesheet" href="styles.css?v=20260514-single-profile-player" />
   </head>
   <body>
     <header class="site-header" aria-label="CHIPS main navigation">
@@ -241,30 +241,30 @@
           <div class="profile-portrait" id="detail-avatar" aria-hidden="true"></div>
           <div class="profile-copy">
             <div class="profile-intro-demo" id="intro-demo" hidden>
-              <div class="voice-sample-badge" aria-hidden="true">
-                <span>VOICE</span>
-                <strong>SAMPLE</strong>
+              <div class="profile-audio-label" aria-hidden="true">
+                <span>CHIPS</span>
+                <strong>AUDIO</strong>
               </div>
               <div class="profile-intro-copy">
                 <div class="profile-section-head">
-                  <span>REPRESENTATIVE</span>
-                  <h3>대표 자기소개 샘플</h3>
+                  <span>PLAYER</span>
+                  <h3 id="active-demo-title">대표 자기소개 샘플</h3>
                 </div>
                 <div id="intro-demo-player"></div>
               </div>
+            </div>
+            <div class="voice-demo">
+              <div class="profile-section-head">
+                <span>SAMPLES</span>
+                <h3>보이스 샘플</h3>
+              </div>
+              <div class="demo-grid sample-button-grid" id="demo-grid"></div>
             </div>
             <div class="profile-highlights" id="detail-highlights"></div>
             <p id="detail-bio"></p>
             <p class="profile-capabilities" id="detail-capabilities"></p>
           </div>
         </article>
-        <div class="voice-demo">
-          <div class="profile-section-head">
-            <span>SAMPLES</span>
-            <h3>보이스 샘플</h3>
-          </div>
-          <div class="demo-grid" id="demo-grid"></div>
-        </div>
         <div class="profile-tags" id="detail-tags"></div>
       </section>
 
@@ -443,6 +443,6 @@
 
     <div class="contact-status-bar" id="contact-status-bar" hidden role="alert"></div>
 
-    <script src="script.js?v=20260514-profile-redesign"></script>
+    <script src="script.js?v=20260514-single-profile-player"></script>
   </body>
 </html>

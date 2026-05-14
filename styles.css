@@ -1792,13 +1792,17 @@ a {
 }
 
 .voice-demo {
-  width: min(1060px, 100%);
-  margin: 0 auto 28px;
+  width: 100%;
+  margin: 0 0 28px;
+}
+
+.profile-copy .voice-demo .profile-section-head h3 {
+  font-size: clamp(22px, 2.6vw, 32px);
 }
 
 .profile-intro-demo {
   display: grid;
-  grid-template-columns: minmax(150px, 190px) minmax(0, 1fr);
+  grid-template-columns: minmax(120px, 150px) minmax(0, 1fr);
   gap: clamp(18px, 3vw, 28px);
   align-items: center;
   margin: 0 0 26px;
@@ -1808,37 +1812,35 @@ a {
   max-width: 540px;
 }
 
-.voice-sample-badge {
+.profile-audio-label {
   display: grid;
   place-items: center;
-  min-height: 126px;
-  padding: 18px 16px;
-  border: 2px solid transparent;
+  min-height: 92px;
+  padding: 16px 14px;
+  border: 2px solid rgba(32, 26, 18, 0.12);
   border-radius: 8px;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)) padding-box,
-    linear-gradient(135deg, #f3cf66, var(--blue)) border-box;
-  box-shadow: 0 16px 30px rgba(36, 156, 219, 0.14);
-  color: var(--blue);
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--ink);
   text-align: center;
 }
 
-.voice-sample-badge span,
-.voice-sample-badge strong {
+.profile-audio-label span,
+.profile-audio-label strong {
   display: block;
   font-weight: 900;
-  letter-spacing: 0.16em;
-  line-height: 0.95;
+  letter-spacing: 0.12em;
+  line-height: 1;
 }
 
-.voice-sample-badge span {
-  font-size: clamp(30px, 4vw, 42px);
+.profile-audio-label span {
+  color: var(--blue);
+  font-size: 15px;
 }
 
-.voice-sample-badge strong {
-  margin-top: 8px;
-  color: #f0c94f;
-  font-size: clamp(24px, 3vw, 34px);
+.profile-audio-label strong {
+  margin-top: 6px;
+  color: var(--chip-yellow);
+  font-size: clamp(24px, 3vw, 32px);
 }
 
 .profile-intro-copy {
@@ -1870,6 +1872,38 @@ a {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+}
+
+.sample-button-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.sample-choice {
+  min-height: 48px;
+  padding: 10px 18px;
+  border: 1px solid rgba(32, 26, 18, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 10px 22px rgba(44, 34, 20, 0.08);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.25;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.sample-choice:hover,
+.sample-choice.is-active {
+  border-color: rgba(36, 156, 219, 0.52);
+  background: #fff;
+  color: var(--blue);
+  transform: translateY(-2px);
 }
 
 .demo-card {
@@ -2651,7 +2685,7 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .voice-sample-badge {
+  .profile-audio-label {
     width: min(220px, 100%);
   }
 

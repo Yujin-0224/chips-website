@@ -616,6 +616,7 @@ const detailHighlights = document.querySelector("#detail-highlights");
 const detailCapabilities = document.querySelector("#detail-capabilities");
 const introDemo = document.querySelector("#intro-demo");
 const introDemoPlayer = document.querySelector("#intro-demo-player");
+const activeDemoTitle = document.querySelector("#active-demo-title");
 const detailTags = document.querySelector("#detail-tags");
 const demoGrid = document.querySelector("#demo-grid");
 const filterForm = document.querySelector(".sample-filter");
@@ -892,6 +893,59 @@ function getAdditionalDemos(actor, introSources) {
   return { demos, sampleSources };
 }
 
+let detailAudioOptions = [];
+
+function getProfileAudioOptions(actor) {
+  const introSources = getIntroAudioSources(actor);
+  const hasExplicitIntro = Boolean(introSources.length);
+  const introPlayerSources = introSources.length ? introSources : (actor.audioSources || []).slice(0, 1);
+  const introSrcs = new Set(introPlayerSources.map((source) => source.src));
+  const sampleSources = hasExplicitIntro ? (actor.audioSources || []).filter((source) => !introSrcs.has(source.src)) : actor.audioSources || [];
+  const sampleLabels = actor.demos?.length
+    ? actor.demos
+    : sampleSources.map((source, index) => source.title || source.category || `샘플 ${index + 1}`);
+  const options = introPlayerSources.length
+    ? [
+        {
+          label: "대표 자기소개 샘플",
+          sources: introPlayerSources,
+        },
+      ]
+    : [];
+
+  sampleLabels.forEach((label, index) => {
+    const source = sampleSources[index] || sampleSources[0];
+    if (source) {
+      options.push({
+        label,
+        sources: [source],
+      });
+    }
+  });
+
+  return options;
+}
+
+function renderDetailAudioOption(index = 0) {
+  const option = detailAudioOptions[index];
+  if (!option) {
+    introDemo.hidden = true;
+    introDemoPlayer.innerHTML = "";
+    return;
+  }
+
+  stopActivePlayer();
+  introDemo.hidden = false;
+  activeDemoTitle.textContent = option.label;
+  introDemoPlayer.innerHTML = audioMarkup(option.label, option.sources);
+  demoGrid.querySelectorAll("[data-audio-option]").forEach((button) => {
+    const isActive = Number(button.dataset.audioOption) === index;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", `${isActive}`);
+  });
+  setupAudioPlayers(introDemoPlayer);
+}
+
 function renderSamples(list = actors) {
   sampleEmpty.hidden = true;
   sampleGrid.innerHTML = list
@@ -950,25 +1004,19 @@ function openActor(actorId) {
   detailBio.textContent = actor.bio;
   detailCapabilities.textContent = getActorCapabilities(actor).join(" · ");
 
-  const introSources = getIntroAudioSources(actor);
-  const introPlayerSources = introSources.length ? introSources : (actor.audioSources || []).slice(0, 1);
-  introDemo.hidden = !introPlayerSources.length;
-  introDemoPlayer.innerHTML = introPlayerSources.length ? audioMarkup(`${actor.name} 자기소개`, introPlayerSources) : "";
-
-  const { demos, sampleSources } = getAdditionalDemos(actor, introPlayerSources);
+  detailAudioOptions = getProfileAudioOptions(actor);
   detailTags.textContent = actor.tags?.length ? `보이스 키워드 · ${actor.tags.join(" · ")}` : "";
-  demoGrid.innerHTML = demos
+  demoGrid.innerHTML = detailAudioOptions
     .map(
-      (demo) => `
-        <div class="demo-card">
-          <strong>${demo}</strong>
-          ${audioMarkup(demo, sampleSources.length ? sampleSources : actor.audioSources)}
-        </div>
+      (option, index) => `
+        <button class="sample-choice" type="button" data-audio-option="${index}" aria-pressed="${index === 0 ? "true" : "false"}">
+          ${escapeHtml(option.label)}
+        </button>
       `,
     )
     .join("");
-  document.querySelectorAll(".demo-card").forEach((element) => element.classList.add("reveal"));
-  setupAudioPlayers(actorDetail);
+  renderDetailAudioOption(0);
+  document.querySelectorAll(".sample-choice").forEach((element) => element.classList.add("reveal"));
   observeReveals();
   actorDetail.hidden = false;
   document.querySelector("#actors").hidden = true;
@@ -1488,8 +1536,15 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  const audioOptionButton = event.target.closest("[data-audio-option]");
+  if (audioOptionButton) {
+    event.stopPropagation();
+    renderDetailAudioOption(Number(audioOptionButton.dataset.audioOption));
+    return;
+  }
+
   const actorButton = event.target.closest("[data-actor]");
-  if (actorButton && !event.target.closest(".sample-player")) openActor(actorButton.dataset.actor);
+  if (actorButton && !event.target.closest(".sample-player") && !event.target.closest("[data-audio-option]")) openActor(actorButton.dataset.actor);
 });
 
 document.addEventListener("keydown", (event) => {

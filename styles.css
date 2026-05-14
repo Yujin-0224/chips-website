@@ -46,6 +46,26 @@ a {
   text-decoration: none;
 }
 
+main {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  isolation: isolate;
+}
+
+main::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, var(--paper) 0%, rgba(255, 250, 240, 0.1) 18%, rgba(255, 250, 240, 0.46) 72%, var(--paper) 100%),
+    url("assets/chips-poster-bg.webp") center top / cover no-repeat;
+  opacity: 0.2;
+  filter: saturate(0.88) brightness(1.05);
+}
+
 .site-header {
   position: fixed;
   top: 0;
@@ -120,6 +140,8 @@ a {
 }
 
 .section-panel {
+  position: relative;
+  z-index: 1;
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
   padding: 110px clamp(18px, 5vw, 56px) 72px;
@@ -146,19 +168,6 @@ a {
   z-index: 2;
   overflow: visible;
   isolation: isolate;
-}
-
-.home-page::before {
-  content: "";
-  position: absolute;
-  inset: calc(100svh - 96px) 0 -36px;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, var(--paper) 0%, rgba(255, 250, 240, 0.1) 18%, rgba(255, 250, 240, 0.46) 72%, var(--paper) 100%),
-    url("assets/chips-poster-bg.webp") center top / cover no-repeat;
-  opacity: 0.2;
-  filter: saturate(0.88) brightness(1.05);
 }
 
 .home-page > .section-panel {

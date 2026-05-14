@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CHIPS Audio Upload</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="submission.css?v=20260514-r2-upload" />
+  </head>
+  <body>
+    <main class="submission-shell">
+      <div class="submission-topbar">
+        <a class="brand-mark" href="index.html#top"><span>C</span> CHIPS</a>
+        <nav class="submission-nav" aria-label="작성 페이지">
+          <a href="profile-create.html">프로필 만들기</a>
+          <a class="is-active" href="audio-create.html">오디오 만들기</a>
+          <a href="index.html#voice-sample">샘플 보기</a>
+        </nav>
+      </div>
+
+      <section class="submission-hero">
+        <div>
+          <p class="submission-kicker">VOICE SAMPLE UPLOAD</p>
+          <h1>AUDIO CREATE</h1>
+          <p>성우 이름, 샘플 제목, CHIPS 카테고리, 오디오 파일을 넣으면 R2에 성우별 폴더로 저장됩니다.</p>
+        </div>
+        <aside class="status-panel">
+          <strong>저장 경로</strong>
+          <p><code>audio/{성우ID}/{샘플ID}.{확장자}</code> 형식으로 저장됩니다. 카테고리는 여러 항목을 동시에 선택할 수 있습니다.</p>
+        </aside>
+      </section>
+
+      <form class="submission-form" id="audio-form">
+        <section class="form-section">
+          <h2>기본 정보</h2>
+          <div class="field-grid">
+            <div class="field">
+              <label for="actor-name">성우 이름</label>
+              <input id="actor-name" name="actor_name" autocomplete="name" required placeholder="예: 거누" />
+            </div>
+            <div class="field">
+              <label for="sample-title">오디오 제목</label>
+              <input id="sample-title" name="sample_title" required placeholder="예: 미소년 캐릭터 샘플" />
+            </div>
+            <div class="field">
+              <label for="actor-id">성우 ID</label>
+              <input id="actor-id" name="actor_id" placeholder="비워두면 이름으로 자동 생성" />
+            </div>
+            <div class="field">
+              <label for="language-note">언어/메모</label>
+              <input id="language-note" name="notes" placeholder="예: 한국어, 10대/20대, 부끄러운 톤" />
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <h2>CHIPS 카테고리</h2>
+          <div class="category-grid" id="audio-category-grid"></div>
+        </section>
+
+        <section class="form-section">
+          <h2>오디오 파일</h2>
+          <label class="file-drop" for="audio-file">
+            <strong id="file-name">파일 선택</strong>
+            <span>MP3, WAV, M4A, OGG, FLAC 파일을 업로드할 수 있습니다.</span>
+          </label>
+          <input id="audio-file" name="audio_file" type="file" accept="audio/*,.mp3,.wav,.m4a,.ogg,.flac" required hidden />
+        </section>
+
+        <div class="form-actions">
+          <button class="secondary-button" type="reset">초기화</button>
+          <button class="primary-button" type="submit">R2에 업로드</button>
+        </div>
+        <pre class="result-box" id="audio-result" hidden></pre>
+      </form>
+    </main>
+
+    <script src="submission.js?v=20260514-r2-upload"></script>
+  </body>
+</html>

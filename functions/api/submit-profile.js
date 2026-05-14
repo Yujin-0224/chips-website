@@ -1,0 +1,81 @@
+const PUBLIC_BASE_URL = "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev";
+
+function json(body, status = 200) {
+  return new Response(JSON.stringify(body, null, 2), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+}
+
+function slugify(value, fallback = "item") {
+  const slug = `${value || ""}`
+    .trim()
+    .toLowerCase()
+    .replace(/[\\/]+/g, "-")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return slug || fallback;
+}
+
+function publicUrl(key) {
+  return `${PUBLIC_BASE_URL}/${key.split("/").map(encodeURIComponent).join("/")}`;
+}
+
+export async function onRequestOptions() {
+  return new Response(null, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  });
+}
+
+export async function onRequestPost({ request, env }) {
+  if (!env.CHIPS_MEDIA) return json({ error: "R2 binding CHIPS_MEDIA is not configured." }, 500);
+
+  const form = await request.formData();
+  const name = `${form.get("name") || ""}`.trim();
+  if (!name) return json({ error: "name is required." }, 400);
+
+  const actorId = slugify(form.get("actor_id") || name, "actor");
+  let profileImageUrl = "";
+  let profileImageKey = "";
+  const image = form.get("profile_image");
+
+  if (image && typeof image !== "string" && image.size > 0) {
+    const extension = image.name.split(".").pop() || "jpg";
+    profileImageKey = `profiles/${actorId}/profile.${extension}`;
+    await env.CHIPS_MEDIA.put(profileImageKey, image.stream(), {
+      httpMetadata: { contentType: image.type || "image/jpeg" },
+    });
+    profileImageUrl = publicUrl(profileImageKey);
+  }
+
+  const metadata = {
+    kind: "profile",
+    actorId,
+    name,
+    nameEn: `${form.get("name_en") || ""}`,
+    email: `${form.get("email") || ""}`,
+    bio: `${form.get("bio") || ""}`,
+    categories: JSON.parse(`${form.get("categories_json") || "{}"}`),
+    profileImageKey,
+    profileImageUrl,
+    submittedAt: new Date().toISOString(),
+  };
+  const metadataKey = `submissions/profiles/${actorId}.json`;
+  await env.CHIPS_MEDIA.put(metadataKey, JSON.stringify(metadata, null, 2), {
+    httpMetadata: { contentType: "application/json; charset=utf-8" },
+  });
+
+  return json({
+    ok: true,
+    profileId: actorId,
+    metadataKey,
+    profileImageUrl,
+  });
+}

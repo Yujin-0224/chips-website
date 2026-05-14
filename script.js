@@ -803,12 +803,35 @@ let contactStatusTimer = null;
 const newsArticleSection = document.querySelector("#news-article");
 const newsArticleContent = document.querySelector("#news-article-content");
 const topNewsRail = document.querySelector("#top-news-rail");
+const revealSelector = [
+  ".section-title-row",
+  ".page-heading",
+  ".sample-filter",
+  ".sample-empty",
+  ".top-news-card",
+  ".news-feature",
+  ".news-item",
+  ".news-sidebar-card",
+  ".info-content",
+  ".actor-card",
+  ".sample-card",
+  ".demo-card",
+  ".profile-heading-block",
+  ".profile-portrait",
+  ".profile-copy",
+  ".profile-tags",
+  ".contact-aside",
+  ".contact-form",
+  ".services-placeholder > .eyebrow",
+  ".services-placeholder > h2",
+  ".services-placeholder > p",
+].join(", ");
 
-document
-  .querySelectorAll(
-    ".section-title-row, .page-heading, .sample-filter, .sample-empty, .info-content, .actor-card, .sample-card, .demo-card, .contact-aside, .contact-form",
-  )
-  .forEach((element) => element.classList.add("reveal"));
+function applyRevealTargets(scope = document) {
+  scope.querySelectorAll(revealSelector).forEach((element) => element.classList.add("reveal"));
+}
+
+applyRevealTargets();
 
 function showContactStatusBar(message, type = "warning", autoHideDelay = 5200) {
   if (!contactStatusBar) return;
@@ -1022,8 +1045,9 @@ function openActor(actorId) {
     .join("");
   renderDetailAudioOption(0);
   document.querySelectorAll(".sample-choice").forEach((element) => element.classList.add("reveal"));
-  observeReveals();
+  applyRevealTargets(actorDetail);
   actorDetail.hidden = false;
+  resetPageReveals(actorDetail);
   document.querySelector("#actors").hidden = true;
   setActiveNav("#actors");
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1756,18 +1780,21 @@ function stopActivePlayer() {
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) entry.target.classList.add("is-visible");
+      entry.target.classList.toggle("is-visible", entry.isIntersecting);
     });
   },
   { threshold: 0.12 },
 );
 
-function observeReveals() {
-  document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+function observeReveals(scope = document) {
+  scope.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
 }
 
-function showPageReveals(page) {
-  page.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
+function resetPageReveals(page) {
+  page.querySelectorAll(".reveal").forEach((element) => {
+    element.classList.remove("is-visible");
+    revealObserver.observe(element);
+  });
 }
 
 function showRoute() {
@@ -1798,7 +1825,8 @@ function showRoute() {
     if (page) {
       page.hidden = false;
       activePage = page;
-      showPageReveals(page);
+      applyRevealTargets(page);
+      resetPageReveals(page);
     }
     actorDetail.hidden = true;
     setActiveNav(hash);

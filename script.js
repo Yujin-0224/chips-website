@@ -942,7 +942,7 @@ function renderDetailAudioOption(index = 0) {
   stopActivePlayer();
   introDemo.hidden = false;
   activeDemoTitle.textContent = option.label;
-  introDemoPlayer.innerHTML = audioMarkup(option.label, option.sources, { showVolume: false });
+  introDemoPlayer.innerHTML = audioMarkup(option.label, option.sources);
   demoGrid.querySelectorAll("[data-audio-option]").forEach((button) => {
     const isActive = Number(button.dataset.audioOption) === index;
     button.classList.toggle("is-active", isActive);

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CHIPS Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="submission.css?v=20260514-admin" />
+  </head>
+  <body>
+    <main class="submission-shell">
+      <div class="submission-topbar">
+        <a class="brand-mark" href="index.html#top" aria-label="CHIPS home">
+          <img src="assets/chips_logo_1.png" alt="CHIPS" />
+        </a>
+        <nav class="submission-nav" aria-label="관리자 페이지">
+          <a class="is-active" href="admin.html">관리자 승인</a>
+          <a href="profile-create.html">프로필 만들기</a>
+          <a href="audio-create.html">오디오 만들기</a>
+        </nav>
+      </div>
+
+      <section class="submission-hero">
+        <div>
+          <p class="submission-kicker">CHIPS ADMIN</p>
+          <h1>APPROVAL</h1>
+          <p>R2에 저장된 프로필/오디오 제출물을 확인하고 공개 CMS 데이터에 반영합니다.</p>
+        </div>
+        <aside class="status-panel">
+          <strong>공개 반영</strong>
+          <p>승인하면 <code>cms/cms-data.json</code>이 갱신되고 사이트가 이 데이터를 우선 읽습니다.</p>
+        </aside>
+      </section>
+
+      <section class="form-section admin-login">
+        <h2>관리자 토큰</h2>
+        <div class="field-grid">
+          <div class="field">
+            <label for="admin-token">토큰</label>
+            <input id="admin-token" type="password" autocomplete="current-password" placeholder="관리자 토큰 입력" />
+          </div>
+          <div class="field admin-actions">
+            <label>&nbsp;</label>
+            <button class="primary-button" id="load-submissions" type="button">제출물 불러오기</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="admin-grid">
+        <div class="form-section">
+          <h2>프로필 제출</h2>
+          <div id="profile-submissions" class="submission-list"></div>
+        </div>
+        <div class="form-section">
+          <h2>오디오 제출</h2>
+          <div id="audio-submissions" class="submission-list"></div>
+        </div>
+      </section>
+
+      <pre class="result-box" id="admin-result" hidden></pre>
+    </main>
+
+    <script src="admin.js?v=20260514-admin"></script>
+  </body>
+</html>

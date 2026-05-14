@@ -1788,7 +1788,11 @@ function normalizeCmsArticle(article) {
 
 async function loadCmsData() {
   try {
-    const response = await fetch("data/cms-data.json", { cache: "no-store" });
+    const remoteCmsUrl = "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/cms/cms-data.json";
+    let response = await fetch(remoteCmsUrl, { cache: "no-store" });
+    if (!response.ok) {
+      response = await fetch("data/cms-data.json", { cache: "no-store" });
+    }
     if (!response.ok) return;
 
     const cmsData = await response.json();

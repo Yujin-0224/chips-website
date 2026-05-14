@@ -15,16 +15,21 @@ The workflow updates `data/cms-data.json` only when the sheet data changed.
 
 ## Sheet Setup
 
-Use one spreadsheet with three tabs named exactly:
+Use one spreadsheet with five tabs:
 
+- `Audio Intake`
 - `Actors`
 - `Samples`
 - `News`
+- `Sync Log`
+
+`Audio Intake` is the lightweight tab for voice actors. `Samples` remains the operator/admin tab for full legacy sample data. Both are read by the sync script.
 
 Starter templates are available in `docs/templates/`:
 
 - `chips-cms-template.xlsx`: styled workbook with `Actors`, `Samples`, and `News` tabs
 - `actors.csv`, `samples.csv`, `news.csv`: plain CSV fallbacks
+- `audio-intake.csv`: minimal voice actor input columns
 
 A native Google Sheets copy has also been created here:
 
@@ -62,6 +67,33 @@ Notes:
 
 ## Samples Columns
 
+## Audio Intake Columns
+
+Recommended header row:
+
+```text
+actor_name,sample_title,category,google_drive_link,published,notes,generated_id,actor_id,r2_url,audio_type,r2_key,sync_status,synced_at,error_message
+```
+
+Voice actors only need to fill:
+
+- `actor_name`: must match `Actors.name`, such as `거누`.
+- `sample_title`: the display title for the sample.
+- `category`: one or more categories, comma-separated.
+- `google_drive_link`: the shared Google Drive file link.
+- `published`: `true` when ready to publish.
+- `notes`: optional.
+
+The remaining columns are operator/automation columns. They can stay hidden in Google Sheets. The sync script generates sample ids automatically and, when Cloudflare credentials are available, uploads Drive audio into R2 under:
+
+```text
+audio/{actor_id}/{generated_sample_id}.{extension}
+```
+
+The site uses the R2 URL first. If R2 credentials are not configured, the script falls back to the Google Drive download URL so local previews still work.
+
+## Samples Columns
+
 Recommended header row:
 
 ```text
@@ -74,6 +106,31 @@ Notes:
 - `audio_src` can be a Google Drive share link.
 - `audio_type` should usually be `audio/mpeg`.
 - Audio is loaded lazily by the browser, so files are requested only when the player needs metadata or playback.
+
+## Cloudflare R2 Setup
+
+The default R2 bucket and public URL created for this project are:
+
+```text
+R2 bucket: chips-media
+Public URL: https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev
+```
+
+For GitHub Actions to upload Drive audio into R2, add these repository secrets:
+
+```text
+CF_ACCOUNT_ID
+CLOUDFLARE_API_TOKEN
+```
+
+Optional repository variables:
+
+```text
+R2_BUCKET_NAME=chips-media
+R2_PUBLIC_BASE_URL=https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev
+```
+
+The Cloudflare API token needs permission to edit R2 buckets/objects in the target account.
 
 ## News Columns
 

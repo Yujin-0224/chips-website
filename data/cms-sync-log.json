@@ -1,0 +1,82 @@
+[
+    {
+        "sampleTitle":  "캐릭터 - 활발",
+        "actorName":  "유레이",
+        "level":  "info",
+        "sourceUrl":  "assets/gamza_sample.mp3",
+        "status":  "external",
+        "syncedAt":  "2026-05-14T12:07:10",
+        "r2Key":  "",
+        "message":  "Using existing audio URL."
+    },
+    {
+        "sampleTitle":  "내레이션 - 다큐",
+        "actorName":  "이도윤",
+        "level":  "info",
+        "sourceUrl":  "assets/sample_audio.mp3",
+        "status":  "external",
+        "syncedAt":  "2026-05-14T12:07:10",
+        "r2Key":  "",
+        "message":  "Using existing audio URL."
+    },
+    {
+        "sampleTitle":  "광고 - 라이프",
+        "actorName":  "박유나",
+        "level":  "info",
+        "sourceUrl":  "assets/sample_audio.mp3",
+        "status":  "external",
+        "syncedAt":  "2026-05-14T12:07:10",
+        "r2Key":  "",
+        "message":  "Using existing audio URL."
+    },
+    {
+        "sampleTitle":  "게임 - 소년",
+        "actorName":  "최서진",
+        "level":  "info",
+        "sourceUrl":  "assets/sample_audio.mp3",
+        "status":  "external",
+        "syncedAt":  "2026-05-14T12:07:10",
+        "r2Key":  "",
+        "message":  "Using existing audio URL."
+    },
+    {
+        "sampleTitle":  "교육 - 설명",
+        "actorName":  "정수아",
+        "level":  "info",
+        "sourceUrl":  "assets/sample_audio.mp3",
+        "status":  "external",
+        "syncedAt":  "2026-05-14T12:07:10",
+        "r2Key":  "",
+        "message":  "Using existing audio URL."
+    },
+    {
+        "sampleTitle":  "애니 - 소년",
+        "actorName":  "한리온",
+        "level":  "info",
+        "sourceUrl":  "assets/sample_audio.mp3",
+        "status":  "external",
+        "syncedAt":  "2026-05-14T12:07:10",
+        "r2Key":  "",
+        "message":  "Using existing audio URL."
+    },
+    {
+        "sampleTitle":  "광고 - 라이프",
+        "actorName":  "정유진",
+        "level":  "info",
+        "sourceUrl":  "assets/sample_audio.mp3",
+        "status":  "external",
+        "syncedAt":  "2026-05-14T12:07:10",
+        "r2Key":  "",
+        "message":  "Using existing audio URL."
+    },
+    {
+        "sampleTitle":  "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
+        "actorName":  "거누",
+        "level":  "info",
+        "sourceUrl":  "https://drive.google.com/file/d/1qJlPkC13pJ_tTkoPenBf3IbC2glkjDje/view?usp=drive_link",
+        "status":  "drive-link",
+        "syncedAt":  "2026-05-14T12:07:10",
+        "r2Key":  "",
+        "message":  "Cloudflare credentials were not provided; using the Drive download URL."
+    }
+]

@@ -878,12 +878,7 @@ function audioMarkup(label, sourcesList = sampleAudioSources, options = {}) {
       ${
         showVolume
           ? `<label class="volume-control" aria-label="${label} 볼륨">
-              <span class="volume-icon" aria-hidden="true">
-                <span class="volume-speaker"></span>
-                <span class="volume-wave volume-wave-1"></span>
-                <span class="volume-wave volume-wave-2"></span>
-                <span class="volume-wave volume-wave-3"></span>
-              </span>
+              <span>VOL</span>
               <input type="range" min="0" max="1" step="0.01" value="0.85" />
             </label>`
           : ""
@@ -1471,14 +1466,6 @@ function setupAudioPlayers(scope = document) {
 
     player.dataset.audioReady = "true";
     audio.volume = volume ? Number(volume.value) : 0.85;
-    const updateVolumeIcon = () => {
-      if (!volume) return;
-      const level = Number(volume.value);
-      player.classList.toggle("is-muted", level <= 0.01);
-      player.classList.toggle("is-volume-low", level > 0.01 && level < 0.35);
-      player.classList.toggle("is-volume-mid", level >= 0.35 && level < 0.72);
-      player.classList.toggle("is-volume-high", level >= 0.72);
-    };
     const syncDuration = () => {
       if (time && audio.duration) time.textContent = formatTime(audio.duration);
     };
@@ -1532,9 +1519,7 @@ function setupAudioPlayers(scope = document) {
     if (volume) {
       volume.addEventListener("input", () => {
         audio.volume = Number(volume.value);
-        updateVolumeIcon();
       });
-      updateVolumeIcon();
     }
 
     if (audio.preload === "metadata") audio.load();

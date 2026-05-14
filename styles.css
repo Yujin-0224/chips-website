@@ -1686,22 +1686,39 @@ a {
 
 .actor-profile {
   display: grid;
-  grid-template-columns: minmax(220px, 330px) minmax(0, 1fr);
-  gap: clamp(28px, 5vw, 64px);
-  align-items: stretch;
-  width: min(1120px, 100%);
-  margin: 0 auto 34px;
-  padding: clamp(18px, 3vw, 28px);
-  border: 1px solid rgba(32, 26, 18, 0.08);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.58);
-  box-shadow: 0 24px 70px rgba(66, 49, 20, 0.08);
+  grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
+  grid-template-areas:
+    "heading heading"
+    "portrait copy";
+  gap: clamp(26px, 4vw, 56px) clamp(34px, 6vw, 78px);
+  align-items: start;
+  width: min(1180px, 100%);
+  margin: 0 auto 56px;
+  padding: clamp(4px, 1.6vw, 18px) 0 0;
+}
+
+.profile-heading-block {
+  grid-area: heading;
+  text-align: center;
+}
+
+.profile-heading-block .eyebrow {
+  margin-bottom: 10px;
+}
+
+.profile-heading-block h2 {
+  margin: 0;
+  font-size: clamp(54px, 8vw, 92px);
+  line-height: 0.95;
+  letter-spacing: 0;
 }
 
 .profile-portrait {
-  min-height: 420px;
+  grid-area: portrait;
+  aspect-ratio: 3 / 4;
   border-radius: 8px;
-  box-shadow: 0 18px 38px rgba(44, 34, 20, 0.14);
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 24px 48px rgba(44, 34, 20, 0.13);
   overflow: hidden;
 }
 
@@ -1712,96 +1729,128 @@ a {
   object-position: center;
 }
 
-.profile-copy h2 {
-  margin: 0;
-  font-size: clamp(36px, 6vw, 64px);
-}
-
 .profile-copy {
+  grid-area: copy;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-}
-
-.profile-title-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 20px;
-  align-items: start;
+  justify-content: start;
+  min-width: 0;
+  padding-top: clamp(8px, 2vw, 28px);
 }
 
 .profile-name-en {
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-weight: 800;
+  margin: 0;
+  color: var(--blue);
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-weight: 900;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
 }
 
 .profile-highlights {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 24px 0 18px;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 12px 14px;
+  margin: 26px 0 28px;
 }
 
 .profile-highlights p {
-  margin: 0;
-  min-height: 72px;
-  padding: 14px 16px;
-  border: 1px solid rgba(255, 194, 71, 0.42);
-  border-left: 6px solid var(--chip-yellow);
-  border-radius: 8px;
-  background: linear-gradient(90deg, rgba(255, 194, 71, 0.22), rgba(255, 255, 255, 0.72));
-  color: var(--ink);
-  font-size: 16px;
-  font-weight: 900;
-  line-height: 1.5;
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin: 0;
+  min-height: 46px;
+  padding: 10px 18px;
+  border: 1px solid rgba(32, 26, 18, 0.06);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 12px 24px rgba(44, 34, 20, 0.09);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.35;
+  text-align: center;
 }
 
 .profile-copy #detail-bio {
   margin: 0;
-  max-width: 760px;
+  max-width: 660px;
   line-height: 1.9;
   font-size: 17px;
   font-weight: 700;
 }
 
 .profile-capabilities {
-  max-width: 240px;
-  margin: 4px 0 0;
-  padding: 11px 14px;
-  border: 1px solid rgba(32, 26, 18, 0.08);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.72);
+  max-width: none;
+  margin: 22px 0 0;
+  padding: 16px 0 0;
+  border-top: 2px solid rgba(255, 194, 71, 0.42);
   color: #5e574e;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 900;
   line-height: 1.6;
 }
 
 .voice-demo {
-  width: min(1120px, 100%);
-  margin: 0 auto;
+  width: min(1060px, 100%);
+  margin: 0 auto 28px;
 }
 
 .profile-intro-demo {
-  margin-top: 24px;
-  padding: 18px;
-  border: 1px solid rgba(32, 26, 18, 0.08);
-  border-radius: 8px;
-  background: rgba(255, 248, 230, 0.72);
+  display: grid;
+  grid-template-columns: minmax(150px, 190px) minmax(0, 1fr);
+  gap: clamp(18px, 3vw, 28px);
+  align-items: center;
+  margin: 0 0 26px;
 }
 
 .profile-intro-demo #intro-demo-player {
-  max-width: 720px;
+  max-width: 540px;
+}
+
+.voice-sample-badge {
+  display: grid;
+  place-items: center;
+  min-height: 126px;
+  padding: 18px 16px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)) padding-box,
+    linear-gradient(135deg, #f3cf66, var(--blue)) border-box;
+  box-shadow: 0 16px 30px rgba(36, 156, 219, 0.14);
+  color: var(--blue);
+  text-align: center;
+}
+
+.voice-sample-badge span,
+.voice-sample-badge strong {
+  display: block;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  line-height: 0.95;
+}
+
+.voice-sample-badge span {
+  font-size: clamp(30px, 4vw, 42px);
+}
+
+.voice-sample-badge strong {
+  margin-top: 8px;
+  color: #f0c94f;
+  font-size: clamp(24px, 3vw, 34px);
+}
+
+.profile-intro-copy {
+  min-width: 0;
 }
 
 .profile-section-head {
   display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 18px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 10px 16px;
   margin-bottom: 16px;
 }
 
@@ -1814,7 +1863,7 @@ a {
 
 .profile-section-head h3 {
   margin: 0;
-  font-size: clamp(28px, 4vw, 44px);
+  font-size: clamp(26px, 3.2vw, 38px);
 }
 
 .demo-grid {
@@ -1834,10 +1883,10 @@ a {
 }
 
 .profile-tags {
-  width: min(900px, 100%);
+  width: min(1060px, 100%);
   margin: 36px auto 0;
   padding-top: 20px;
-  border-top: 5px solid rgba(255, 210, 106, 0.8);
+  border-top: 3px solid rgba(255, 210, 106, 0.8);
   color: var(--muted);
   font-weight: 800;
 }
@@ -2577,7 +2626,14 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .profile-title-row,
+  .actor-profile {
+    grid-template-areas:
+      "heading"
+      "portrait"
+      "copy";
+    gap: 24px;
+  }
+
   .profile-highlights {
     grid-template-columns: 1fr;
   }
@@ -2589,6 +2645,14 @@ a {
 
   .profile-capabilities {
     max-width: none;
+  }
+
+  .profile-intro-demo {
+    grid-template-columns: 1fr;
+  }
+
+  .voice-sample-badge {
+    width: min(220px, 100%);
   }
 
   .contact-layout {
@@ -2606,7 +2670,7 @@ a {
   }
 
   .profile-portrait {
-    width: min(260px, 100%);
+    width: min(360px, 100%);
     margin: 0 auto;
   }
 }

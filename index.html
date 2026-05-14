@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260514-profile-redesign" />
+    <link rel="stylesheet" href="styles.css?v=20260514-voicekit-profile" />
   </head>
   <body>
     <header class="site-header" aria-label="CHIPS main navigation">
@@ -233,25 +233,29 @@
       <section id="actor-detail" class="section-panel actor-detail-section app-page" hidden>
         <button class="back-button" type="button" id="back-to-actors">← TALENT</button>
         <article class="actor-profile">
+          <div class="profile-heading-block">
+            <p class="eyebrow" id="detail-role">Voice Actor</p>
+            <h2 id="detail-name">성우 이름</h2>
+            <p class="profile-name-en" id="detail-name-en">English Name</p>
+          </div>
           <div class="profile-portrait" id="detail-avatar" aria-hidden="true"></div>
           <div class="profile-copy">
-            <div class="profile-title-row">
-              <div>
-                <p class="eyebrow" id="detail-role">Voice Actor</p>
-                <h2 id="detail-name">성우 이름</h2>
-                <p class="profile-name-en" id="detail-name-en">English Name</p>
+            <div class="profile-intro-demo" id="intro-demo" hidden>
+              <div class="voice-sample-badge" aria-hidden="true">
+                <span>VOICE</span>
+                <strong>SAMPLE</strong>
               </div>
-              <p class="profile-capabilities" id="detail-capabilities"></p>
+              <div class="profile-intro-copy">
+                <div class="profile-section-head">
+                  <span>REPRESENTATIVE</span>
+                  <h3>대표 자기소개 샘플</h3>
+                </div>
+                <div id="intro-demo-player"></div>
+              </div>
             </div>
             <div class="profile-highlights" id="detail-highlights"></div>
             <p id="detail-bio"></p>
-            <div class="profile-intro-demo" id="intro-demo" hidden>
-              <div class="profile-section-head">
-                <span>REPRESENTATIVE</span>
-                <h3>대표 자기소개 샘플</h3>
-              </div>
-              <div id="intro-demo-player"></div>
-            </div>
+            <p class="profile-capabilities" id="detail-capabilities"></p>
           </div>
         </article>
         <div class="voice-demo">

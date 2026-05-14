@@ -837,7 +837,8 @@ function formatTime(seconds = 0) {
   return `${minutes}:${rest}`;
 }
 
-function audioMarkup(label, sourcesList = sampleAudioSources) {
+function audioMarkup(label, sourcesList = sampleAudioSources, options = {}) {
+  const showVolume = options.showVolume !== false;
   const sources = sourcesList
     .map((source) => `<source src="${source.src}" type="${source.type}" />`)
     .join("");
@@ -848,10 +849,14 @@ function audioMarkup(label, sourcesList = sampleAudioSources) {
       <button class="play-button" type="button" aria-label="${label} 재생">▶</button>
       <div class="wave" aria-hidden="true"><span></span></div>
       <small class="time-left">0:00</small>
-      <label class="volume-control" aria-label="${label} 볼륨">
-        <span>VOL</span>
-        <input type="range" min="0" max="1" step="0.01" value="0.85" />
-      </label>
+      ${
+        showVolume
+          ? `<label class="volume-control" aria-label="${label} 볼륨">
+              <span>VOL</span>
+              <input type="range" min="0" max="1" step="0.01" value="0.85" />
+            </label>`
+          : ""
+      }
     </div>
   `;
 }
@@ -937,7 +942,7 @@ function renderDetailAudioOption(index = 0) {
   stopActivePlayer();
   introDemo.hidden = false;
   activeDemoTitle.textContent = option.label;
-  introDemoPlayer.innerHTML = audioMarkup(option.label, option.sources);
+  introDemoPlayer.innerHTML = audioMarkup(option.label, option.sources, { showVolume: false });
   demoGrid.querySelectorAll("[data-audio-option]").forEach((button) => {
     const isActive = Number(button.dataset.audioOption) === index;
     button.classList.toggle("is-active", isActive);
@@ -1408,7 +1413,7 @@ function setupAudioPlayers(scope = document) {
     const volume = player.querySelector(".volume-control input");
 
     player.dataset.audioReady = "true";
-    audio.volume = Number(volume.value);
+    audio.volume = volume ? Number(volume.value) : 0.85;
 
     audio.addEventListener("loadstart", () => {
       if (activePlayer === player) setPlayerLoading(player, true);
@@ -1454,9 +1459,11 @@ function setupAudioPlayers(scope = document) {
       resetPlayer(player, true);
     });
 
-    volume.addEventListener("input", () => {
-      audio.volume = Number(volume.value);
-    });
+    if (volume) {
+      volume.addEventListener("input", () => {
+        audio.volume = Number(volume.value);
+      });
+    }
   });
 }
 

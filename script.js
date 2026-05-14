@@ -871,10 +871,10 @@ function audioMarkup(label, sourcesList = sampleAudioSources, options = {}) {
 
   return `
     <div class="sample-player">
-      <audio preload="none" crossorigin="anonymous">${sources}</audio>
+      <audio preload="metadata" crossorigin="anonymous">${sources}</audio>
       <button class="play-button" type="button" aria-label="${label} 재생">▶</button>
       <div class="wave" aria-hidden="true"><span></span></div>
-      <small class="time-left">0:00</small>
+      <small class="time-left" aria-label="${label} 길이">0:00</small>
       ${
         showVolume
           ? `<label class="volume-control" aria-label="${label} 볼륨">
@@ -1423,7 +1423,7 @@ function resetPlayer(player, resetTime = false) {
   if (resetTime) audio.currentTime = 0;
   button.textContent = "▶";
   if (progress && resetTime) progress.style.width = "0%";
-  if (time && audio.duration) time.textContent = formatTime(audio.duration - audio.currentTime);
+  if (time && audio.duration) time.textContent = formatTime(audio.duration);
 }
 
 function togglePlayer(player) {
@@ -1466,6 +1466,9 @@ function setupAudioPlayers(scope = document) {
 
     player.dataset.audioReady = "true";
     audio.volume = volume ? Number(volume.value) : 0.85;
+    const syncDuration = () => {
+      if (time && audio.duration) time.textContent = formatTime(audio.duration);
+    };
 
     audio.addEventListener("loadstart", () => {
       if (activePlayer === player) setPlayerLoading(player, true);
@@ -1473,8 +1476,10 @@ function setupAudioPlayers(scope = document) {
 
     audio.addEventListener("loadedmetadata", () => {
       setPlayerLoading(player, false);
-      time.textContent = formatTime(audio.duration);
+      syncDuration();
     });
+
+    audio.addEventListener("durationchange", syncDuration);
 
     audio.addEventListener("waiting", () => {
       if (activePlayer === player) setPlayerLoading(player, true);
@@ -1496,7 +1501,7 @@ function setupAudioPlayers(scope = document) {
     audio.addEventListener("timeupdate", () => {
       const ratio = audio.duration ? audio.currentTime / audio.duration : 0;
       progress.style.width = `${Math.min(ratio * 100, 100)}%`;
-      time.textContent = formatTime(audio.duration - audio.currentTime);
+      syncDuration();
     });
 
     audio.addEventListener("error", () => {
@@ -1516,6 +1521,9 @@ function setupAudioPlayers(scope = document) {
         audio.volume = Number(volume.value);
       });
     }
+
+    if (audio.preload === "metadata") audio.load();
+    syncDuration();
   });
 }
 

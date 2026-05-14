@@ -1928,9 +1928,9 @@ a {
 }
 
 .profile-intro-demo .sample-player {
-  grid-template-columns: 38px minmax(120px, 1fr) 40px;
-  gap: 12px;
-  max-width: 440px;
+  grid-template-columns: 38px minmax(120px, 1fr) 38px minmax(78px, 104px);
+  gap: 10px;
+  max-width: 560px;
 }
 
 .profile-intro-demo .play-button {
@@ -1945,9 +1945,16 @@ a {
 }
 
 .profile-intro-demo .volume-control {
-  grid-column: 2 / 3;
-  grid-template-columns: auto minmax(90px, 180px);
-  max-width: 240px;
+  grid-column: auto;
+  grid-template-columns: auto minmax(56px, 82px);
+  gap: 6px;
+  max-width: 112px;
+  min-width: 0;
+  letter-spacing: 0.04em;
+}
+
+.profile-intro-demo .volume-control span {
+  font-size: 10px;
 }
 
 .demo-grid {

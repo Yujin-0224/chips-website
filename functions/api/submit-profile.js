@@ -35,47 +35,51 @@ export async function onRequestOptions() {
 }
 
 export async function onRequestPost({ request, env }) {
-  if (!env.CHIPS_MEDIA) return json({ error: "R2 binding CHIPS_MEDIA is not configured." }, 500);
+  try {
+    if (!env.CHIPS_MEDIA) return json({ error: "R2 binding CHIPS_MEDIA is not configured." }, 500);
 
-  const form = await request.formData();
-  const name = `${form.get("name") || ""}`.trim();
-  if (!name) return json({ error: "name is required." }, 400);
+    const form = await request.formData();
+    const name = `${form.get("name") || ""}`.trim();
+    if (!name) return json({ error: "name is required." }, 400);
 
-  const actorId = slugify(form.get("actor_id") || name, "actor");
-  let profileImageUrl = "";
-  let profileImageKey = "";
-  const image = form.get("profile_image");
+    const actorId = slugify(form.get("actor_id") || name, "actor");
+    let profileImageUrl = "";
+    let profileImageKey = "";
+    const image = form.get("profile_image");
 
-  if (image && typeof image !== "string" && image.size > 0) {
-    const extension = image.name.split(".").pop() || "jpg";
-    profileImageKey = `profiles/${actorId}/profile.${extension}`;
-    await env.CHIPS_MEDIA.put(profileImageKey, image.stream(), {
-      httpMetadata: { contentType: image.type || "image/jpeg" },
+    if (image && typeof image !== "string" && image.size > 0) {
+      const extension = image.name.split(".").pop() || "jpg";
+      profileImageKey = `profiles/${actorId}/profile.${extension}`;
+      await env.CHIPS_MEDIA.put(profileImageKey, await image.arrayBuffer(), {
+        httpMetadata: { contentType: image.type || "image/jpeg" },
+      });
+      profileImageUrl = publicUrl(profileImageKey);
+    }
+
+    const metadata = {
+      kind: "profile",
+      actorId,
+      name,
+      nameEn: `${form.get("name_en") || ""}`,
+      email: `${form.get("email") || ""}`,
+      bio: `${form.get("bio") || ""}`,
+      categories: JSON.parse(`${form.get("categories_json") || "{}"}`),
+      profileImageKey,
+      profileImageUrl,
+      submittedAt: new Date().toISOString(),
+    };
+    const metadataKey = `submissions/profiles/${actorId}.json`;
+    await env.CHIPS_MEDIA.put(metadataKey, JSON.stringify(metadata, null, 2), {
+      httpMetadata: { contentType: "application/json; charset=utf-8" },
     });
-    profileImageUrl = publicUrl(profileImageKey);
+
+    return json({
+      ok: true,
+      profileId: actorId,
+      metadataKey,
+      profileImageUrl,
+    });
+  } catch (error) {
+    return json({ error: error.message || "Profile submit failed." }, 500);
   }
-
-  const metadata = {
-    kind: "profile",
-    actorId,
-    name,
-    nameEn: `${form.get("name_en") || ""}`,
-    email: `${form.get("email") || ""}`,
-    bio: `${form.get("bio") || ""}`,
-    categories: JSON.parse(`${form.get("categories_json") || "{}"}`),
-    profileImageKey,
-    profileImageUrl,
-    submittedAt: new Date().toISOString(),
-  };
-  const metadataKey = `submissions/profiles/${actorId}.json`;
-  await env.CHIPS_MEDIA.put(metadataKey, JSON.stringify(metadata, null, 2), {
-    httpMetadata: { contentType: "application/json; charset=utf-8" },
-  });
-
-  return json({
-    ok: true,
-    profileId: actorId,
-    metadataKey,
-    profileImageUrl,
-  });
 }

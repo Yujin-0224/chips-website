@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="submission.css?v=20260515-admin-session" />
+    <link rel="stylesheet" href="submission.css?v=20260515-admin-role" />
   </head>
   <body>
     <main class="submission-shell">
@@ -34,19 +34,15 @@
           <p>R2에 저장된 프로필, 오디오, 가입 요청을 확인하고 공개 CMS 데이터에 반영합니다.</p>
         </div>
         <aside class="status-panel">
-          <strong>운영자 로그인 지원</strong>
-          <p>운영자 계정으로 로그인했다면 관리자 토큰 입력 없이 이 페이지를 사용할 수 있습니다.</p>
+          <strong>운영자 전용</strong>
+          <p>주소를 알아도 운영자 계정으로 로그인하지 않으면 데이터를 불러오거나 승인할 수 없습니다.</p>
         </aside>
       </section>
 
       <section class="form-section admin-login">
         <h2>관리자 인증</h2>
-        <p class="form-help">운영자 계정으로 로그인한 상태면 아래 토큰 칸은 비워둬도 됩니다. 토큰은 비상용 직접 접근용으로만 남겨둡니다.</p>
+        <p class="form-help">운영자 계정으로 로그인한 상태에서만 아래 기능을 사용할 수 있습니다. 성우 계정은 접근해도 버튼이 비활성화됩니다.</p>
         <div class="field-grid">
-          <div class="field">
-            <label for="admin-token">관리자 토큰</label>
-            <input id="admin-token" type="password" autocomplete="current-password" placeholder="선택 사항" />
-          </div>
           <div class="field admin-actions">
             <label>&nbsp;</label>
             <button class="primary-button" id="load-submissions" type="button">운영 데이터 불러오기</button>
@@ -110,6 +106,6 @@
       <pre class="result-box" id="admin-result" hidden></pre>
     </main>
 
-    <script src="admin.js?v=20260515-admin-session"></script>
+    <script src="admin.js?v=20260515-admin-role"></script>
   </body>
 </html>

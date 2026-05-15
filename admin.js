@@ -1,4 +1,3 @@
-const tokenInput = document.getElementById("admin-token");
 const loadButton = document.getElementById("load-submissions");
 const profileList = document.getElementById("profile-submissions");
 const audioList = document.getElementById("audio-submissions");
@@ -7,39 +6,33 @@ const accountList = document.getElementById("account-list");
 const accountForm = document.getElementById("admin-account-form");
 const resultBox = document.getElementById("admin-result");
 
-tokenInput.value = localStorage.getItem("chipsAdminToken") || "";
-
 function showResult(value) {
   resultBox.hidden = false;
   resultBox.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
-}
-
-function token() {
-  return tokenInput.value.trim();
 }
 
 function authToken() {
   return localStorage.getItem("chipsAuthToken") || "";
 }
 
-function adminBearer() {
-  return token() || authToken();
-}
-
 function adminHeaders(extra = {}) {
-  const bearer = adminBearer();
+  const bearer = authToken();
   return {
     ...(bearer ? { Authorization: `Bearer ${bearer}` } : {}),
     ...extra,
   };
 }
 
-function adminUser() {
+function authUser() {
   try {
     return JSON.parse(localStorage.getItem("chipsAuthUser") || "null");
   } catch {
     return null;
   }
+}
+
+function hasAdminSession() {
+  return authUser()?.role === "admin" && Boolean(authToken());
 }
 
 function escapeHtml(value = "") {
@@ -101,8 +94,18 @@ function accountCard(item) {
   `;
 }
 
+function requireAdminSession() {
+  if (hasAdminSession()) return true;
+  showResult({
+    error: "운영자 계정으로 로그인해야 사용할 수 있습니다.",
+    action: "login.html에서 운영자 계정으로 로그인해 주세요.",
+  });
+  return false;
+}
+
 async function loadSubmissions() {
-  if (token()) localStorage.setItem("chipsAdminToken", token());
+  if (!requireAdminSession()) return;
+
   profileList.innerHTML = "불러오는 중...";
   audioList.innerHTML = "불러오는 중...";
   if (signupList) signupList.innerHTML = "불러오는 중...";
@@ -135,7 +138,7 @@ async function loadSubmissions() {
   }
   showResult({
     message: "운영 데이터를 불러왔습니다.",
-    auth: token() ? "admin-token" : "operator-login",
+    auth: "operator-login",
     counts: {
       profiles: payload.profiles.length,
       audio: payload.audio.length,
@@ -146,6 +149,7 @@ async function loadSubmissions() {
 }
 
 async function approve(type, key) {
+  if (!requireAdminSession()) return;
   const response = await fetch("/api/admin/approve", {
     method: "POST",
     headers: adminHeaders({ "Content-Type": "application/json" }),
@@ -158,6 +162,7 @@ async function approve(type, key) {
 }
 
 async function accountAction(action, key) {
+  if (!requireAdminSession()) return;
   const response = await fetch("/api/admin/accounts", {
     method: "POST",
     headers: adminHeaders({ "Content-Type": "application/json" }),
@@ -170,6 +175,7 @@ async function accountAction(action, key) {
 }
 
 async function createAccount(form) {
+  if (!requireAdminSession()) return;
   const data = Object.fromEntries(new FormData(form).entries());
   const response = await fetch("/api/admin/accounts", {
     method: "POST",
@@ -224,10 +230,18 @@ document.addEventListener("click", (event) => {
   });
 });
 
-const currentAdmin = adminUser();
-if (currentAdmin?.role === "admin" && !token()) {
+if (hasAdminSession()) {
   showResult({
-    message: "운영자 로그인 세션을 감지했습니다. 토큰 없이 관리자 기능을 사용할 수 있습니다.",
-    username: currentAdmin.username,
+    message: "운영자 로그인 세션을 감지했습니다. 관리자 기능을 사용할 수 있습니다.",
+    username: authUser().username,
+  });
+} else {
+  loadButton.disabled = true;
+  accountForm?.querySelectorAll("button, input, select").forEach((element) => {
+    element.disabled = true;
+  });
+  showResult({
+    error: "운영자 계정으로 로그인해야 사용할 수 있습니다.",
+    action: "login.html에서 운영자 계정으로 로그인해 주세요.",
   });
 }

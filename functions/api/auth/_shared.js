@@ -87,7 +87,6 @@ export function requireAdminToken(request, env) {
 }
 
 export async function requireAdmin(request, env) {
-  if (requireAdminToken(request, env)) return { role: "admin", source: "token" };
   if (!env.CHIPS_MEDIA) return null;
   const user = await getSessionUser(env.CHIPS_MEDIA, request);
   return user?.role === "admin" ? user : null;

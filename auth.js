@@ -59,7 +59,7 @@ document.getElementById("login-form")?.addEventListener("submit", async (event) 
     const payload = await postJson("/api/auth/login", formPayload(form));
     saveSession(payload);
     showAuthResult({ message: "로그인 완료", user: payload.user });
-    window.location.href = payload.user.role === "admin" ? "admin.html" : "profile-edit.html";
+    window.location.href = payload.user.role === "admin" ? "admin.html" : "profile-create.html";
   } catch (error) {
     showAuthResult({ error: error.message });
   } finally {

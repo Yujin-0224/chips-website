@@ -863,6 +863,16 @@ function getSearchAudioSources(actor = {}) {
   return (actor.audioSources || []).filter((source) => source.audioKind !== "intro" && !introSrcs.has(source.src));
 }
 
+function mergeCategoryValues(target, source = {}) {
+  Object.entries(source).forEach(([key, values]) => {
+    if (!Array.isArray(target[key])) return;
+    const list = Array.isArray(values) ? values : `${values || ""}`.split(",");
+    list.map((value) => `${value}`.trim()).filter(Boolean).forEach((value) => {
+      if (!target[key].includes(value)) target[key].push(value);
+    });
+  });
+}
+
 function getProfileAudioOptions(actor) {
   const introSources = getIntroAudioSources(actor);
   const introPlayerSources = introSources;
@@ -1043,7 +1053,7 @@ function getActorFilterValues(actor) {
     narration: ["내레이터형 캐릭터", "아나운서", "교관/강사"],
   };
 
-  return {
+  const values = {
     gender: genderValues,
     ageRange: ageMap[actor.style] || [],
     tone: [...(toneMap[actor.tone] || []), ...(toneMap[actor.mood] || [])],
@@ -1053,6 +1063,8 @@ function getActorFilterValues(actor) {
     accent: ["표준어", "서울말"],
     characterType: categoryMap[actor.category] || [],
   };
+  getSearchAudioSources(actor).forEach((source) => mergeCategoryValues(values, source.categories));
+  return values;
 }
 
 function applyContactLocale(locale) {
@@ -1231,10 +1243,8 @@ function filterSamples() {
   const filtered = actors.filter((actor) => {
     if (!getSearchAudioSources(actor).length) return false;
     const actorFilters = getActorFilterValues(actor);
-    return Object.entries(filters).every(([key, values]) => {
-      if (!values.length) return true;
-      return values.some((value) => actorFilters[key]?.includes(value));
-    });
+    const selectedEntries = Object.entries(filters).filter(([, values]) => values.length);
+    return selectedEntries.every(([key, values]) => values.some((value) => actorFilters[key]?.includes(value)));
   });
   if (!filtered.length) {
     sampleGrid.innerHTML = "";

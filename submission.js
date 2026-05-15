@@ -451,7 +451,7 @@ function bindAudioForm() {
       showResult(result, { error: error.message });
     } finally {
       button.disabled = false;
-      button.textContent = "R2에 업로드";
+      button.textContent = "\uc624\ub514\uc624 \uc0d8\ud50c \uc5c5\ub85c\ub4dc";
     }
   });
 }

@@ -242,7 +242,17 @@ function authHeaders() {
 
 async function currentUser() {
   const cached = cachedAuthUser();
-  if (!authToken()) return cached;
+  const token = authToken();
+  if (!token) return null;
+  if (cached) {
+    fetch("/api/auth/me", { headers: authHeaders(), cache: "no-store" })
+      .then((response) => response.ok ? response.json() : null)
+      .then((payload) => {
+        if (payload?.user) localStorage.setItem("chipsAuthUser", JSON.stringify(payload.user));
+      })
+      .catch(() => {});
+    return cached;
+  }
 
   try {
     const response = await fetch("/api/auth/me", { headers: authHeaders(), cache: "no-store" });
@@ -263,14 +273,14 @@ function renderAuthStatus(user) {
   document.querySelectorAll("[data-admin-link]").forEach((link) => { link.hidden = user?.role !== "admin"; });
   document.querySelectorAll("[data-auth-greeting]").forEach((greeting) => {
     greeting.hidden = !user;
-    if (user) greeting.innerHTML = "<strong>" + (user.name || user.username) + "</strong>님 반갑습니다.";
+    if (user) greeting.innerHTML = "<strong>" + (user.name || user.username) + "</strong>\ub2d8 \ubc18\uac11\uc2b5\ub2c8\ub2e4.";
   });
 
   if (document.body.dataset.requiresAuth === "true" && !user) {
     document.querySelectorAll(".submission-hero, .submission-form").forEach((element) => { element.hidden = true; });
     const gate = document.createElement("section");
     gate.className = "login-gate form-section";
-    gate.innerHTML = "<p class=\"submission-kicker\">LOGIN REQUIRED</p><h1>로그인이 필요합니다</h1><p>프로필과 오디오 관리는 승인된 계정으로 로그인한 뒤 사용할 수 있습니다.</p><div class=\"form-actions compact-actions\"><a class=\"primary-button button-link\" href=\"login.html\">로그인</a><a class=\"secondary-button button-link\" href=\"signup-request.html\">회원가입 요청</a></div>";
+    gate.innerHTML = "<p class=\"submission-kicker\">LOGIN REQUIRED</p><h1>\ub85c\uadf8\uc778\uc774 \ud544\uc694\ud569\ub2c8\ub2e4</h1><p>\ud504\ub85c\ud544\uacfc \uc624\ub514\uc624 \uad00\ub9ac\ub294 \uc2b9\uc778\ub41c \uacc4\uc815\uc73c\ub85c \ub85c\uadf8\uc778\ud55c \ub4a4 \uc0ac\uc6a9\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.</p><div class=\"form-actions compact-actions\"><a class=\"primary-button button-link\" href=\"login.html\">\ub85c\uadf8\uc778</a><a class=\"secondary-button button-link\" href=\"signup-request.html\">\ud68c\uc6d0\uac00\uc785 \uc694\uccad</a></div>";
     shell.insertAdjacentElement("afterend", gate);
     return;
   }
@@ -278,8 +288,8 @@ function renderAuthStatus(user) {
   const status = document.createElement("div");
   status.className = "auth-status";
   status.innerHTML = user
-    ? `<span><strong>${user.name || user.username}</strong>님 반갑습니다.${user.role === "actor" ? " 본인 프로필과 오디오를 관리할 수 있습니다." : " 관리자 권한입니다."}</span><button type="button" data-auth-logout>로그아웃</button>`
-    : `<span><strong>로그인이 필요합니다.</strong> 계정 승인 후 프로필과 오디오를 관리할 수 있습니다.</span><a class="secondary-button button-link" href="login.html">로그인</a>`;
+    ? `<span><strong>${user.name || user.username}</strong>\ub2d8 \ubc18\uac11\uc2b5\ub2c8\ub2e4.${user.role === "actor" ? " \ubcf8\uc778 \ud504\ub85c\ud544\uacfc \uc624\ub514\uc624\ub97c \uad00\ub9ac\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4." : " \uad00\ub9ac\uc790 \uad8c\ud55c\uc785\ub2c8\ub2e4."}</span><button type="button" data-auth-logout>\ub85c\uadf8\uc544\uc6c3</button>`
+    : `<span><strong>\ub85c\uadf8\uc778\uc774 \ud544\uc694\ud569\ub2c8\ub2e4.</strong> \uacc4\uc815 \uc2b9\uc778 \ud6c4 \ud504\ub85c\ud544\uacfc \uc624\ub514\uc624\ub97c \uad00\ub9ac\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.</span><a class="secondary-button button-link" href="login.html">\ub85c\uadf8\uc778</a>`;
   shell.insertAdjacentElement("afterend", status);
 
   status.querySelector("[data-auth-logout]")?.addEventListener("click", async () => {

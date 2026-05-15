@@ -187,6 +187,9 @@ a {
 }
 
 .topbar-account {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   margin-left: auto;
   padding: 10px 14px;
   border: 1px solid var(--line);
@@ -196,6 +199,17 @@ a {
   font-size: 13px;
   font-weight: 800;
   white-space: nowrap;
+}
+
+.topbar-account button {
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 7px 10px;
 }
 
 .topbar-account strong {
@@ -715,6 +729,65 @@ a {
   width: 100%;
 }
 
+.admin-card-main {
+  display: grid;
+  gap: 5px;
+}
+
+.admin-request-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 7px;
+}
+
+.admin-request-meta span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 252, 244, 0.78);
+  color: var(--muted);
+  font-size: 11px;
+  padding: 5px 8px;
+}
+
+.admin-change-list {
+  display: grid;
+  gap: 6px;
+  margin: 9px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-change-list li {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  border: 1px solid rgba(32, 26, 18, 0.08);
+  border-radius: 8px;
+  background: rgba(247, 242, 232, 0.42);
+  padding: 8px;
+}
+
+.admin-change-list b,
+.admin-change-list span,
+.admin-change-note {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.admin-change-list span:last-child {
+  color: var(--ink);
+}
+
+.admin-card-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .admin-thumb {
   width: 96px;
   aspect-ratio: 1;
@@ -735,5 +808,9 @@ a {
   .submission-topbar {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .admin-change-list li {
+    grid-template-columns: 1fr;
   }
 }

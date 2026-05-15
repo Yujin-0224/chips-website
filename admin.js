@@ -42,7 +42,9 @@ function updateAdminTopbar() {
   });
   document.querySelectorAll("[data-auth-greeting]").forEach((greeting) => {
     greeting.hidden = !user;
-    if (user) greeting.innerHTML = "<strong>" + (user.name || user.username) + "</strong>님 반갑습니다.";
+    if (user) {
+      greeting.innerHTML = `<span><strong>${escapeHtml(user.name || user.username)}</strong>\ub2d8 \ubc18\uac11\uc2b5\ub2c8\ub2e4.</span><button type="button" data-admin-logout>Logout</button>`;
+    }
   });
 }
 
@@ -55,31 +57,74 @@ function escapeHtml(value = "") {
     .replace(/'/g, "&#039;");
 }
 
+function shortText(value = "", limit = 72) {
+  const normalized = `${value || ""}`.replace(/\s+/g, " ").trim();
+  if (!normalized) return "-";
+  return normalized.length > limit ? `${normalized.slice(0, limit)}...` : normalized;
+}
+
 function roleLabel(role = "") {
-  if (role === "admin") return "관리자";
-  if (role === "actor") return "멤버";
+  if (role === "admin") return "\uad00\ub9ac\uc790";
+  if (role === "actor") return "\uba64\ubc84";
   return role || "-";
+}
+
+function changeSummary(item) {
+  const changes = Array.isArray(item.changeSummary) ? item.changeSummary : [];
+  if (!changes.length) return '<p class="admin-change-note">No changed fields detected.</p>';
+  return `
+    <ul class="admin-change-list">
+      ${changes
+        .map(
+          (change) => `
+            <li>
+              <b>${escapeHtml(change.label || change.field)}</b>
+              <span>${escapeHtml(shortText(change.before))}</span>
+              <span>${escapeHtml(shortText(change.after))}</span>
+            </li>
+          `,
+        )
+        .join("")}
+    </ul>
+  `;
 }
 
 function submissionCard(item, type) {
   const title = type === "profile" ? item.name : item.sampleTitle;
   const subtitle = type === "profile" ? item.nameEn || item.actorId : `${item.actorName || ""} / ${item.actorId || ""}`;
+  const requestedAt = item.requestedAt || item.submittedAt || item.uploadedAt || "";
+  const requester = item.requestedBy || item.username || item.actorId || "";
   const media =
-    type === "profile" && item.profileImageUrl
-      ? `<img class="admin-thumb" src="${escapeHtml(item.profileImageUrl)}" alt="" />`
+    type === "profile" && (item.profileImageUrl || item.profileImage)
+      ? `<img class="admin-thumb" src="${escapeHtml(item.profileImageUrl || item.profileImage)}" alt="" />`
       : "";
   const audio = type === "audio" && item.r2Url ? `<audio controls preload="none" src="${escapeHtml(item.r2Url)}"></audio>` : "";
+  const details =
+    type === "profile"
+      ? `
+        <div class="admin-request-meta">
+          <span>Requested by: <b>${escapeHtml(requester || "-")}</b></span>
+          <span>Date: <b>${escapeHtml(requestedAt || "-")}</b></span>
+          <span>Actor ID: <b>${escapeHtml(item.actorId || "-")}</b></span>
+        </div>
+        ${changeSummary(item)}
+      `
+      : "";
 
   return `
     <article class="submission-card">
       ${media}
-      <div>
-        <strong>${escapeHtml(title || "(제목 없음)")}</strong>
+      <div class="admin-card-main">
+        <strong>${escapeHtml(title || "(Untitled)")}</strong>
         <span>${escapeHtml(subtitle || "")}</span>
+        ${details}
       </div>
       ${audio}
-      <small>${escapeHtml(item.submittedAt || item.uploadedAt || "")}</small>
-      <button class="primary-button" type="button" data-approve="${type}" data-key="${escapeHtml(item.key)}">승인</button>
+      <small>${escapeHtml(requestedAt)}</small>
+      <div class="admin-card-actions">
+        <button class="primary-button" type="button" data-submission-action="approve" data-type="${type}" data-key="${escapeHtml(item.key)}">Approve</button>
+        <button class="secondary-button" type="button" data-submission-action="reject" data-type="${type}" data-key="${escapeHtml(item.key)}">Reject</button>
+      </div>
     </article>
   `;
 }
@@ -93,8 +138,8 @@ function signupCard(item) {
         <span>${escapeHtml(item.contact || "")}</span>
       </div>
       <small>${escapeHtml(item.requestedAt || "")}</small>
-      <button class="primary-button" type="button" data-account-action="approve" data-key="${escapeHtml(item.key)}">승인</button>
-      <button class="secondary-button" type="button" data-account-action="reject" data-key="${escapeHtml(item.key)}">거절</button>
+      <button class="primary-button" type="button" data-account-action="approve" data-key="${escapeHtml(item.key)}">Approve</button>
+      <button class="secondary-button" type="button" data-account-action="reject" data-key="${escapeHtml(item.key)}">Reject</button>
     </article>
   `;
 }
@@ -114,8 +159,8 @@ function accountCard(item) {
 function requireAdminSession() {
   if (hasAdminSession()) return true;
   showResult({
-    error: "운영자 계정으로 로그인해야 사용할 수 있습니다.",
-    action: "login.html에서 운영자 계정으로 로그인해 주세요.",
+    error: "Admin login is required.",
+    action: "Please log in with an admin account on login.html.",
   });
   return false;
 }
@@ -123,10 +168,10 @@ function requireAdminSession() {
 async function loadSubmissions() {
   if (!requireAdminSession()) return;
 
-  profileList.innerHTML = "불러오는 중...";
-  audioList.innerHTML = "불러오는 중...";
-  if (signupList) signupList.innerHTML = "불러오는 중...";
-  if (accountList) accountList.innerHTML = "불러오는 중...";
+  profileList.innerHTML = "Loading...";
+  audioList.innerHTML = "Loading...";
+  if (signupList) signupList.innerHTML = "Loading...";
+  if (accountList) accountList.innerHTML = "Loading...";
 
   const [submissionsResponse, accountsResponse] = await Promise.all([
     fetch("/api/admin/submissions", { headers: adminHeaders() }),
@@ -139,23 +184,22 @@ async function loadSubmissions() {
 
   profileList.innerHTML = payload.profiles.length
     ? payload.profiles.map((item) => submissionCard(item, "profile")).join("")
-    : '<p class="empty-note">대기 중인 프로필 제출이 없습니다.</p>';
+    : '<p class="empty-note">No pending profile update requests.</p>';
   audioList.innerHTML = payload.audio.length
     ? payload.audio.map((item) => submissionCard(item, "audio")).join("")
-    : '<p class="empty-note">대기 중인 오디오 제출이 없습니다.</p>';
+    : '<p class="empty-note">No pending audio submissions.</p>';
   if (signupList) {
     signupList.innerHTML = accountsPayload.requests.length
       ? accountsPayload.requests.map(signupCard).join("")
-      : '<p class="empty-note">대기 중인 가입 요청이 없습니다.</p>';
+      : '<p class="empty-note">No pending signup requests.</p>';
   }
   if (accountList) {
     accountList.innerHTML = accountsPayload.users.length
       ? accountsPayload.users.map(accountCard).join("")
-      : '<p class="empty-note">활성 계정이 없습니다.</p>';
+      : '<p class="empty-note">No active accounts.</p>';
   }
   showResult({
-    message: "운영 데이터를 불러왔습니다.",
-    auth: "operator-login",
+    message: "Admin data loaded.",
     counts: {
       profiles: payload.profiles.length,
       audio: payload.audio.length,
@@ -165,15 +209,15 @@ async function loadSubmissions() {
   });
 }
 
-async function approve(type, key) {
+async function submissionAction(action, type, key) {
   if (!requireAdminSession()) return;
   const response = await fetch("/api/admin/approve", {
     method: "POST",
     headers: adminHeaders({ "Content-Type": "application/json" }),
-    body: JSON.stringify({ type, key }),
+    body: JSON.stringify({ action, type, key }),
   });
   const payload = await response.json();
-  if (!response.ok) throw new Error(payload.error || "Approve failed");
+  if (!response.ok) throw new Error(payload.error || "Submission action failed");
   showResult(payload);
   await loadSubmissions();
 }
@@ -206,18 +250,43 @@ async function createAccount(form) {
   await loadSubmissions();
 }
 
+async function logout() {
+  await fetch("/api/auth/logout", { method: "POST", headers: adminHeaders() }).catch(() => {});
+  localStorage.removeItem("chipsAuthToken");
+  localStorage.removeItem("chipsAuthUser");
+  window.location.href = "login.html";
+}
+
 loadButton.addEventListener("click", () => {
   loadSubmissions().catch((error) => showResult({ error: error.message }));
 });
 
 document.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-approve]");
-  if (!button) return;
-  button.disabled = true;
-  button.textContent = "승인 중...";
-  approve(button.dataset.approve, button.dataset.key).catch((error) => {
-    button.disabled = false;
-    button.textContent = "승인";
+  const logoutButton = event.target.closest("[data-admin-logout]");
+  if (logoutButton) {
+    logout();
+    return;
+  }
+
+  const submissionButton = event.target.closest("[data-submission-action]");
+  if (submissionButton) {
+    submissionButton.disabled = true;
+    submissionButton.textContent = submissionButton.dataset.submissionAction === "approve" ? "Approving..." : "Rejecting...";
+    submissionAction(submissionButton.dataset.submissionAction, submissionButton.dataset.type, submissionButton.dataset.key).catch((error) => {
+      submissionButton.disabled = false;
+      submissionButton.textContent = submissionButton.dataset.submissionAction === "approve" ? "Approve" : "Reject";
+      showResult({ error: error.message });
+    });
+    return;
+  }
+
+  const accountButton = event.target.closest("[data-account-action]");
+  if (!accountButton) return;
+  accountButton.disabled = true;
+  accountButton.textContent = "Working...";
+  accountAction(accountButton.dataset.accountAction, accountButton.dataset.key).catch((error) => {
+    accountButton.disabled = false;
+    accountButton.textContent = accountButton.dataset.accountAction === "approve" ? "Approve" : "Reject";
     showResult({ error: error.message });
   });
 });
@@ -226,30 +295,19 @@ accountForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   const button = accountForm.querySelector(".primary-button");
   button.disabled = true;
-  button.textContent = "생성 중...";
+  button.textContent = "Creating...";
   createAccount(accountForm)
     .catch((error) => showResult({ error: error.message }))
     .finally(() => {
       button.disabled = false;
-      button.textContent = "계정 생성";
+      button.textContent = "Create account";
     });
 });
 
-document.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-account-action]");
-  if (!button) return;
-  button.disabled = true;
-  button.textContent = "처리 중...";
-  accountAction(button.dataset.accountAction, button.dataset.key).catch((error) => {
-    button.disabled = false;
-    button.textContent = button.dataset.accountAction === "approve" ? "승인" : "거절";
-    showResult({ error: error.message });
-  });
-});
-
+updateAdminTopbar();
 if (hasAdminSession()) {
   showResult({
-    message: "운영자 로그인 세션을 감지했습니다. 관리자 기능을 사용할 수 있습니다.",
+    message: "Admin session detected.",
     username: authUser().username,
   });
 } else {
@@ -258,7 +316,7 @@ if (hasAdminSession()) {
     element.disabled = true;
   });
   showResult({
-    error: "운영자 계정으로 로그인해야 사용할 수 있습니다.",
-    action: "login.html에서 운영자 계정으로 로그인해 주세요.",
+    error: "Admin login is required.",
+    action: "Please log in with an admin account on login.html.",
   });
 }

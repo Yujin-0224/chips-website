@@ -90,12 +90,23 @@ export async function onRequestPost({ request, env }) {
     if (!(await requireAdmin(request, env))) return json({ error: "Unauthorized" }, 401);
     if (!env.CHIPS_MEDIA) return json({ error: "R2 binding CHIPS_MEDIA is not configured." }, 500);
 
-    const { type, key } = await request.json();
+    const { type, key, action = "approve" } = await request.json();
     if (!key || !["profile", "audio"].includes(type)) return json({ error: "Invalid approval request." }, 400);
 
     const stored = await env.CHIPS_MEDIA.get(key);
     if (!stored) return json({ error: "Submission not found." }, 404);
     const submission = await stored.json();
+
+    if (action === "reject") {
+      await env.CHIPS_MEDIA.put(`rejected/${key}`, JSON.stringify({ ...submission, rejectedAt: new Date().toISOString() }, null, 2), {
+        httpMetadata: { contentType: "application/json; charset=utf-8" },
+      });
+      await env.CHIPS_MEDIA.delete(key);
+      return json({ ok: true, action, type, key });
+    }
+
+    if (action !== "approve") return json({ error: "Invalid action." }, 400);
+
     const cms = await loadCms(env.CHIPS_MEDIA);
 
     let approved;

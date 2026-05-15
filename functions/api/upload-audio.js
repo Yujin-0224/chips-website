@@ -49,6 +49,13 @@ function flattenCategories(categories = {}) {
   return Object.values(categories).flat().filter(Boolean);
 }
 
+function summarizeCategories(categories = {}) {
+  return Object.values(categories)
+    .map((values) => (Array.isArray(values) ? values.filter(Boolean).join(", ") : ""))
+    .filter(Boolean)
+    .join(" / ");
+}
+
 async function loadCms(bucket) {
   const stored = await bucket.get("cms/cms-data.json");
   if (!stored) return { enabled: true, sampleAudioSources: [], actors: [], newsArticles: [] };
@@ -72,21 +79,30 @@ function addAudioToCms(cms, audio) {
   const actor = cms.actors.find((item) => item.id === audio.actorId);
   if (!actor) throw new Error(`Actor '${audio.actorId}' does not exist. Create the profile first.`);
 
-  actor.audioSources = Array.isArray(actor.audioSources) ? actor.audioSources : [];
   const source = {
     id: audio.sampleId,
     title: audio.sampleTitle,
-    category: flattenCategories(audio.categories).join(", "),
+    category: summarizeCategories(audio.categories),
+    categories: audio.categories,
     src: audio.r2Url,
+    r2Key: audio.r2Key,
     type: audio.audioType || "audio/mpeg",
   };
+  if (audio.audioKind === "intro") {
+    const previousKey = Array.isArray(actor.introAudio) ? actor.introAudio[0]?.r2Key : "";
+    actor.introAudio = [source];
+    actor.updatedAt = new Date().toISOString();
+    return { source, previousKey };
+  }
+
+  actor.audioSources = Array.isArray(actor.audioSources) ? actor.audioSources : [];
   const index = actor.audioSources.findIndex((item) => item.id === source.id || item.src === source.src);
   if (index >= 0) actor.audioSources[index] = source;
   else actor.audioSources.push(source);
 
   actor.demos = Array.from(new Set([...(actor.demos || []), audio.sampleTitle].filter(Boolean)));
   actor.updatedAt = new Date().toISOString();
-  return source;
+  return { source };
 }
 
 export async function onRequestOptions() {
@@ -112,13 +128,14 @@ export async function onRequestPost({ request, env }) {
 
     const actorName = user.role === "admin" ? `${form.get("actor_name") || ""}`.trim() : user.name;
     const actorId = user.role === "admin" ? slugify(form.get("actor_id") || actorName, "actor") : user.actorId;
+    const audioKind = `${form.get("audio_kind") || "sample"}` === "intro" ? "intro" : "sample";
     const sampleTitle = `${form.get("sample_title") || ""}`.trim();
     if (!actorName || !sampleTitle) return json({ error: "actor_name and sample_title are required." }, 400);
     if (user.role !== "admin" && actorId !== user.actorId) return json({ error: "You can only upload audio to your own profile." }, 403);
 
-    const sampleId = slugify(form.get("sample_id") || `${actorId}-${sampleTitle}`, "sample");
+    const sampleId = audioKind === "intro" ? `${actorId}-intro` : slugify(form.get("sample_id") || `${actorId}-${sampleTitle}`, "sample");
     const extension = mimeExtensions[file.type] || file.name.split(".").pop() || "mp3";
-    const r2Key = `${form.get("r2_key") || `audio/${actorId}/${sampleId}.${extension}`}`.replace(/^\/+/, "");
+    const r2Key = `${audioKind === "intro" ? `audio/${actorId}/intro.${extension}` : form.get("r2_key") || `audio/${actorId}/${sampleId}.${extension}`}`.replace(/^\/+/, "");
 
     await env.CHIPS_MEDIA.put(r2Key, await file.arrayBuffer(), {
       httpMetadata: { contentType: file.type || "audio/mpeg" },
@@ -133,6 +150,7 @@ export async function onRequestPost({ request, env }) {
     const r2Url = publicUrl(r2Key);
     const metadata = {
       kind: "audio",
+      audioKind,
       actorName,
       actorId,
       sampleTitle,
@@ -147,8 +165,11 @@ export async function onRequestPost({ request, env }) {
     };
     const metadataKey = `approved/audio/${actorId}/${sampleId}-${Date.now()}.json`;
     const cms = await loadCms(env.CHIPS_MEDIA);
-    const source = addAudioToCms(cms, metadata);
+    const { source, previousKey } = addAudioToCms(cms, metadata);
     await saveCms(env.CHIPS_MEDIA, cms);
+    if (audioKind === "intro" && previousKey && previousKey !== r2Key) {
+      await env.CHIPS_MEDIA.delete(previousKey).catch(() => {});
+    }
     await env.CHIPS_MEDIA.put(metadataKey, JSON.stringify({ ...metadata, approvedAt: new Date().toISOString() }, null, 2), {
       httpMetadata: { contentType: "application/json; charset=utf-8" },
     });

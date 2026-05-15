@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="submission.css?v=20260515-ops-nav" />
+    <link rel="stylesheet" href="submission.css?v=20260515-audio-kind" />
   </head>
   <body data-requires-auth="true">
     <main class="submission-shell">
@@ -56,6 +56,14 @@
               <input id="sample-title" name="sample_title" required placeholder="예: 미소년 캐릭터 샘플" />
             </div>
             <div class="field is-wide">
+              <label for="audio-kind">오디오 종류</label>
+              <select id="audio-kind" name="audio_kind">
+                <option value="intro" selected>자기소개</option>
+                <option value="sample">샘플 오디오</option>
+              </select>
+              <small class="field-help">자기소개는 성우당 1개만 유지되며, 새로 올리면 기존 자기소개를 교체합니다.</small>
+            </div>
+            <div class="field is-wide">
               <label for="language-note">언어/메모</label>
               <input id="language-note" name="notes" placeholder="예: 한국어, 10대/20대, 부끄러운 톤" />
             </div>
@@ -84,6 +92,6 @@
       </form>
     </main>
 
-    <script src="submission.js?v=20260515-ops-nav"></script>
+    <script src="submission.js?v=20260515-audio-kind"></script>
   </body>
 </html>

@@ -516,6 +516,7 @@ const detailCapabilities = document.querySelector("#detail-capabilities");
 const introDemo = document.querySelector("#intro-demo");
 const introDemoPlayer = document.querySelector("#intro-demo-player");
 const activeDemoTitle = document.querySelector("#active-demo-title");
+const activeDemoMeta = document.querySelector("#active-demo-meta");
 const detailCareer = document.querySelector("#detail-career");
 const demoGrid = document.querySelector("#demo-grid");
 const filterForm = document.querySelector(".sample-filter");
@@ -773,16 +774,17 @@ function audioMarkup(label, sourcesList = sampleAudioSources, options = {}) {
   const sources = sourcesList
     .map((source) => `<source src="${source.src}" type="${source.type}" />`)
     .join("");
+  const isEmpty = !sourcesList.length;
 
   return `
-    <div class="sample-player">
+    <div class="sample-player${isEmpty ? " is-empty" : ""}">
       <audio preload="metadata" crossorigin="anonymous">${sources}</audio>
-      <button class="play-button" type="button" aria-label="${label} 재생">▶</button>
+      <button class="play-button" type="button" aria-label="${label} \uc7ac\uc0dd" ${isEmpty ? "disabled" : ""}>\u25b6</button>
       <div class="wave" aria-hidden="true"><span></span></div>
-      <small class="time-left" aria-label="${label} 길이">0:00</small>
+      <small class="time-left" aria-label="${label} \uae38\uc774">0:00</small>
       ${
         showVolume
-          ? `<label class="volume-control" aria-label="${label} 볼륨">
+          ? `<label class="volume-control" aria-label="${label} \ubcfc\ub968">
               <span>VOL</span>
               <input type="range" min="0" max="1" step="0.01" value="${preferredAudioVolume}" />
             </label>`
@@ -791,7 +793,6 @@ function audioMarkup(label, sourcesList = sampleAudioSources, options = {}) {
     </div>
   `;
 }
-
 function escapeHtml(value = "") {
   return `${value}`.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
 }
@@ -851,23 +852,27 @@ function getAdditionalDemos(actor, introSources) {
 
 let detailAudioOptions = [];
 
+function formatAudioMeta(source = {}) {
+  if (source.category) return `${source.category}`;
+  const categories = source.categories && typeof source.categories === "object" ? Object.values(source.categories).flat().filter(Boolean) : [];
+  return categories.join(" / ");
+}
+
 function getProfileAudioOptions(actor) {
   const introSources = getIntroAudioSources(actor);
-  const hasExplicitIntro = Boolean(introSources.length);
-  const introPlayerSources = introSources.length ? introSources : (actor.audioSources || []).slice(0, 1);
+  const introPlayerSources = introSources;
   const introSrcs = new Set(introPlayerSources.map((source) => source.src));
-  const sampleSources = hasExplicitIntro ? (actor.audioSources || []).filter((source) => !introSrcs.has(source.src)) : actor.audioSources || [];
+  const sampleSources = (actor.audioSources || []).filter((source) => !introSrcs.has(source.src));
   const sampleLabels = actor.demos?.length
     ? actor.demos
-    : sampleSources.map((source, index) => source.title || source.category || `샘플 ${index + 1}`);
-  const options = introPlayerSources.length
-    ? [
-        {
-          label: "대표 자기소개 샘플",
-          sources: introPlayerSources,
-        },
-      ]
-    : [];
+    : sampleSources.map((source, index) => source.title || source.category || `\uc0d8\ud50c ${index + 1}`);
+  const options = [
+    {
+      label: "\uc790\uae30\uc18c\uac1c",
+      sources: introPlayerSources,
+      meta: formatAudioMeta(introPlayerSources[0]),
+    },
+  ];
 
   sampleLabels.forEach((label, index) => {
     const source = sampleSources[index] || sampleSources[0];
@@ -875,13 +880,13 @@ function getProfileAudioOptions(actor) {
       options.push({
         label,
         sources: [source],
+        meta: formatAudioMeta(source),
       });
     }
   });
 
   return options;
 }
-
 function renderDetailAudioOption(index = 0, options = {}) {
   const shouldAutoplay = options.autoplay === true;
   const option = detailAudioOptions[index];
@@ -895,13 +900,17 @@ function renderDetailAudioOption(index = 0, options = {}) {
   introDemo.hidden = false;
   activeDemoTitle.textContent = option.label;
   introDemoPlayer.innerHTML = audioMarkup(option.label, option.sources);
+  if (activeDemoMeta) {
+    activeDemoMeta.textContent = option.meta || "";
+    activeDemoMeta.hidden = !option.meta;
+  }
   demoGrid.querySelectorAll("[data-audio-option]").forEach((button) => {
     const isActive = Number(button.dataset.audioOption) === index;
     button.classList.toggle("is-active", isActive);
     button.setAttribute("aria-pressed", `${isActive}`);
   });
   setupAudioPlayers(introDemoPlayer);
-  if (shouldAutoplay) {
+  if (shouldAutoplay && option.sources.length) {
     const nextPlayer = introDemoPlayer.querySelector(".sample-player");
     togglePlayer(nextPlayer);
   }
@@ -1859,6 +1868,7 @@ function normalizeAudioSources(sources = []) {
   return sources
     .filter(Boolean)
     .map((source) => ({
+      ...source,
       src: normalizeDriveAudioLink(source.src || source.audio_src || ""),
       type: source.type || source.audio_type || "audio/mpeg",
     }))

@@ -223,6 +223,19 @@ function showResult(target, value) {
   target.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
 }
 
+function fitTextToParent(element, { max = 58, min = 20 } = {}) {
+  if (!element || !element.parentElement) return;
+  element.style.fontSize = "";
+  const baseSize = Math.min(max, parseFloat(window.getComputedStyle(element).fontSize) || max);
+  element.style.fontSize = `${baseSize}px`;
+  window.requestAnimationFrame(() => {
+    const parentWidth = element.parentElement.clientWidth;
+    if (!parentWidth || element.scrollWidth <= parentWidth) return;
+    const nextSize = Math.max(min, Math.floor(baseSize * ((parentWidth - 2) / element.scrollWidth)));
+    element.style.fontSize = `${nextSize}px`;
+  });
+}
+
 function authToken() {
   return localStorage.getItem("chipsAuthToken") || "";
 }
@@ -441,6 +454,8 @@ function bindProfileForm() {
     previewNameEn.textContent = data.get("name_en") || "GAMZA";
     previewBio.textContent = data.get("bio") || "소개글을 입력하면 여기에 표시됩니다.";
     previewCapabilities.textContent = data.get("capabilities") || "작업 가능 조건을 입력하면 여기에 표시됩니다.";
+    fitTextToParent(previewName, { max: 58, min: 22 });
+    fitTextToParent(previewNameEn, { max: 25, min: 12 });
   };
 
   imageInput?.addEventListener("change", () => {
@@ -545,6 +560,8 @@ function bindProfileEditForm() {
     preview.nameEn.textContent = fields.nameEn.value || "GAMZA";
     preview.bio.textContent = fields.bio.value || "소개글을 입력하면 여기에 표시됩니다.";
     preview.capabilities.textContent = fields.capabilities.value || "작업 가능 조건을 입력하면 여기에 표시됩니다.";
+    fitTextToParent(preview.name, { max: 58, min: 22 });
+    fitTextToParent(preview.nameEn, { max: 25, min: 12 });
   };
 
   const fillForm = (actor) => {

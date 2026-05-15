@@ -1684,16 +1684,22 @@ a {
   padding: 16px;
   text-align: center;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 248, 233, 0.9));
+  min-width: 0;
 }
 
 .actor-card-info strong {
   display: block;
   font-size: 20px;
+  line-height: 1.12;
+  overflow-wrap: anywhere;
 }
 
 .actor-card-info span {
   color: var(--muted);
   font-size: 13px;
+  display: block;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 
 .back-button {
@@ -1753,6 +1759,7 @@ a {
   border-bottom: 0;
   background: transparent;
   text-align: center;
+  min-width: 0;
 }
 
 .profile-identity-title h2 {
@@ -1765,6 +1772,8 @@ a {
   text-shadow:
     0 3px 0 rgba(255, 255, 255, 0.98),
     0 10px 24px rgba(38, 167, 224, 0.12);
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .profile-copy {
@@ -1783,6 +1792,7 @@ a {
   font-weight: 900;
   letter-spacing: 0.055em;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 .profile-audio-card,

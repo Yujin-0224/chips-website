@@ -169,6 +169,19 @@ function accountCard(item) {
   `;
 }
 
+function accountRow(item) {
+  return `
+    <article class="account-row">
+      <div class="account-row-main">
+        <strong>${escapeHtml(item.name || item.username)}</strong>
+        <span>${escapeHtml(item.username)} / ${escapeHtml(roleLabel(item.role))}</span>
+      </div>
+      <small>${escapeHtml(formatAccountDate(item.createdAt))}</small>
+      <button class="danger-button" type="button" data-account-action="token-delete" data-username="${escapeHtml(item.username)}">\uc0ad\uc81c</button>
+    </article>
+  `;
+}
+
 function requireAdminSession() {
   if (hasAdminSession()) return true;
   showResult({
@@ -208,7 +221,7 @@ async function loadSubmissions() {
   }
   if (accountList) {
     accountList.innerHTML = accountsPayload.users.length
-      ? accountsPayload.users.map(accountCard).join("")
+      ? accountsPayload.users.map(accountRow).join("")
       : '<p class="empty-note">No active accounts.</p>';
   }
   showResult({
@@ -235,12 +248,19 @@ async function submissionAction(action, type, key) {
   await loadSubmissions();
 }
 
-async function accountAction(action, key, username) {
+async function accountAction(action, key, username, developerToken) {
   if (!requireAdminSession()) return;
+  const serverAction = action === "token-delete" ? "delete" : action;
+  if (action === "token-delete" && !window.confirm(`${username} \uacc4\uc815\uc744 \uc0ad\uc81c\ud560\uae4c\uc694?`)) return;
+  const verifiedDeveloperToken =
+    serverAction === "delete"
+      ? developerToken || window.prompt("\uacc4\uc815 \uc0ad\uc81c\ub97c \uc704\ud55c \uac1c\ubc1c\uc790 \ud1a0\ud070\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.", "") || ""
+      : "";
+  if (serverAction === "delete" && !verifiedDeveloperToken) return;
   const response = await fetch("/api/admin/accounts", {
     method: "POST",
     headers: adminHeaders({ "Content-Type": "application/json" }),
-    body: JSON.stringify({ action, key, username }),
+    body: JSON.stringify({ action: serverAction, key, username, developerToken: verifiedDeveloperToken }),
   });
   const payload = await response.json();
   if (!response.ok) throw new Error(payload.error || "Account action failed");

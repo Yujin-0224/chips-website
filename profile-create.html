@@ -43,11 +43,11 @@
           <div class="field-grid">
             <div class="field">
               <label for="profile-name">성우 이름</label>
-              <input id="profile-name" name="name" required placeholder="예: 거누" />
+              <input id="profile-name" name="name" required placeholder="예: 감자" />
             </div>
             <div class="field">
               <label for="profile-name-en">영문 표기</label>
-              <input id="profile-name-en" name="name_en" placeholder="예: GEONU" />
+              <input id="profile-name-en" name="name_en" placeholder="예: GAMZA" />
             </div>
             <div class="field">
               <label for="profile-image">프로필 이미지</label>
@@ -71,16 +71,34 @@
         </div>
         <pre class="result-box" id="profile-result" hidden></pre>
         <section class="profile-preview-panel" id="profile-preview-panel" hidden aria-live="polite">
-          <div class="profile-preview-card">
-            <div class="profile-preview-photo" id="profile-preview-photo">PROFILE IMAGE</div>
-            <div class="profile-preview-main">
-              <p class="preview-kicker">VOICE ACTOR</p>
-              <h2 id="profile-preview-name">성우 이름</h2>
-              <p id="profile-preview-name-en">ENGLISH NAME</p>
-              <div class="profile-preview-copy" id="profile-preview-bio">소개글을 입력하면 여기에 표시됩니다.</div>
-              <div class="profile-preview-capabilities" id="profile-preview-capabilities">작업 가능 조건을 입력하면 여기에 표시됩니다.</div>
+          <article class="profile-preview-profile">
+            <div class="profile-preview-sidebar">
+              <div class="profile-preview-photo" id="profile-preview-photo">PROFILE IMAGE</div>
+              <div class="profile-preview-identity">
+                <h2 id="profile-preview-name">감자</h2>
+                <p id="profile-preview-name-en">GAMZA</p>
+              </div>
             </div>
-          </div>
+            <div class="profile-preview-content">
+              <section class="profile-preview-summary">
+                <div class="profile-preview-section-head">
+                  <span>PROFILE</span>
+                  <h3>소개</h3>
+                </div>
+                <div class="profile-preview-copy" id="profile-preview-bio">소개글을 입력하면 여기에 표시됩니다.</div>
+                <div class="profile-preview-capabilities" id="profile-preview-capabilities">작업 가능 조건을 입력하면 여기에 표시됩니다.</div>
+              </section>
+              <section class="profile-preview-career">
+                <div class="profile-preview-section-head">
+                  <span>CAREER</span>
+                  <h3>경력</h3>
+                </div>
+                <ul>
+                  <li>경력 사항은 준비 중입니다.</li>
+                </ul>
+              </section>
+            </div>
+          </article>
         </section>
       </form>
     </main>

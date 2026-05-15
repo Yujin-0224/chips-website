@@ -343,8 +343,8 @@ function bindProfileForm() {
 
   const renderPreview = () => {
     const data = new FormData(form);
-    previewName.textContent = data.get("name") || "성우 이름";
-    previewNameEn.textContent = data.get("name_en") || "ENGLISH NAME";
+    previewName.textContent = data.get("name") || "감자";
+    previewNameEn.textContent = data.get("name_en") || "GAMZA";
     previewBio.textContent = data.get("bio") || "소개글을 입력하면 여기에 표시됩니다.";
     previewCapabilities.textContent = data.get("capabilities") || "작업 가능 조건을 입력하면 여기에 표시됩니다.";
     previewPanel.hidden = false;

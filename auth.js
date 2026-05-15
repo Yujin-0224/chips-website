@@ -1,4 +1,5 @@
 const authResult = document.getElementById("auth-result");
+const loginGreeting = document.getElementById("login-account-greeting");
 
 function showAuthResult(value) {
   if (!authResult) return;
@@ -6,9 +7,24 @@ function showAuthResult(value) {
   authResult.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
 }
 
+function cachedAuthUser() {
+  try {
+    return JSON.parse(localStorage.getItem("chipsAuthUser") || "null");
+  } catch {
+    return null;
+  }
+}
+
 function saveSession(payload) {
   localStorage.setItem("chipsAuthToken", payload.token);
   localStorage.setItem("chipsAuthUser", JSON.stringify(payload.user));
+}
+
+function renderLoginGreeting() {
+  const user = cachedAuthUser();
+  if (!loginGreeting || !user) return;
+  loginGreeting.hidden = false;
+  loginGreeting.innerHTML = `<strong>${user.name || user.username}</strong>님 반갑습니다.`;
 }
 
 function formPayload(form) {
@@ -77,3 +93,5 @@ document.getElementById("signup-request-form")?.addEventListener("submit", async
     button.textContent = "가입 요청 보내기";
   }
 });
+
+renderLoginGreeting();

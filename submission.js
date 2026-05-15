@@ -259,11 +259,27 @@ function renderAuthStatus(user) {
   const shell = document.querySelector(".submission-hero");
   if (!shell) return;
 
+  document.querySelectorAll("[data-auth-nav]").forEach((nav) => { nav.hidden = !user; });
+  document.querySelectorAll("[data-admin-link]").forEach((link) => { link.hidden = user?.role !== "admin"; });
+  document.querySelectorAll("[data-auth-greeting]").forEach((greeting) => {
+    greeting.hidden = !user;
+    if (user) greeting.innerHTML = "<strong>" + (user.name || user.username) + "</strong>님 반갑습니다.";
+  });
+
+  if (document.body.dataset.requiresAuth === "true" && !user) {
+    document.querySelectorAll(".submission-hero, .submission-form").forEach((element) => { element.hidden = true; });
+    const gate = document.createElement("section");
+    gate.className = "login-gate form-section";
+    gate.innerHTML = "<p class=\"submission-kicker\">LOGIN REQUIRED</p><h1>로그인이 필요합니다</h1><p>프로필과 오디오 관리는 승인된 계정으로 로그인한 뒤 사용할 수 있습니다.</p><div class=\"form-actions compact-actions\"><a class=\"primary-button button-link\" href=\"login.html\">로그인</a><a class=\"secondary-button button-link\" href=\"signup-request.html\">회원가입 요청</a></div>";
+    shell.insertAdjacentElement("afterend", gate);
+    return;
+  }
+
   const status = document.createElement("div");
   status.className = "auth-status";
   status.innerHTML = user
-    ? `<span><strong>${user.name || user.username}</strong> 계정으로 로그인 중입니다.${user.role === "actor" ? " 본인 프로필만 관리할 수 있습니다." : " 운영자 권한입니다."}</span><button type="button" data-auth-logout>로그아웃</button>`
-    : `<span><strong>로그인이 필요합니다.</strong> 계정 승인 후 프로필 수정과 오디오 업로드를 사용할 수 있습니다.</span><a class="secondary-button button-link" href="login.html">로그인</a>`;
+    ? `<span><strong>${user.name || user.username}</strong>님 반갑습니다.${user.role === "actor" ? " 본인 프로필과 오디오를 관리할 수 있습니다." : " 관리자 권한입니다."}</span><button type="button" data-auth-logout>로그아웃</button>`
+    : `<span><strong>로그인이 필요합니다.</strong> 계정 승인 후 프로필과 오디오를 관리할 수 있습니다.</span><a class="secondary-button button-link" href="login.html">로그인</a>`;
   shell.insertAdjacentElement("afterend", status);
 
   status.querySelector("[data-auth-logout]")?.addEventListener("click", async () => {

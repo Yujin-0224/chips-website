@@ -35,6 +35,17 @@ function hasAdminSession() {
   return authUser()?.role === "admin" && Boolean(authToken());
 }
 
+function updateAdminTopbar() {
+  const user = authUser();
+  document.querySelectorAll("[data-auth-nav]").forEach((nav) => {
+    nav.hidden = !(user?.role === "admin" && authToken());
+  });
+  document.querySelectorAll("[data-auth-greeting]").forEach((greeting) => {
+    greeting.hidden = !user;
+    if (user) greeting.innerHTML = "<strong>" + (user.name || user.username) + "</strong>님 반갑습니다.";
+  });
+}
+
 function escapeHtml(value = "") {
   return `${value}`
     .replace(/&/g, "&amp;")

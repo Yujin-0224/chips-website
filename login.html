@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="submission.css?v=20260515-auth" />
+    <link rel="stylesheet" href="submission.css?v=20260515-ops-nav" />
   </head>
   <body>
     <main class="submission-shell">
@@ -18,19 +18,14 @@
         <a class="brand-mark" href="index.html#top" aria-label="CHIPS home">
           <img src="assets/chips_logo_1.png" alt="CHIPS" />
         </a>
-        <nav class="submission-nav" aria-label="운영 페이지">
-          <a class="is-active" href="login.html">로그인</a>
-          <a href="signup-request.html">회원가입 요청</a>
-          <a href="profile-edit.html">프로필 수정</a>
-          <a href="audio-create.html">오디오 만들기</a>
-        </nav>
+        <div class="topbar-account" id="login-account-greeting" hidden></div>
       </div>
 
       <section class="submission-hero">
         <div>
           <p class="submission-kicker">CHIPS OPERATIONS</p>
           <h1>LOGIN</h1>
-          <p>승인된 성우 계정으로 로그인하면 본인 프로필 수정과 오디오 업로드만 사용할 수 있습니다.</p>
+          <p>승인된 계정으로 로그인하면 본인 프로필과 오디오를 관리할 수 있습니다.</p>
         </div>
         <aside class="status-panel">
           <strong>계정 필요</strong>
@@ -61,6 +56,6 @@
       </form>
     </main>
 
-    <script src="auth.js?v=20260515-auth"></script>
+    <script src="auth.js?v=20260515-ops-nav"></script>
   </body>
 </html>

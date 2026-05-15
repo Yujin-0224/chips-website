@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="submission.css?v=20260515-admin-role" />
+    <link rel="stylesheet" href="submission.css?v=20260515-ops-nav" />
   </head>
   <body>
     <main class="submission-shell">
@@ -18,24 +18,26 @@
         <a class="brand-mark" href="index.html#top" aria-label="CHIPS home">
           <img src="assets/chips_logo_1.png" alt="CHIPS" />
         </a>
-        <nav class="submission-nav" aria-label="관리자 페이지">
-          <a class="is-active" href="admin.html">관리자 승인</a>
-          <a href="login.html">운영 로그인</a>
-          <a href="profile-create.html">프로필 만들기</a>
+        <nav class="submission-nav" aria-label="운영 페이지" data-auth-nav hidden>
+          <a href="login.html">로그인</a>
+          <a href="profile-create.html">프로필 추가</a>
           <a href="profile-edit.html">프로필 수정</a>
-          <a href="audio-create.html">오디오 만들기</a>
+          <a href="audio-create.html">오디오 추가</a>
+          <a class="is-active" href="admin.html">관리자</a>
+          <a href="index.html#top">홈페이지</a>
         </nav>
+        <div class="topbar-account" data-auth-greeting hidden></div>
       </div>
 
       <section class="submission-hero">
         <div>
           <p class="submission-kicker">CHIPS ADMIN</p>
           <h1>APPROVAL</h1>
-          <p>R2에 저장된 프로필, 오디오, 가입 요청을 확인하고 공개 CMS 데이터에 반영합니다.</p>
+          <p>프로필 수정 요청, 회원가입 요청, 계정 관리를 확인하고 처리합니다.</p>
         </div>
         <aside class="status-panel">
           <strong>운영자 전용</strong>
-          <p>주소를 알아도 운영자 계정으로 로그인하지 않으면 데이터를 불러오거나 승인할 수 없습니다.</p>
+          <p>운영자 계정으로 로그인한 상태에서만 데이터를 불러오거나 승인할 수 있습니다.</p>
         </aside>
       </section>
 
@@ -52,11 +54,11 @@
 
       <section class="admin-grid">
         <div class="form-section">
-          <h2>프로필 제출</h2>
+          <h2>프로필 수정 요청</h2>
           <div id="profile-submissions" class="submission-list"></div>
         </div>
         <div class="form-section">
-          <h2>오디오 제출</h2>
+          <h2>오디오 제출 기록</h2>
           <div id="audio-submissions" class="submission-list"></div>
         </div>
       </section>
@@ -67,7 +69,7 @@
           <div id="signup-requests" class="submission-list"></div>
         </div>
         <div class="form-section">
-          <h2>운영 계정</h2>
+          <h2>계정 생성</h2>
           <form class="admin-account-form" id="admin-account-form">
             <div class="field-grid">
               <div class="field">
@@ -76,26 +78,19 @@
               </div>
               <div class="field">
                 <label for="account-password">비밀번호</label>
-                <input
-                  id="account-password"
-                  name="password"
-                  type="password"
-                  required
-                  minlength="6"
-                  pattern="^(?=.*[^A-Za-z0-9]).{6,}$"
-                />
+                <input id="account-password" name="password" type="password" required minlength="6" pattern="^(?=.*[^A-Za-z0-9]).{6,}$" />
                 <small class="field-help">6자 이상, 특수문자 1개 이상을 포함해 주세요.</small>
               </div>
               <div class="field">
                 <label for="account-role">권한</label>
                 <select id="account-role" name="role">
                   <option value="actor">멤버</option>
-                  <option value="admin">운영자</option>
+                  <option value="admin">관리자</option>
                 </select>
               </div>
               <div class="field">
                 <label for="account-actor-id">멤버 ID</label>
-                <input id="account-actor-id" name="actorId" placeholder="운영자는 비워도 됩니다" />
+                <input id="account-actor-id" name="actorId" placeholder="관리자는 비워도 됩니다" />
               </div>
               <div class="field is-wide">
                 <label for="account-name">표시 이름</label>
@@ -114,6 +109,6 @@
       <pre class="result-box" id="admin-result" hidden></pre>
     </main>
 
-    <script src="admin.js?v=20260515-admin-password"></script>
+    <script src="admin.js?v=20260515-ops-nav"></script>
   </body>
 </html>

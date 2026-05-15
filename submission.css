@@ -186,6 +186,43 @@ a {
   resize: vertical;
 }
 
+.topbar-account {
+  margin-left: auto;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.topbar-account strong {
+  color: var(--blue);
+  font-weight: 900;
+}
+
+.login-gate {
+  max-width: 720px;
+  margin: 42px auto 0;
+  text-align: center;
+}
+
+.login-gate h1 {
+  margin: 8px 0 12px;
+  font-size: clamp(34px, 6vw, 58px);
+  line-height: 0.95;
+}
+
+.login-gate p {
+  margin: 0 auto 24px;
+  max-width: 520px;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.7;
+}
+
 .field-help {
   color: var(--muted);
   font-size: 12px;

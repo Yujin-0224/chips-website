@@ -1,4 +1,4 @@
-import { hashPassword, json, requireAdminToken, safeUsername, slugify } from "../auth/_shared.js";
+import { hashPassword, json, requireAdmin, safeUsername, slugify } from "../auth/_shared.js";
 
 async function readJsonObjects(bucket, prefix) {
   const listed = await bucket.list({ prefix });
@@ -28,7 +28,7 @@ function publicAccount(user = {}) {
 }
 
 export async function onRequestGet({ request, env }) {
-  if (!requireAdminToken(request, env)) return json({ error: "Unauthorized" }, 401);
+  if (!(await requireAdmin(request, env))) return json({ error: "Unauthorized" }, 401);
   if (!env.CHIPS_MEDIA) return json({ error: "R2 binding CHIPS_MEDIA is not configured." }, 500);
 
   const [requests, users] = await Promise.all([
@@ -46,7 +46,7 @@ export async function onRequestGet({ request, env }) {
 
 export async function onRequestPost({ request, env }) {
   try {
-    if (!requireAdminToken(request, env)) return json({ error: "Unauthorized" }, 401);
+    if (!(await requireAdmin(request, env))) return json({ error: "Unauthorized" }, 401);
     if (!env.CHIPS_MEDIA) return json({ error: "R2 binding CHIPS_MEDIA is not configured." }, 500);
 
     const body = await request.json();

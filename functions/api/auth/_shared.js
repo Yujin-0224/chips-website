@@ -85,3 +85,10 @@ export function requireAdminToken(request, env) {
   if (!expected) return false;
   return request.headers.get("Authorization") === `Bearer ${expected}`;
 }
+
+export async function requireAdmin(request, env) {
+  if (requireAdminToken(request, env)) return { role: "admin", source: "token" };
+  if (!env.CHIPS_MEDIA) return null;
+  const user = await getSessionUser(env.CHIPS_MEDIA, request);
+  return user?.role === "admin" ? user : null;
+}

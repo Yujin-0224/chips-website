@@ -1,26 +1,4 @@
-function json(body, status = 200) {
-  return new Response(JSON.stringify(body, null, 2), {
-    status,
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-  });
-}
-
-function authorized(request, env) {
-  const expected = env.ADMIN_TOKEN;
-  if (!expected) return false;
-  const header = request.headers.get("Authorization") || "";
-  return header === `Bearer ${expected}`;
-}
-
-function slugify(value, fallback = "item") {
-  const slug = `${value || ""}`
-    .trim()
-    .toLowerCase()
-    .replace(/[\\/]+/g, "-")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  return slug || fallback;
-}
+import { json, requireAdmin, slugify } from "../auth/_shared.js";
 
 function flattenCategories(categories = {}) {
   return Object.values(categories).flat().filter(Boolean);
@@ -109,7 +87,7 @@ function approveAudio(cms, audio) {
 
 export async function onRequestPost({ request, env }) {
   try {
-    if (!authorized(request, env)) return json({ error: "Unauthorized" }, 401);
+    if (!(await requireAdmin(request, env))) return json({ error: "Unauthorized" }, 401);
     if (!env.CHIPS_MEDIA) return json({ error: "R2 binding CHIPS_MEDIA is not configured." }, 500);
 
     const { type, key } = await request.json();

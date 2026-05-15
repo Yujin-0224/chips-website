@@ -69,6 +69,13 @@ function roleLabel(role = "") {
   return role || "-";
 }
 
+function formatAccountDate(value = "") {
+  if (!value) return "-";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit" });
+}
+
 function changeSummary(item) {
   const changes = Array.isArray(item.changeSummary) ? item.changeSummary : [];
   if (!changes.length) return '<p class="admin-change-note">No changed fields detected.</p>';
@@ -145,13 +152,19 @@ function signupCard(item) {
 }
 
 function accountCard(item) {
+  const isAdmin = item.role === "admin";
   return `
-    <article class="submission-card">
-      <div>
+    <article class="account-row">
+      <div class="account-row-main">
         <strong>${escapeHtml(item.name || item.username)}</strong>
-        <span>${escapeHtml(item.username)} / ${escapeHtml(roleLabel(item.role))} / ${escapeHtml(item.actorId || "-")}</span>
+        <span>${escapeHtml(item.username)} · ${escapeHtml(roleLabel(item.role))}</span>
       </div>
-      <small>${escapeHtml(item.createdAt || "")}</small>
+      <small>${escapeHtml(formatAccountDate(item.createdAt))}</small>
+      ${
+        isAdmin
+          ? '<span class="account-lock">삭제 불가</span>'
+          : `<button class="danger-button" type="button" data-account-action="delete" data-username="${escapeHtml(item.username)}">삭제</button>`
+      }
     </article>
   `;
 }
@@ -222,12 +235,12 @@ async function submissionAction(action, type, key) {
   await loadSubmissions();
 }
 
-async function accountAction(action, key) {
+async function accountAction(action, key, username) {
   if (!requireAdminSession()) return;
   const response = await fetch("/api/admin/accounts", {
     method: "POST",
     headers: adminHeaders({ "Content-Type": "application/json" }),
-    body: JSON.stringify({ action, key }),
+    body: JSON.stringify({ action, key, username }),
   });
   const payload = await response.json();
   if (!response.ok) throw new Error(payload.error || "Account action failed");
@@ -282,11 +295,12 @@ document.addEventListener("click", (event) => {
 
   const accountButton = event.target.closest("[data-account-action]");
   if (!accountButton) return;
+  if (accountButton.dataset.accountAction === "delete" && !window.confirm(`${accountButton.dataset.username} 계정을 삭제할까요?`)) return;
   accountButton.disabled = true;
   accountButton.textContent = "Working...";
-  accountAction(accountButton.dataset.accountAction, accountButton.dataset.key).catch((error) => {
+  accountAction(accountButton.dataset.accountAction, accountButton.dataset.key, accountButton.dataset.username).catch((error) => {
     accountButton.disabled = false;
-    accountButton.textContent = accountButton.dataset.accountAction === "approve" ? "Approve" : "Reject";
+    accountButton.textContent = accountButton.dataset.accountAction === "approve" ? "Approve" : accountButton.dataset.accountAction === "delete" ? "삭제" : "Reject";
     showResult({ error: error.message });
   });
 });

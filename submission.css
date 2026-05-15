@@ -710,6 +710,12 @@ a {
   gap: 12px;
 }
 
+#account-list {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
 .submission-card {
   display: grid;
   gap: 10px;
@@ -796,6 +802,70 @@ a {
   flex-wrap: wrap;
 }
 
+.account-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px 12px;
+}
+
+.account-row-main {
+  min-width: 0;
+}
+
+.account-row strong,
+.account-row span,
+.account-row small {
+  display: block;
+}
+
+.account-row strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-row span,
+.account-row small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.account-lock {
+  border: 1px solid rgba(32, 26, 18, 0.08);
+  border-radius: 999px;
+  background: rgba(247, 242, 232, 0.68);
+  padding: 7px 10px;
+  white-space: nowrap;
+}
+
+.danger-button {
+  min-height: 32px;
+  border: 1px solid rgba(190, 64, 52, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 246, 244, 0.95);
+  color: #b43a32;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 0 12px;
+}
+
+.danger-button:hover {
+  background: #b43a32;
+  color: #fff;
+}
+
 .admin-thumb {
   width: 96px;
   aspect-ratio: 1;
@@ -820,5 +890,13 @@ a {
 
   .admin-change-list li {
     grid-template-columns: 1fr;
+  }
+
+  .account-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .account-row small {
+    grid-column: 1;
   }
 }

@@ -85,6 +85,21 @@ export async function onRequestPost({ request, env }) {
       return json({ ok: true, action, user: publicAccount(user) });
     }
 
+    if (action === "delete") {
+      const username = safeUsername(body.username);
+      if (!username) return json({ error: "Username is required." }, 400);
+
+      const userKey = `auth/users/${username}.json`;
+      const storedUser = await env.CHIPS_MEDIA.get(userKey);
+      if (!storedUser) return json({ error: "Account not found." }, 404);
+
+      const user = await storedUser.json();
+      if ((user.role || "actor") === "admin") return json({ error: "Admin accounts cannot be deleted." }, 403);
+
+      await env.CHIPS_MEDIA.delete(userKey);
+      return json({ ok: true, action, deleted: publicAccount(user) });
+    }
+
     const key = `${body.key || ""}`;
     if (!key.startsWith("auth/signup-requests/")) return json({ error: "Invalid signup request key." }, 400);
 

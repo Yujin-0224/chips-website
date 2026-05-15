@@ -331,6 +331,44 @@ function bindProfileForm() {
 
   const result = document.getElementById("profile-result");
   const button = form.querySelector(".primary-button");
+  const previewButton = document.getElementById("profile-preview-button");
+  const previewPanel = document.getElementById("profile-preview-panel");
+  const previewPhoto = document.getElementById("profile-preview-photo");
+  const previewName = document.getElementById("profile-preview-name");
+  const previewNameEn = document.getElementById("profile-preview-name-en");
+  const previewBio = document.getElementById("profile-preview-bio");
+  const previewCapabilities = document.getElementById("profile-preview-capabilities");
+  const imageInput = document.getElementById("profile-image");
+  let previewImageUrl = "";
+
+  const renderPreview = () => {
+    const data = new FormData(form);
+    previewName.textContent = data.get("name") || "성우 이름";
+    previewNameEn.textContent = data.get("name_en") || "ENGLISH NAME";
+    previewBio.textContent = data.get("bio") || "소개글을 입력하면 여기에 표시됩니다.";
+    previewCapabilities.textContent = data.get("capabilities") || "작업 가능 조건을 입력하면 여기에 표시됩니다.";
+    previewPanel.hidden = false;
+    previewPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+
+  imageInput?.addEventListener("change", () => {
+    const file = imageInput.files?.[0];
+    if (previewImageUrl) URL.revokeObjectURL(previewImageUrl);
+    previewImageUrl = file ? URL.createObjectURL(file) : "";
+    previewPhoto.innerHTML = previewImageUrl ? `<img src="${previewImageUrl}" alt="" />` : "PROFILE IMAGE";
+  });
+
+  previewButton?.addEventListener("click", renderPreview);
+
+  form.addEventListener("reset", () => {
+    window.setTimeout(() => {
+      if (previewImageUrl) URL.revokeObjectURL(previewImageUrl);
+      previewImageUrl = "";
+      previewPhoto.textContent = "PROFILE IMAGE";
+      previewPanel.hidden = true;
+      result.hidden = true;
+    });
+  });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -339,7 +377,6 @@ function bindProfileForm() {
 
     const data = new FormData(form);
     data.set("actor_id", slugify(data.get("name"), "actor"));
-    data.set("categories_json", JSON.stringify(collectCategoryValues(form)));
 
     try {
       const response = await fetch("/api/submit-profile", { method: "POST", body: data });
@@ -361,7 +398,6 @@ function bindProfileForm() {
 }
 
 renderCategoryGrid("audio-category-grid", "audio");
-renderCategoryGrid("profile-category-grid", "profile");
 populateActorSelect();
 bindAudioForm();
 bindProfileForm();

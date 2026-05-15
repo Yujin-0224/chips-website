@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="submission.css?v=20260514-actor-select" />
+    <link rel="stylesheet" href="submission.css?v=20260515-profile-preview" />
   </head>
   <body>
     <main class="submission-shell">
@@ -50,12 +50,12 @@
               <input id="profile-name-en" name="name_en" placeholder="예: GEONU" />
             </div>
             <div class="field">
-              <label for="profile-email">연락 이메일</label>
-              <input id="profile-email" name="email" type="email" placeholder="review@example.com" />
-            </div>
-            <div class="field">
               <label for="profile-image">프로필 이미지</label>
               <input id="profile-image" name="profile_image" type="file" accept="image/*" />
+            </div>
+            <div class="field">
+              <label for="profile-capabilities">작업 가능 조건</label>
+              <input id="profile-capabilities" name="capabilities" placeholder="예: 홈레코딩 가능 · 원격 디렉팅 가능 · 빠른 납기" />
             </div>
             <div class="field is-wide">
               <label for="profile-bio">소개글</label>
@@ -64,19 +64,27 @@
           </div>
         </section>
 
-        <section class="form-section">
-          <h2>대표 카테고리</h2>
-          <div class="category-grid" id="profile-category-grid"></div>
-        </section>
-
         <div class="form-actions">
+          <button class="secondary-button" type="button" id="profile-preview-button">예시화면 보기</button>
           <button class="secondary-button" type="reset">초기화</button>
           <button class="primary-button" type="submit">프로필 제출</button>
         </div>
         <pre class="result-box" id="profile-result" hidden></pre>
+        <section class="profile-preview-panel" id="profile-preview-panel" hidden aria-live="polite">
+          <div class="profile-preview-card">
+            <div class="profile-preview-photo" id="profile-preview-photo">PROFILE IMAGE</div>
+            <div class="profile-preview-main">
+              <p class="preview-kicker">VOICE ACTOR</p>
+              <h2 id="profile-preview-name">성우 이름</h2>
+              <p id="profile-preview-name-en">ENGLISH NAME</p>
+              <div class="profile-preview-copy" id="profile-preview-bio">소개글을 입력하면 여기에 표시됩니다.</div>
+              <div class="profile-preview-capabilities" id="profile-preview-capabilities">작업 가능 조건을 입력하면 여기에 표시됩니다.</div>
+            </div>
+          </div>
+        </section>
       </form>
     </main>
 
-    <script src="submission.js?v=20260514-actor-select"></script>
+    <script src="submission.js?v=20260515-profile-preview"></script>
   </body>
 </html>

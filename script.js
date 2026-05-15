@@ -1044,17 +1044,7 @@ function openActor(actorId) {
   detailAvatar.innerHTML = `<img src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" loading="lazy" decoding="async" />`;
   detailName.textContent = actor.name;
   detailNameEn.textContent = actor.nameEn;
-  detailHighlights.innerHTML = getActorHighlightLines(actor)
-    .map((line, index) => {
-      const labels = ["브랜딩 문장", "실무 분야"];
-      return `
-        <article class="profile-highlight-card">
-          <span>${labels[index] || "프로필 메모"}</span>
-          <p>${escapeHtml(line)}</p>
-        </article>
-      `;
-    })
-    .join("");
+  detailHighlights.innerHTML = "";
   detailBio.textContent = actor.bio;
   detailCapabilities.textContent = getActorCapabilities(actor).join(" · ");
 

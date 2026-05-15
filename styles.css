@@ -1709,7 +1709,7 @@ a {
 
 .actor-profile {
   display: grid;
-  grid-template-columns: minmax(240px, 318px) minmax(0, 1fr);
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
   gap: clamp(28px, 4vw, 48px);
   align-items: start;
   width: 100%;
@@ -1723,7 +1723,7 @@ a {
 }
 
 .profile-portrait {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1 / 1;
   border-radius: 8px;
   background: #c7bea9;
   box-shadow: none;
@@ -1738,63 +1738,26 @@ a {
 }
 
 .profile-identity-card {
-  overflow: hidden;
-  border: 1px solid rgba(32, 26, 18, 0.1);
+  border: 1px solid rgba(32, 26, 18, 0.08);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 14px 34px rgba(73, 52, 25, 0.07);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 14px 34px rgba(73, 52, 25, 0.06);
 }
 
 .profile-identity-title {
-  padding: 16px 16px 14px;
-  border-bottom: 1px solid rgba(32, 26, 18, 0.1);
-  background: linear-gradient(180deg, rgba(255, 249, 232, 0.92), rgba(255, 252, 244, 0.82));
+  padding: 12px 14px 14px;
+  border-bottom: 0;
+  background: transparent;
   text-align: center;
 }
 
 .profile-identity-title h2 {
   margin: 0;
-  font-size: clamp(27px, 3.5vw, 36px);
-  line-height: 1.05;
+  color: var(--blue);
+  font-size: clamp(40px, 5.2vw, 58px);
+  line-height: 0.94;
   letter-spacing: 0;
-}
-
-.profile-identity-card dl {
-  margin: 0;
-}
-
-.profile-identity-card dl div {
-  display: grid;
-  grid-template-columns: 72px minmax(0, 1fr);
-  min-height: 38px;
-  border-top: 1px solid rgba(32, 26, 18, 0.08);
-}
-
-.profile-identity-card dl div:first-child {
-  border-top: 0;
-}
-
-.profile-identity-card dt,
-.profile-identity-card dd {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 8px 12px;
-  font-size: 13px;
-  line-height: 1.35;
-}
-
-.profile-identity-card dt {
-  justify-content: center;
-  border-right: 1px solid rgba(32, 26, 18, 0.08);
-  background: rgba(255, 248, 230, 0.62);
-  color: rgba(23, 19, 13, 0.56);
-  font-weight: 900;
-}
-
-.profile-identity-card dd {
-  color: var(--ink);
-  font-weight: 700;
+  text-shadow: 0 4px 0 rgba(255, 255, 255, 0.95);
 }
 
 .profile-copy {
@@ -1807,11 +1770,11 @@ a {
 }
 
 .profile-name-en {
-  margin: 5px 0 0;
-  color: rgba(23, 19, 13, 0.48);
-  font-size: 13px;
+  margin: 3px 0 0;
+  color: var(--ink);
+  font-size: clamp(18px, 2.2vw, 25px);
   font-weight: 900;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
@@ -1830,7 +1793,7 @@ a {
 }
 
 .profile-highlights {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(2, minmax(160px, 1fr));
   gap: 10px 12px;
   margin: 0 0 16px;

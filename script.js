@@ -1,108 +1,6 @@
-let actors = [
-  {
-    id: "haru",
-    name: "유레이",
-    nameEn: "KIM HARU",
-    gender: "female",
-    tone: "clear",
-    style: "twenties",
-    category: "animation",
-    mood: "bright",
-    colors: ["#ffc857", "#3bb7a3"],
-    audioSources: [{ src: "assets/gamza_sample.mp3", type: "audio/mpeg" }],
-    bio: "맑고 선명한 발성에 밝은 에너지가 강점입니다. 애니메이션, 게임 캐릭터, 브랜드 캠페인 샘플에 잘 어울립니다.",
-    tags: ["밝음", "청량", "애니메이션", "20대"],
-    demos: ["캐릭터 - 활발", "광고 - 산뜻", "게임 - 주인공"],
-  },
-  {
-    id: "min",
-    name: "이도윤",
-    nameEn: "LEE DOYUN",
-    gender: "male",
-    tone: "deep",
-    style: "thirties",
-    category: "narration",
-    mood: "serious",
-    colors: ["#5b6c7d", "#b7c9d6"],
-    bio: "차분하고 깊은 톤으로 정보 전달력이 좋습니다. 다큐멘터리, 기업 영상, 시네마틱 내레이션에 적합합니다.",
-    tags: ["저음", "신뢰감", "내레이션", "30대"],
-    demos: ["내레이션 - 다큐", "광고 - 프리미엄", "게임 - 지휘관"],
-  },
-  {
-    id: "yuna",
-    name: "박유나",
-    nameEn: "PARK YUNA",
-    gender: "female",
-    tone: "warm",
-    style: "thirties",
-    category: "commercial",
-    mood: "calm",
-    colors: ["#ef6f61", "#f7c59f"],
-    bio: "따뜻하고 자연스러운 말맛을 살립니다. 라이프스타일 광고, 오디오북, 안내 음성에 잘 맞습니다.",
-    tags: ["따뜻함", "친근", "광고", "30대"],
-    demos: ["광고 - 라이프", "안내 - 친절", "오디오북 - 감성"],
-  },
-  {
-    id: "jin",
-    name: "최서진",
-    nameEn: "CHOI SEOJIN",
-    gender: "male",
-    tone: "bright",
-    style: "teen",
-    category: "game",
-    mood: "energetic",
-    colors: ["#36a7ff", "#ffd26a"],
-    bio: "반응이 빠르고 캐릭터 변주 폭이 넓습니다. 게임, 숏폼 콘텐츠, 하이텐션 광고에 어울립니다.",
-    tags: ["활기", "소년", "게임", "10대"],
-    demos: ["게임 - 소년", "광고 - 텐션", "애니 - 코미디"],
-  },
-  {
-    id: "sua",
-    name: "정수아",
-    nameEn: "JUNG SUA",
-    gender: "female",
-    tone: "clear",
-    style: "forties",
-    category: "narration",
-    mood: "serious",
-    colors: ["#8e7cc3", "#bfd7ea"],
-    bio: "정돈된 딕션과 안정적인 호흡으로 긴 문장도 편안하게 이끕니다. 교육, 기관, 브랜드 필름에 적합합니다.",
-    tags: ["정확", "우아", "교육", "40대+"],
-    demos: ["교육 - 설명", "기관 - 안내", "브랜드 - 담백"],
-  },
-  {
-    id: "rion",
-    name: "한리온",
-    nameEn: "HAN RION",
-    gender: "male",
-    tone: "warm",
-    style: "twenties",
-    category: "animation",
-    mood: "cute",
-    colors: ["#1d8f75", "#f6d365"],
-    bio: "부드러운 미성과 귀여운 캐릭터 톤이 장점입니다. 애니메이션, 게임 NPC, 캐주얼 광고에 잘 어울립니다.",
-    tags: ["미성", "귀여움", "캐릭터", "20대"],
-    demos: ["애니 - 소년", "게임 - NPC", "광고 - 캐주얼"],
-  },
-  {
-    id: "yujin",
-    name: "정유진",
-    nameEn: "PARK YUNA",
-    gender: "female",
-    tone: "warm",
-    style: "thirties",
-    category: "commercial",
-    mood: "calm",
-    colors: ["#ef6f61", "#f7c59f"],
-    bio: "따뜻하고 자연스러운 말맛을 살립니다. 라이프스타일 광고, 오디오북, 안내 음성에 잘 맞습니다.",
-    tags: ["따뜻함", "친근", "광고", "30대"],
-    demos: ["광고 - 라이프", "안내 - 친절", "오디오북 - 감성"],
-  },
-];
+let actors = [];
 
-let sampleAudioSources = [
-  { src: "assets/sample_audio.mp3", type: "audio/mpeg" },
-];
+let sampleAudioSources = [];
 
 const filterGroups = [
   {
@@ -2024,11 +1922,11 @@ async function loadCmsData() {
     const cmsData = await response.json();
     if (cmsData.enabled === false) return;
 
-    if (Array.isArray(cmsData.sampleAudioSources) && cmsData.sampleAudioSources.length) {
+    if (Array.isArray(cmsData.sampleAudioSources)) {
       sampleAudioSources = normalizeAudioSources(cmsData.sampleAudioSources);
     }
 
-    if (Array.isArray(cmsData.actors) && cmsData.actors.length) {
+    if (Array.isArray(cmsData.actors)) {
       actors = cmsData.actors.map(normalizeCmsActor);
     }
 

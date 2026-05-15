@@ -21,7 +21,7 @@
         <nav class="submission-nav" aria-label="작성 페이지">
           <a class="is-active" href="profile-create.html">프로필 만들기</a>
           <a href="audio-create.html">오디오 만들기</a>
-          <a href="index.html#actors">성우 보기</a>
+          <a href="index.html#members">성우 보기</a>
         </nav>
       </div>
 
@@ -65,12 +65,15 @@
         </section>
 
         <div class="form-actions">
-          <button class="secondary-button" type="button" id="profile-preview-button">예시화면 보기</button>
           <button class="secondary-button" type="reset">초기화</button>
           <button class="primary-button" type="submit">프로필 제출</button>
         </div>
         <pre class="result-box" id="profile-result" hidden></pre>
-        <section class="profile-preview-panel" id="profile-preview-panel" hidden aria-live="polite">
+        <section class="profile-preview-panel" id="profile-preview-panel" aria-live="polite">
+          <div class="profile-preview-title">
+            <span>PREVIEW</span>
+            <h2>예시 화면</h2>
+          </div>
           <article class="profile-preview-profile">
             <div class="profile-preview-sidebar">
               <div class="profile-preview-photo" id="profile-preview-photo">PROFILE IMAGE</div>
@@ -80,6 +83,22 @@
               </div>
             </div>
             <div class="profile-preview-content">
+              <section class="profile-preview-audio">
+                <div class="profile-preview-section-head profile-preview-player-head">
+                  <span>AUDIO PLAYER</span>
+                  <h3>대표 자기소개 샘플</h3>
+                </div>
+                <div class="profile-preview-player" aria-hidden="true">
+                  <span class="profile-preview-play">▶</span>
+                  <span class="profile-preview-wave"><span></span></span>
+                  <strong>0:30</strong>
+                  <span class="profile-preview-volume">VOL <i></i></span>
+                </div>
+                <div class="profile-preview-samples">
+                  <button type="button" disabled>샘플 1</button>
+                  <button type="button" disabled>샘플 2</button>
+                </div>
+              </section>
               <section class="profile-preview-summary">
                 <div class="profile-preview-section-head">
                   <span>PROFILE</span>

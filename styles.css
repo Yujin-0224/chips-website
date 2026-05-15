@@ -166,6 +166,10 @@ a {
   z-index: 1;
 }
 
+.home-page > .voice-sample-section {
+  z-index: 4;
+}
+
 .hero.section-panel {
   position: relative;
   width: 100vw;
@@ -351,15 +355,13 @@ a {
 }
 
 .sample-filter {
-  --filter-panel-space: 0px;
   position: relative;
   z-index: 300;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 104px;
   gap: 12px;
-  margin: 24px 0 calc(34px + var(--filter-panel-space));
+  margin: 24px 0 34px;
   align-items: start;
-  transition: margin-bottom 180ms ease;
 }
 
 .filter-controls {
@@ -486,7 +488,7 @@ a {
   position: absolute;
   left: 0;
   top: calc(100% + 10px);
-  z-index: 400;
+  z-index: 1000;
   width: min(760px, calc(100vw - 48px));
   box-sizing: border-box;
   max-height: 0;
@@ -495,11 +497,13 @@ a {
   transform-origin: top left;
   pointer-events: none;
   overflow: auto;
+  overscroll-behavior: contain;
   padding: 18px;
   border: 1px solid rgba(32, 26, 18, 0.1);
   border-radius: 16px;
-  background: rgba(255, 252, 244, 0.98);
+  background: var(--paper);
   box-shadow: 0 24px 70px rgba(73, 52, 25, 0.18);
+  backdrop-filter: blur(10px);
   transition:
     max-height 260ms ease,
     opacity 180ms ease,
@@ -513,7 +517,7 @@ a {
 }
 
 .filter-dropdown.is-open .filter-panel {
-  max-height: min(520px, 68vh);
+  max-height: min(350px, 45vh);
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;
@@ -2590,6 +2594,22 @@ a {
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.actor-detail-section .profile-sidebar.reveal {
+  transition-delay: 40ms;
+}
+
+.actor-detail-section .profile-audio-card.reveal {
+  transition-delay: 110ms;
+}
+
+.actor-detail-section .profile-summary-card.reveal {
+  transition-delay: 180ms;
+}
+
+.actor-detail-section .profile-career.reveal {
+  transition-delay: 250ms;
 }
 
 .form-status {

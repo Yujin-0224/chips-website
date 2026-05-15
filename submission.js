@@ -331,7 +331,6 @@ function bindProfileForm() {
 
   const result = document.getElementById("profile-result");
   const button = form.querySelector(".primary-button");
-  const previewButton = document.getElementById("profile-preview-button");
   const previewPanel = document.getElementById("profile-preview-panel");
   const previewPhoto = document.getElementById("profile-preview-photo");
   const previewName = document.getElementById("profile-preview-name");
@@ -347,8 +346,6 @@ function bindProfileForm() {
     previewNameEn.textContent = data.get("name_en") || "GAMZA";
     previewBio.textContent = data.get("bio") || "소개글을 입력하면 여기에 표시됩니다.";
     previewCapabilities.textContent = data.get("capabilities") || "작업 가능 조건을 입력하면 여기에 표시됩니다.";
-    previewPanel.hidden = false;
-    previewPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
   };
 
   imageInput?.addEventListener("change", () => {
@@ -356,17 +353,19 @@ function bindProfileForm() {
     if (previewImageUrl) URL.revokeObjectURL(previewImageUrl);
     previewImageUrl = file ? URL.createObjectURL(file) : "";
     previewPhoto.innerHTML = previewImageUrl ? `<img src="${previewImageUrl}" alt="" />` : "PROFILE IMAGE";
+    renderPreview();
   });
 
-  previewButton?.addEventListener("click", renderPreview);
+  form.addEventListener("input", renderPreview);
+  renderPreview();
 
   form.addEventListener("reset", () => {
     window.setTimeout(() => {
       if (previewImageUrl) URL.revokeObjectURL(previewImageUrl);
       previewImageUrl = "";
       previewPhoto.textContent = "PROFILE IMAGE";
-      previewPanel.hidden = true;
       result.hidden = true;
+      renderPreview();
     });
   });
 

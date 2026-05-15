@@ -1072,8 +1072,8 @@ function openActor(actorId) {
   applyRevealTargets(actorDetail);
   actorDetail.hidden = false;
   resetPageReveals(actorDetail);
-  document.querySelector("#actors").hidden = true;
-  setActiveNav("#actors");
+  document.querySelector("#members").hidden = true;
+  setActiveNav("#members");
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -1224,18 +1224,7 @@ function updateFilterSummary(groupKey) {
 }
 
 function syncFilterPanelSpace() {
-  const openPanel = filterControls.querySelector(".filter-dropdown.is-open .filter-panel");
-  const footer = document.querySelector("#info");
-  let panelSpace = 0;
-
-  if (openPanel && footer) {
-    const panelRect = openPanel.getBoundingClientRect();
-    const footerRect = footer.getBoundingClientRect();
-    const overlap = panelRect.bottom - footerRect.top + 18;
-    panelSpace = Math.max(0, Math.min(overlap, panelRect.height + 18));
-  }
-
-  filterForm.style.setProperty("--filter-panel-space", `${panelSpace}px`);
+  filterForm.style.removeProperty("--filter-panel-space");
 }
 
 function closeFilterPanels(exceptDropdown = null) {
@@ -1682,9 +1671,39 @@ if (heroSection) {
 }
 
 if (heroSection && voiceSampleSection) {
+  document.addEventListener(
+    "wheel",
+    (event) => {
+      const openFilterPanel = filterControls.querySelector(".filter-dropdown.is-open .filter-panel");
+      if (!openFilterPanel) return;
+
+      const panelRect = openFilterPanel.getBoundingClientRect();
+      const isInsideOpenPanel =
+        event.clientX >= panelRect.left &&
+        event.clientX <= panelRect.right &&
+        event.clientY >= panelRect.top &&
+        event.clientY <= panelRect.bottom;
+
+      if (!isInsideOpenPanel) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      openFilterPanel.scrollTop += event.deltaY;
+    },
+    { capture: true, passive: false },
+  );
+
+  filterControls.addEventListener("wheel", (event) => {
+    if (event.target.closest(".filter-panel")) {
+      event.stopPropagation();
+    }
+  });
+
   voiceSampleSection.addEventListener(
     "wheel",
     (event) => {
+      if (filterControls.querySelector(".filter-dropdown.is-open")) return;
+
       if (event.deltaY >= 0 || homePage.hidden) return;
 
       const voiceSampleTop = voiceSampleSection.offsetTop;
@@ -1720,8 +1739,8 @@ document.querySelector("#back-to-actors").addEventListener("click", () => {
     page.hidden = true;
   });
   actorDetail.hidden = true;
-  document.querySelector("#actors").hidden = false;
-  setActiveNav("#actors");
+  document.querySelector("#members").hidden = false;
+  setActiveNav("#members");
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
@@ -1838,8 +1857,13 @@ function resetPageReveals(page) {
 function showRoute() {
   stopActivePlayer();
   const hash = window.location.hash || "#top";
+  if (hash === "#actors") {
+    window.history.replaceState(null, "", "#members");
+    showRoute();
+    return;
+  }
   const articleMatch = hash.match(/^#news-article-(.+)$/);
-  const isAppPage = ["#news", "#actors", "#services", "#contact"].includes(hash) || Boolean(articleMatch);
+  const isAppPage = ["#news", "#members", "#services", "#contact"].includes(hash) || Boolean(articleMatch);
   let activePage = null;
 
   homePage.hidden = isAppPage;

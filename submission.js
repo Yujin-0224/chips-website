@@ -262,7 +262,7 @@ function renderAuthStatus(user) {
   const status = document.createElement("div");
   status.className = "auth-status";
   status.innerHTML = user
-    ? `<span><strong>${user.name || user.username}</strong> 계정으로 로그인 중입니다.${user.role === "actor" ? " 본인 프로필만 수정할 수 있습니다." : " 운영자 권한입니다."}</span><button type="button" data-auth-logout>로그아웃</button>`
+    ? `<span><strong>${user.name || user.username}</strong> 계정으로 로그인 중입니다.${user.role === "actor" ? " 본인 프로필만 관리할 수 있습니다." : " 운영자 권한입니다."}</span><button type="button" data-auth-logout>로그아웃</button>`
     : `<span><strong>로그인이 필요합니다.</strong> 계정 승인 후 프로필 수정과 오디오 업로드를 사용할 수 있습니다.</span><a class="secondary-button button-link" href="login.html">로그인</a>`;
   shell.insertAdjacentElement("afterend", status);
 

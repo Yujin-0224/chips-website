@@ -18,7 +18,7 @@ export async function onRequestPost({ request, env }) {
     if (!username || username.length < 3) return json({ error: "아이디는 3자 이상이어야 합니다." }, 400);
     const passwordError = passwordPolicyError(password);
     if (passwordError) return json({ error: passwordError }, 400);
-    if (!name) return json({ error: "성우 이름을 입력해 주세요." }, 400);
+    if (!name) return json({ error: "멤버 이름을 입력해 주세요." }, 400);
 
     const existingUser = await env.CHIPS_MEDIA.get(`auth/users/${username}.json`);
     if (existingUser) return json({ error: "이미 사용 중인 아이디입니다." }, 409);

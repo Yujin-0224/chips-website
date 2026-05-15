@@ -44,6 +44,12 @@ function escapeHtml(value = "") {
     .replace(/'/g, "&#039;");
 }
 
+function roleLabel(role = "") {
+  if (role === "admin") return "관리자";
+  if (role === "actor") return "멤버";
+  return role || "-";
+}
+
 function submissionCard(item, type) {
   const title = type === "profile" ? item.name : item.sampleTitle;
   const subtitle = type === "profile" ? item.nameEn || item.actorId : `${item.actorName || ""} / ${item.actorId || ""}`;
@@ -87,7 +93,7 @@ function accountCard(item) {
     <article class="submission-card">
       <div>
         <strong>${escapeHtml(item.name || item.username)}</strong>
-        <span>${escapeHtml(item.username)} / ${escapeHtml(item.role)} / ${escapeHtml(item.actorId || "-")}</span>
+        <span>${escapeHtml(item.username)} / ${escapeHtml(roleLabel(item.role))} / ${escapeHtml(item.actorId || "-")}</span>
       </div>
       <small>${escapeHtml(item.createdAt || "")}</small>
     </article>

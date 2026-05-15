@@ -801,6 +801,7 @@ const contactLocales = {
 const initialContactLocale = new URLSearchParams(window.location.search).get("contactLocale");
 let activeContactLocale = contactLocales[initialContactLocale] ? initialContactLocale : "ko";
 let contactStatusTimer = null;
+let contactToastTimer = null;
 const newsArticleSection = document.querySelector("#news-article");
 const newsArticleContent = document.querySelector("#news-article-content");
 const topNewsRail = document.querySelector("#top-news-rail");
@@ -855,6 +856,12 @@ function hideContactStatusBar() {
   if (!contactStatusBar) return;
   window.clearTimeout(contactStatusTimer);
   contactStatusBar.hidden = true;
+}
+
+function hideContactSuccessUi() {
+  window.clearTimeout(contactToastTimer);
+  if (contactToast) contactToast.hidden = true;
+  if (statusEl) statusEl.textContent = "";
 }
 
 function formatTime(seconds = 0) {
@@ -1769,6 +1776,7 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
 
   submitButton.disabled = true;
   contactToast.hidden = true;
+  window.clearTimeout(contactToastTimer);
   statusEl.textContent = contactLocales[activeContactLocale].status.sending;
   showContactStatusBar(contactLocales[activeContactLocale].status.sending, "info", 0);
 
@@ -1781,10 +1789,10 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
     if (!response.ok) throw new Error("Basin request failed");
 
     form.reset();
-    statusEl.textContent = contactLocales[activeContactLocale].status.success;
+    statusEl.textContent = "";
     hideContactStatusBar();
     contactToast.hidden = false;
-    window.setTimeout(() => {
+    contactToastTimer = window.setTimeout(() => {
       contactToast.hidden = true;
     }, 5200);
   } catch (error) {
@@ -1857,6 +1865,7 @@ function resetPageReveals(page) {
 function showRoute() {
   stopActivePlayer();
   const hash = window.location.hash || "#top";
+  if (hash !== "#contact") hideContactSuccessUi();
   if (hash === "#actors") {
     window.history.replaceState(null, "", "#members");
     showRoute();

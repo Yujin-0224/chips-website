@@ -858,11 +858,15 @@ function formatAudioMeta(source = {}) {
   return categories.join(" / ");
 }
 
+function getSearchAudioSources(actor = {}) {
+  const introSrcs = new Set(getIntroAudioSources(actor).map((source) => source.src));
+  return (actor.audioSources || []).filter((source) => source.audioKind !== "intro" && !introSrcs.has(source.src));
+}
+
 function getProfileAudioOptions(actor) {
   const introSources = getIntroAudioSources(actor);
   const introPlayerSources = introSources;
-  const introSrcs = new Set(introPlayerSources.map((source) => source.src));
-  const sampleSources = (actor.audioSources || []).filter((source) => !introSrcs.has(source.src));
+  const sampleSources = getSearchAudioSources(actor);
   const sampleLabels = actor.demos?.length
     ? actor.demos
     : sampleSources.map((source, index) => source.title || source.category || `\uc0d8\ud50c ${index + 1}`);
@@ -917,8 +921,11 @@ function renderDetailAudioOption(index = 0, options = {}) {
 }
 
 function renderSamples(list = actors) {
+  const searchableActors = list
+    .map((actor) => ({ ...actor, audioSources: getSearchAudioSources(actor) }))
+    .filter((actor) => actor.audioSources.length);
   sampleEmpty.hidden = true;
-  sampleGrid.innerHTML = list
+  sampleGrid.innerHTML = searchableActors
     .map(
       (actor) => `
         <article class="sample-card" data-actor="${actor.id}" tabindex="0" role="button" aria-label="${actor.name} 프로필 보기">
@@ -1222,6 +1229,7 @@ function filterSamples() {
   }
 
   const filtered = actors.filter((actor) => {
+    if (!getSearchAudioSources(actor).length) return false;
     const actorFilters = getActorFilterValues(actor);
     return Object.entries(filters).every(([key, values]) => {
       if (!values.length) return true;

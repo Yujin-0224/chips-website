@@ -373,10 +373,30 @@ function bindAudioForm() {
 
   const actorSelect = document.getElementById("actor-select");
   const actorName = document.getElementById("actor-name");
+  const audioKind = document.getElementById("audio-kind");
+  const sampleTitleInput = document.getElementById("sample-title");
+  const categorySection = document.getElementById("audio-category-section");
   const fileInput = document.getElementById("audio-file");
   const fileName = document.getElementById("file-name");
   const result = document.getElementById("audio-result");
   const button = form.querySelector(".primary-button");
+
+  const syncAudioKind = () => {
+    const isIntro = audioKind?.value === "intro";
+    if (sampleTitleInput) {
+      sampleTitleInput.readOnly = isIntro;
+      if (isIntro) sampleTitleInput.value = "\uc790\uae30\uc18c\uac1c";
+      else if (sampleTitleInput.value === "\uc790\uae30\uc18c\uac1c") sampleTitleInput.value = "";
+    }
+    if (categorySection) categorySection.hidden = isIntro;
+    categorySection?.querySelectorAll("input").forEach((input) => {
+      input.disabled = isIntro;
+      if (isIntro) input.checked = false;
+    });
+  };
+
+  audioKind?.addEventListener("change", syncAudioKind);
+  syncAudioKind();
 
   fileInput.addEventListener("change", () => {
     fileName.textContent = fileInput.files[0]?.name || "파일 선택";
@@ -387,6 +407,7 @@ function bindAudioForm() {
       fileName.textContent = "파일 선택";
       result.hidden = true;
       actorName.value = "";
+      syncAudioKind();
     });
   });
 
@@ -402,15 +423,17 @@ function bindAudioForm() {
 
     const data = new FormData(form);
     const actorId = data.get("actor_id");
-    const sampleTitle = data.get("sample_title");
+    const isIntro = data.get("audio_kind") === "intro";
+    const sampleTitle = isIntro ? "\uc790\uae30\uc18c\uac1c" : data.get("sample_title");
     const sampleId = `${slugify(actorId, "actor")}-${slugify(sampleTitle, "sample")}`;
     const ext = mimeExtensions[file.type] || file.name.split(".").pop() || "mp3";
     const r2Key = `audio/${slugify(actorId, "actor")}/${sampleId}.${ext}`;
 
     data.set("actor_name", selectedActorName);
+    data.set("sample_title", sampleTitle);
     data.set("sample_id", sampleId);
     data.set("r2_key", r2Key);
-    data.set("categories_json", JSON.stringify(collectCategoryValues(form)));
+    data.set("categories_json", JSON.stringify(isIntro ? {} : collectCategoryValues(form)));
 
     try {
       const response = await fetch("/api/upload-audio", { method: "POST", headers: authHeaders(), body: data });

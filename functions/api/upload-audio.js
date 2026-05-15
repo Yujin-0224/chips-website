@@ -82,6 +82,7 @@ function addAudioToCms(cms, audio) {
   const source = {
     id: audio.sampleId,
     title: audio.sampleTitle,
+    audioKind: audio.audioKind,
     category: summarizeCategories(audio.categories),
     categories: audio.categories,
     src: audio.r2Url,

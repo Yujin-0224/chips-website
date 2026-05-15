@@ -45,6 +45,50 @@ function parseJson(value, fallback) {
   }
 }
 
+function flattenCategories(categories = {}) {
+  return Object.values(categories).flat().filter(Boolean);
+}
+
+async function loadCms(bucket) {
+  const stored = await bucket.get("cms/cms-data.json");
+  if (!stored) return { enabled: true, sampleAudioSources: [], actors: [], newsArticles: [] };
+  return stored.json();
+}
+
+async function saveCms(bucket, cms) {
+  cms.enabled = true;
+  cms.source = {
+    ...(cms.source || {}),
+    r2Managed: true,
+    syncedAt: new Date().toISOString(),
+  };
+  await bucket.put("cms/cms-data.json", JSON.stringify(cms, null, 2), {
+    httpMetadata: { contentType: "application/json; charset=utf-8" },
+  });
+}
+
+function addAudioToCms(cms, audio) {
+  cms.actors = Array.isArray(cms.actors) ? cms.actors : [];
+  const actor = cms.actors.find((item) => item.id === audio.actorId);
+  if (!actor) throw new Error(`Actor '${audio.actorId}' does not exist. Create the profile first.`);
+
+  actor.audioSources = Array.isArray(actor.audioSources) ? actor.audioSources : [];
+  const source = {
+    id: audio.sampleId,
+    title: audio.sampleTitle,
+    category: flattenCategories(audio.categories).join(", "),
+    src: audio.r2Url,
+    type: audio.audioType || "audio/mpeg",
+  };
+  const index = actor.audioSources.findIndex((item) => item.id === source.id || item.src === source.src);
+  if (index >= 0) actor.audioSources[index] = source;
+  else actor.audioSources.push(source);
+
+  actor.demos = Array.from(new Set([...(actor.demos || []), audio.sampleTitle].filter(Boolean)));
+  actor.updatedAt = new Date().toISOString();
+  return source;
+}
+
 export async function onRequestOptions() {
   return new Response(null, {
     headers: {
@@ -101,8 +145,11 @@ export async function onRequestPost({ request, env }) {
       originalFileName: file.name,
       uploadedAt: new Date().toISOString(),
     };
-    const metadataKey = `submissions/audio/${actorId}/${sampleId}.json`;
-    await env.CHIPS_MEDIA.put(metadataKey, JSON.stringify(metadata, null, 2), {
+    const metadataKey = `approved/audio/${actorId}/${sampleId}-${Date.now()}.json`;
+    const cms = await loadCms(env.CHIPS_MEDIA);
+    const source = addAudioToCms(cms, metadata);
+    await saveCms(env.CHIPS_MEDIA, cms);
+    await env.CHIPS_MEDIA.put(metadataKey, JSON.stringify({ ...metadata, approvedAt: new Date().toISOString() }, null, 2), {
       httpMetadata: { contentType: "application/json; charset=utf-8" },
     });
 
@@ -111,6 +158,8 @@ export async function onRequestPost({ request, env }) {
       r2Key,
       r2Url,
       metadataKey,
+      source,
+      cmsKey: "cms/cms-data.json",
       metadata,
     });
   } catch (error) {

@@ -1,4 +1,4 @@
-import { cors, hashPassword, json, randomId, safeUsername, slugify } from "./_shared.js";
+import { cors, hashPassword, json, passwordPolicyError, randomId, safeUsername } from "./_shared.js";
 
 export async function onRequestOptions() {
   return cors();
@@ -16,8 +16,9 @@ export async function onRequestPost({ request, env }) {
     const note = `${body.note || ""}`.trim();
 
     if (!username || username.length < 3) return json({ error: "아이디는 3자 이상이어야 합니다." }, 400);
-    if (password.length < 6) return json({ error: "비밀번호는 6자 이상이어야 합니다." }, 400);
-    if (!name) return json({ error: "성우 이름을 입력해주세요." }, 400);
+    const passwordError = passwordPolicyError(password);
+    if (passwordError) return json({ error: passwordError }, 400);
+    if (!name) return json({ error: "성우 이름을 입력해 주세요." }, 400);
 
     const existingUser = await env.CHIPS_MEDIA.get(`auth/users/${username}.json`);
     if (existingUser) return json({ error: "이미 사용 중인 아이디입니다." }, 409);
@@ -31,7 +32,7 @@ export async function onRequestPost({ request, env }) {
       passwordHash,
       salt,
       requestedName: name,
-      actorId: slugify(name, username),
+      actorId: username,
       contact,
       note,
       status: "pending",
@@ -42,7 +43,7 @@ export async function onRequestPost({ request, env }) {
       httpMetadata: { contentType: "application/json; charset=utf-8" },
     });
 
-    return json({ ok: true, requestId, message: "가입 요청이 접수되었습니다." });
+    return json({ ok: true, requestId, actorId: username, message: "가입 요청이 접수되었습니다." });
   } catch (error) {
     return json({ error: error.message || "Signup request failed." }, 500);
   }

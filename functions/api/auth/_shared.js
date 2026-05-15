@@ -36,6 +36,12 @@ export function safeUsername(value = "") {
     .replace(/^-+|-+$/g, "");
 }
 
+export function passwordPolicyError(password = "") {
+  if (`${password}`.length < 6) return "비밀번호는 6자 이상이어야 합니다.";
+  if (!/[^\p{L}\p{N}]/u.test(`${password}`)) return "비밀번호에는 특수문자가 1개 이상 포함되어야 합니다.";
+  return "";
+}
+
 export async function hashPassword(password, salt) {
   const bytes = new TextEncoder().encode(`${salt}:${password}`);
   const digest = await crypto.subtle.digest("SHA-256", bytes);

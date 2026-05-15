@@ -451,7 +451,7 @@ function bindProfileForm() {
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Submit failed");
       showResult(result, {
-        message: "프로필 제출 완료",
+        message: "프로필 추가 완료",
         profileId: payload.profileId,
         metadataKey: payload.metadataKey,
         profileImageUrl: payload.profileImageUrl,
@@ -570,15 +570,13 @@ function bindProfileEditForm() {
       const response = await fetch("/api/update-profile", { method: "POST", headers: authHeaders(), body: data });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Update failed");
-      const updatedActor = payload.actor;
-      const index = state.actors.findIndex((actor) => actor.id === updatedActor.id);
-      if (index >= 0) state.actors[index] = updatedActor;
-      fillForm(updatedActor);
+      const requestedActor = payload.requestedActor || payload.actor;
       showResult(result, {
-        message: "프로필 수정 완료",
-        actorId: updatedActor.id,
-        cmsKey: payload.cmsKey,
-        profileImage: updatedActor.profileImage,
+        message: "프로필 수정 승인 요청 완료",
+        actorId: requestedActor.id,
+        metadataKey: payload.metadataKey,
+        approvalRequired: true,
+        profileImage: requestedActor.profileImage,
       });
     } catch (error) {
       showResult(result, {

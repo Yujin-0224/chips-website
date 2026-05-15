@@ -1,4 +1,4 @@
-import { hashPassword, json, requireAdmin, safeUsername, slugify } from "../auth/_shared.js";
+import { hashPassword, json, passwordPolicyError, requireAdmin, safeUsername } from "../auth/_shared.js";
 
 async function readJsonObjects(bucket, prefix) {
   const listed = await bucket.list({ prefix });
@@ -57,14 +57,15 @@ export async function onRequestPost({ request, env }) {
       const password = `${body.password || ""}`;
       const role = body.role === "admin" ? "admin" : "actor";
       const name = `${body.name || username}`.trim();
-      const actorId = role === "admin" ? `${body.actorId || ""}`.trim() : `${body.actorId || slugify(name, username)}`.trim();
+      const actorId = role === "admin" ? `${body.actorId || ""}`.trim() : username;
+
       if (!username || username.length < 3) return json({ error: "아이디는 3자 이상이어야 합니다." }, 400);
-      if (password.length < 6) return json({ error: "비밀번호는 6자 이상이어야 합니다." }, 400);
-      if (role === "actor" && !actorId) return json({ error: "성우 계정에는 actorId가 필요합니다." }, 400);
+      const passwordError = passwordPolicyError(password);
+      if (passwordError) return json({ error: passwordError }, 400);
 
       const userKey = `auth/users/${username}.json`;
       const existing = await env.CHIPS_MEDIA.get(userKey);
-      if (existing) return json({ error: "A user with this username already exists." }, 409);
+      if (existing) return json({ error: "이미 사용 중인 아이디입니다." }, 409);
 
       const salt = crypto.randomUUID();
       const user = {
@@ -103,16 +104,17 @@ export async function onRequestPost({ request, env }) {
     if (action !== "approve") return json({ error: "Invalid action." }, 400);
 
     const username = safeUsername(signup.username);
+    const role = body.role || "actor";
     const userKey = `auth/users/${username}.json`;
     const existing = await env.CHIPS_MEDIA.get(userKey);
-    if (existing) return json({ error: "A user with this username already exists." }, 409);
+    if (existing) return json({ error: "이미 사용 중인 아이디입니다." }, 409);
 
     const user = {
       username,
       passwordHash: signup.passwordHash,
       salt: signup.salt,
-      role: body.role || "actor",
-      actorId: `${body.actorId || signup.actorId || username}`.trim(),
+      role,
+      actorId: role === "admin" ? `${body.actorId || ""}`.trim() : username,
       name: `${body.name || signup.requestedName || username}`.trim(),
       status: "active",
       createdAt: new Date().toISOString(),

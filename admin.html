@@ -76,7 +76,15 @@
               </div>
               <div class="field">
                 <label for="account-password">비밀번호</label>
-                <input id="account-password" name="password" type="password" required minlength="6" />
+                <input
+                  id="account-password"
+                  name="password"
+                  type="password"
+                  required
+                  minlength="6"
+                  pattern="^(?=.*[^A-Za-z0-9]).{6,}$"
+                />
+                <small class="field-help">6자 이상, 특수문자 1개 이상을 포함해 주세요.</small>
               </div>
               <div class="field">
                 <label for="account-role">권한</label>
@@ -106,6 +114,6 @@
       <pre class="result-box" id="admin-result" hidden></pre>
     </main>
 
-    <script src="admin.js?v=20260515-admin-role"></script>
+    <script src="admin.js?v=20260515-admin-password"></script>
   </body>
 </html>

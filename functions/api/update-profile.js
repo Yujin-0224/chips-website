@@ -22,18 +22,6 @@ async function loadCms(bucket) {
   return stored.json();
 }
 
-async function saveCms(bucket, cms) {
-  cms.enabled = true;
-  cms.source = {
-    ...(cms.source || {}),
-    r2Managed: true,
-    syncedAt: new Date().toISOString(),
-  };
-  await bucket.put("cms/cms-data.json", JSON.stringify(cms, null, 2), {
-    httpMetadata: { contentType: "application/json; charset=utf-8" },
-  });
-}
-
 export async function onRequestOptions() {
   return new Response(null, {
     headers: {
@@ -85,13 +73,30 @@ export async function onRequestPost({ request, env }) {
       updatedAt: new Date().toISOString(),
     };
 
-    cms.actors[actorIndex] = updatedActor;
-    await saveCms(env.CHIPS_MEDIA, cms);
+    const metadataKey = `submissions/profiles/${actorId}.json`;
+    await env.CHIPS_MEDIA.put(
+      metadataKey,
+      JSON.stringify(
+        {
+          kind: "profile",
+          ...updatedActor,
+          actorId,
+          profileImageUrl: updatedActor.profileImage,
+          requestedBy: user.username,
+          requestedAt: new Date().toISOString(),
+        },
+        null,
+        2,
+      ),
+      { httpMetadata: { contentType: "application/json; charset=utf-8" } },
+    );
 
     return json({
       ok: true,
-      actor: updatedActor,
-      cmsKey: "cms/cms-data.json",
+      actor: currentActor,
+      requestedActor: updatedActor,
+      metadataKey,
+      approvalRequired: true,
     });
   } catch (error) {
     return json({ error: error.message || "Profile update failed." }, 500);

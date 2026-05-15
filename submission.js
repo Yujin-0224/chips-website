@@ -223,6 +223,62 @@ function showResult(target, value) {
   target.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
 }
 
+function authToken() {
+  return localStorage.getItem("chipsAuthToken") || "";
+}
+
+function cachedAuthUser() {
+  try {
+    return JSON.parse(localStorage.getItem("chipsAuthUser") || "null");
+  } catch {
+    return null;
+  }
+}
+
+function authHeaders() {
+  const token = authToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+async function currentUser() {
+  const cached = cachedAuthUser();
+  if (!authToken()) return cached;
+
+  try {
+    const response = await fetch("/api/auth/me", { headers: authHeaders(), cache: "no-store" });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.error || "Auth check failed");
+    localStorage.setItem("chipsAuthUser", JSON.stringify(payload.user));
+    return payload.user;
+  } catch {
+    return cached;
+  }
+}
+
+function renderAuthStatus(user) {
+  const shell = document.querySelector(".submission-hero");
+  if (!shell) return;
+
+  const status = document.createElement("div");
+  status.className = "auth-status";
+  status.innerHTML = user
+    ? `<span><strong>${user.name || user.username}</strong> 계정으로 로그인 중입니다.${user.role === "actor" ? " 본인 프로필만 수정할 수 있습니다." : " 운영자 권한입니다."}</span><button type="button" data-auth-logout>로그아웃</button>`
+    : `<span><strong>로그인이 필요합니다.</strong> 계정 승인 후 프로필 수정과 오디오 업로드를 사용할 수 있습니다.</span><a class="secondary-button button-link" href="login.html">로그인</a>`;
+  shell.insertAdjacentElement("afterend", status);
+
+  status.querySelector("[data-auth-logout]")?.addEventListener("click", async () => {
+    await fetch("/api/auth/logout", { method: "POST", headers: authHeaders() }).catch(() => {});
+    localStorage.removeItem("chipsAuthToken");
+    localStorage.removeItem("chipsAuthUser");
+    window.location.href = "login.html";
+  });
+}
+
+const authReady = currentUser().then((user) => {
+  renderAuthStatus(user);
+  return user;
+});
+
 async function loadActors() {
   const remoteCmsUrl = "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/cms/cms-data.json";
   let response = await fetch(remoteCmsUrl, { cache: "no-store" });
@@ -236,6 +292,14 @@ async function loadActors() {
     .sort((a, b) => `${a.name}`.localeCompare(`${b.name}`, "ko"));
 }
 
+function profileImageFromActor(actor = {}) {
+  return actor.profileImage || actor.profileImageUrl || actor.image || "";
+}
+
+function actorOptionLabel(actor = {}) {
+  return `${actor.name || actor.id}${actor.nameEn ? ` / ${actor.nameEn}` : ""}`;
+}
+
 async function populateActorSelect() {
   const select = document.getElementById("actor-select");
   const actorName = document.getElementById("actor-name");
@@ -243,14 +307,19 @@ async function populateActorSelect() {
 
   try {
     const actors = await loadActors();
-    select.innerHTML = `<option value="">성우를 선택하세요</option>${actors
-      .map(
-        (actor) =>
-          `<option value="${actor.id}" data-name="${actor.name}">${actor.name}${actor.nameEn ? ` / ${actor.nameEn}` : ""}</option>`,
-      )
+    const user = await authReady;
+    const visibleActors = !user ? [] : user.role === "actor" ? actors.filter((actor) => actor.id === user.actorId) : actors;
+    select.innerHTML = `<option value="">Select actor</option>${visibleActors
+      .map((actor) => `<option value="${actor.id}" data-name="${actor.name}">${actorOptionLabel(actor)}</option>`)
       .join("")}`;
+    if (!user) select.disabled = true;
+    if (user?.role === "actor" && visibleActors[0]) {
+      select.value = visibleActors[0].id;
+      select.disabled = true;
+      actorName.value = visibleActors[0].name || user.name || "";
+    }
   } catch (error) {
-    select.innerHTML = `<option value="">성우 목록 로드 실패</option>`;
+    select.innerHTML = `<option value="">Failed to load actors</option>`;
     select.disabled = true;
   }
 
@@ -305,7 +374,7 @@ function bindAudioForm() {
     data.set("categories_json", JSON.stringify(collectCategoryValues(form)));
 
     try {
-      const response = await fetch("/api/upload-audio", { method: "POST", body: data });
+      const response = await fetch("/api/upload-audio", { method: "POST", headers: authHeaders(), body: data });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Upload failed");
       showResult(result, {
@@ -378,7 +447,7 @@ function bindProfileForm() {
     data.set("actor_id", slugify(data.get("name"), "actor"));
 
     try {
-      const response = await fetch("/api/submit-profile", { method: "POST", body: data });
+      const response = await fetch("/api/submit-profile", { method: "POST", headers: authHeaders(), body: data });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Submit failed");
       showResult(result, {
@@ -396,7 +465,147 @@ function bindProfileForm() {
   });
 }
 
+async function populateProfileEditSelect(state) {
+  const select = document.getElementById("edit-actor-select");
+  if (!select) return;
+
+  try {
+    state.actors = await loadActors();
+    const user = await authReady;
+    const visibleActors = !user ? [] : user.role === "actor" ? state.actors.filter((actor) => actor.id === user.actorId) : state.actors;
+    select.innerHTML = `<option value="">수정할 성우를 선택하세요</option>${visibleActors
+      .map((actor) => `<option value="${actor.id}">${actorOptionLabel(actor)}</option>`)
+      .join("")}`;
+    if (!user) select.disabled = true;
+    if (user?.role === "actor" && visibleActors[0]) {
+      select.value = visibleActors[0].id;
+      select.disabled = true;
+    }
+  } catch (error) {
+    select.innerHTML = `<option value="">성우 목록 로드 실패</option>`;
+    select.disabled = true;
+  }
+}
+
+function bindProfileEditForm() {
+  const form = document.getElementById("profile-edit-form");
+  if (!form) return;
+
+  const state = { actors: [], currentActor: null, previewImageUrl: "" };
+  const select = document.getElementById("edit-actor-select");
+  const result = document.getElementById("profile-edit-result");
+  const button = form.querySelector(".primary-button");
+  const imageInput = document.getElementById("edit-profile-image");
+  const fields = {
+    name: document.getElementById("edit-profile-name"),
+    nameEn: document.getElementById("edit-profile-name-en"),
+    bio: document.getElementById("edit-profile-bio"),
+    capabilities: document.getElementById("edit-profile-capabilities"),
+  };
+  const preview = {
+    photo: document.getElementById("profile-edit-preview-photo"),
+    name: document.getElementById("profile-edit-preview-name"),
+    nameEn: document.getElementById("profile-edit-preview-name-en"),
+    bio: document.getElementById("profile-edit-preview-bio"),
+    capabilities: document.getElementById("profile-edit-preview-capabilities"),
+  };
+
+  const setPreviewImage = (url = "") => {
+    preview.photo.innerHTML = url ? `<img src="${url}" alt="" />` : "PROFILE IMAGE";
+  };
+
+  const renderPreview = () => {
+    preview.name.textContent = fields.name.value || "감자";
+    preview.nameEn.textContent = fields.nameEn.value || "GAMZA";
+    preview.bio.textContent = fields.bio.value || "소개글을 입력하면 여기에 표시됩니다.";
+    preview.capabilities.textContent = fields.capabilities.value || "작업 가능 조건을 입력하면 여기에 표시됩니다.";
+  };
+
+  const fillForm = (actor) => {
+    state.currentActor = actor || null;
+    if (state.previewImageUrl) URL.revokeObjectURL(state.previewImageUrl);
+    state.previewImageUrl = "";
+    imageInput.value = "";
+    fields.name.value = actor?.name || "";
+    fields.nameEn.value = actor?.nameEn || "";
+    fields.bio.value = actor?.bio || "";
+    fields.capabilities.value = actor?.capabilities || "";
+    setPreviewImage(profileImageFromActor(actor));
+    result.hidden = true;
+    renderPreview();
+  };
+
+  select.addEventListener("change", () => {
+    fillForm(state.actors.find((actor) => actor.id === select.value));
+  });
+
+  imageInput.addEventListener("change", () => {
+    const file = imageInput.files?.[0];
+    if (state.previewImageUrl) URL.revokeObjectURL(state.previewImageUrl);
+    state.previewImageUrl = file ? URL.createObjectURL(file) : "";
+    setPreviewImage(state.previewImageUrl || profileImageFromActor(state.currentActor));
+    renderPreview();
+  });
+
+  form.addEventListener("input", renderPreview);
+  form.addEventListener("reset", () => {
+    window.setTimeout(() => {
+      if (state.currentActor) select.value = state.currentActor.id;
+      fillForm(state.currentActor);
+    });
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!select.value) return;
+
+    button.disabled = true;
+    button.textContent = "저장 중";
+
+    const data = new FormData(form);
+    data.set("actor_id", select.value);
+    data.set("existing_profile_image", profileImageFromActor(state.currentActor));
+
+    try {
+      const response = await fetch("/api/update-profile", { method: "POST", headers: authHeaders(), body: data });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.error || "Update failed");
+      const updatedActor = payload.actor;
+      const index = state.actors.findIndex((actor) => actor.id === updatedActor.id);
+      if (index >= 0) state.actors[index] = updatedActor;
+      fillForm(updatedActor);
+      showResult(result, {
+        message: "프로필 수정 완료",
+        actorId: updatedActor.id,
+        cmsKey: payload.cmsKey,
+        profileImage: updatedActor.profileImage,
+      });
+    } catch (error) {
+      showResult(result, {
+        error: error.message,
+        note: "로컬 서버에서는 Cloudflare Pages Function이 없어서 저장이 실패할 수 있습니다. 배포 환경에서는 R2 CMS에 저장됩니다.",
+      });
+    } finally {
+      button.disabled = false;
+      button.textContent = "프로필 수정 저장";
+    }
+  });
+
+  populateProfileEditSelect(state).then(() => {
+    const user = cachedAuthUser();
+    const actor = user?.role === "actor" ? state.actors.find((item) => item.id === user.actorId) : null;
+    if (actor) {
+      select.value = actor.id;
+      fillForm(actor);
+    } else {
+      select.value = "";
+      fillForm(null);
+    }
+  });
+}
+
 renderCategoryGrid("audio-category-grid", "audio");
 populateActorSelect();
 bindAudioForm();
 bindProfileForm();
+bindProfileEditForm();

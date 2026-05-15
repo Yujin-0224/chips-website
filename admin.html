@@ -20,7 +20,9 @@
         </a>
         <nav class="submission-nav" aria-label="관리자 페이지">
           <a class="is-active" href="admin.html">관리자 승인</a>
+          <a href="login.html">운영 로그인</a>
           <a href="profile-create.html">프로필 만들기</a>
+          <a href="profile-edit.html">프로필 수정</a>
           <a href="audio-create.html">오디오 만들기</a>
         </nav>
       </div>
@@ -59,6 +61,48 @@
         <div class="form-section">
           <h2>오디오 제출</h2>
           <div id="audio-submissions" class="submission-list"></div>
+        </div>
+      </section>
+
+      <section class="admin-grid">
+        <div class="form-section">
+          <h2>회원가입 요청</h2>
+          <div id="signup-requests" class="submission-list"></div>
+        </div>
+        <div class="form-section">
+          <h2>운영 계정</h2>
+          <form class="admin-account-form" id="admin-account-form">
+            <div class="field-grid">
+              <div class="field">
+                <label for="account-username">아이디</label>
+                <input id="account-username" name="username" required />
+              </div>
+              <div class="field">
+                <label for="account-password">비밀번호</label>
+                <input id="account-password" name="password" type="password" required minlength="6" />
+              </div>
+              <div class="field">
+                <label for="account-role">권한</label>
+                <select id="account-role" name="role">
+                  <option value="actor">성우</option>
+                  <option value="admin">운영자</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="account-actor-id">성우 ID</label>
+                <input id="account-actor-id" name="actorId" placeholder="운영자는 비워도 됨" />
+              </div>
+              <div class="field is-wide">
+                <label for="account-name">표시 이름</label>
+                <input id="account-name" name="name" />
+              </div>
+            </div>
+            <div class="form-actions compact-actions">
+              <button class="secondary-button" type="reset">초기화</button>
+              <button class="primary-button" type="submit">계정 생성</button>
+            </div>
+          </form>
+          <div id="account-list" class="submission-list"></div>
         </div>
       </section>
 

@@ -1,3 +1,5 @@
+import { getSessionUser } from "./auth/_shared.js";
+
 const PUBLIC_BASE_URL = "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev";
 
 const mimeExtensions = {
@@ -48,7 +50,7 @@ export async function onRequestOptions() {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Headers": "Authorization, Content-Type",
     },
   });
 }
@@ -56,16 +58,19 @@ export async function onRequestOptions() {
 export async function onRequestPost({ request, env }) {
   try {
     if (!env.CHIPS_MEDIA) return json({ error: "R2 binding CHIPS_MEDIA is not configured." }, 500);
+    const user = await getSessionUser(env.CHIPS_MEDIA, request);
+    if (!user) return json({ error: "Login is required." }, 401);
 
     const form = await request.formData();
     const file = form.get("audio_file");
     if (!file || typeof file === "string") return json({ error: "audio_file is required." }, 400);
     if (!file.type.startsWith("audio/")) return json({ error: "Only audio files are allowed." }, 400);
 
-    const actorName = `${form.get("actor_name") || ""}`.trim();
-    const actorId = slugify(form.get("actor_id") || actorName, "actor");
+    const actorName = user.role === "admin" ? `${form.get("actor_name") || ""}`.trim() : user.name;
+    const actorId = user.role === "admin" ? slugify(form.get("actor_id") || actorName, "actor") : user.actorId;
     const sampleTitle = `${form.get("sample_title") || ""}`.trim();
     if (!actorName || !sampleTitle) return json({ error: "actor_name and sample_title are required." }, 400);
+    if (user.role !== "admin" && actorId !== user.actorId) return json({ error: "You can only upload audio to your own profile." }, 403);
 
     const sampleId = slugify(form.get("sample_id") || `${actorId}-${sampleTitle}`, "sample");
     const extension = mimeExtensions[file.type] || file.name.split(".").pop() || "mp3";

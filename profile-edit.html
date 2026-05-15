@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CHIPS Profile Create</title>
+    <title>CHIPS Profile Edit</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="submission.css?v=20260515-profile-preview" />
+    <link rel="stylesheet" href="submission.css?v=20260515-profile-edit" />
   </head>
   <body>
     <main class="submission-shell">
@@ -19,8 +19,8 @@
           <img src="assets/chips_logo_1.png" alt="CHIPS" />
         </a>
         <nav class="submission-nav" aria-label="작성 페이지">
-          <a class="is-active" href="profile-create.html">프로필 만들기</a>
-          <a href="profile-edit.html">프로필 수정</a>
+          <a href="profile-create.html">프로필 만들기</a>
+          <a class="is-active" href="profile-edit.html">프로필 수정</a>
           <a href="audio-create.html">오디오 만들기</a>
           <a href="login.html">로그인</a>
           <a href="index.html#members">성우 보기</a>
@@ -30,58 +30,71 @@
       <section class="submission-hero">
         <div>
           <p class="submission-kicker">VOICE ACTOR PROFILE</p>
-          <h1>PROFILE CREATE</h1>
-          <p>프로필 기본 정보를 입력하면 운영자가 검토할 수 있도록 R2에 제출 데이터가 저장됩니다.</p>
+          <h1>PROFILE EDIT</h1>
+          <p>현재 등록된 성우를 선택하면 기존 프로필 정보가 자동으로 입력됩니다. 수정 후 저장하면 공개 CMS 데이터에 바로 반영됩니다.</p>
         </div>
         <aside class="status-panel">
-          <strong>운영자 검토</strong>
-          <p>제출 데이터는 바로 공개되지 않고, 운영자가 승인한 뒤 웹사이트에 반영하는 흐름으로 사용할 수 있습니다.</p>
+          <strong>간편 수정 모드</strong>
+          <p>보안 확인 없이 바로 수정하는 운영용 임시 페이지입니다. 정식 운영 전에는 비밀번호 또는 성우별 수정 링크를 붙이는 것을 권장합니다.</p>
         </aside>
       </section>
 
-      <form class="submission-form" id="profile-form">
+      <form class="submission-form" id="profile-edit-form">
+        <section class="form-section">
+          <h2>수정할 성우 선택</h2>
+          <div class="field-grid">
+            <div class="field is-wide">
+              <label for="edit-actor-select">성우 선택</label>
+              <select id="edit-actor-select" name="actor_id" required>
+                <option value="">성우 목록 불러오는 중</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
         <section class="form-section">
           <h2>프로필 정보</h2>
           <div class="field-grid">
             <div class="field">
-              <label for="profile-name">성우 이름</label>
-              <input id="profile-name" name="name" required placeholder="예: 감자" />
+              <label for="edit-profile-name">성우 이름</label>
+              <input id="edit-profile-name" name="name" required placeholder="예: 감자" />
             </div>
             <div class="field">
-              <label for="profile-name-en">영문 표기</label>
-              <input id="profile-name-en" name="name_en" placeholder="예: GAMZA" />
+              <label for="edit-profile-name-en">영문 표기</label>
+              <input id="edit-profile-name-en" name="name_en" placeholder="예: GAMZA" />
             </div>
             <div class="field">
-              <label for="profile-image">프로필 이미지</label>
-              <input id="profile-image" name="profile_image" type="file" accept="image/*" />
+              <label for="edit-profile-image">프로필 이미지 교체</label>
+              <input id="edit-profile-image" name="profile_image" type="file" accept="image/*" />
             </div>
             <div class="field">
-              <label for="profile-capabilities">작업 가능 조건</label>
-              <input id="profile-capabilities" name="capabilities" placeholder="예: 홈레코딩 가능 · 원격 디렉팅 가능 · 빠른 납기" />
+              <label for="edit-profile-capabilities">작업 가능 조건</label>
+              <input id="edit-profile-capabilities" name="capabilities" placeholder="예: 홈레코딩 가능 · 원격 디렉팅 가능 · 빠른 납기" />
             </div>
             <div class="field is-wide">
-              <label for="profile-bio">소개글</label>
-              <textarea id="profile-bio" name="bio" placeholder="목소리 특성, 가능한 장르, 간단한 소개를 적어주세요."></textarea>
+              <label for="edit-profile-bio">소개글</label>
+              <textarea id="edit-profile-bio" name="bio" placeholder="목소리 특성, 가능한 장르, 간단한 소개를 적어주세요."></textarea>
             </div>
           </div>
         </section>
 
         <div class="form-actions">
-          <button class="secondary-button" type="reset">초기화</button>
-          <button class="primary-button" type="submit">프로필 제출</button>
+          <button class="secondary-button" type="reset">되돌리기</button>
+          <button class="primary-button" type="submit">프로필 수정 저장</button>
         </div>
-        <pre class="result-box" id="profile-result" hidden></pre>
-        <section class="profile-preview-panel" id="profile-preview-panel" aria-live="polite">
+        <pre class="result-box" id="profile-edit-result" hidden></pre>
+
+        <section class="profile-preview-panel" id="profile-edit-preview-panel" aria-live="polite">
           <div class="profile-preview-title">
             <span>PREVIEW</span>
-            <h2>예시 화면</h2>
+            <h2>수정 미리보기</h2>
           </div>
           <article class="profile-preview-profile">
             <div class="profile-preview-sidebar">
-              <div class="profile-preview-photo" id="profile-preview-photo">PROFILE IMAGE</div>
+              <div class="profile-preview-photo" id="profile-edit-preview-photo">PROFILE IMAGE</div>
               <div class="profile-preview-identity">
-                <h2 id="profile-preview-name">감자</h2>
-                <p id="profile-preview-name-en">GAMZA</p>
+                <h2 id="profile-edit-preview-name">감자</h2>
+                <p id="profile-edit-preview-name-en">GAMZA</p>
               </div>
             </div>
             <div class="profile-preview-content">
@@ -106,8 +119,8 @@
                   <span>PROFILE</span>
                   <h3>소개</h3>
                 </div>
-                <div class="profile-preview-copy" id="profile-preview-bio">소개글을 입력하면 여기에 표시됩니다.</div>
-                <div class="profile-preview-capabilities" id="profile-preview-capabilities">작업 가능 조건을 입력하면 여기에 표시됩니다.</div>
+                <div class="profile-preview-copy" id="profile-edit-preview-bio">소개글을 입력하면 여기에 표시됩니다.</div>
+                <div class="profile-preview-capabilities" id="profile-edit-preview-capabilities">작업 가능 조건을 입력하면 여기에 표시됩니다.</div>
               </section>
               <section class="profile-preview-career">
                 <div class="profile-preview-section-head">
@@ -124,6 +137,6 @@
       </form>
     </main>
 
-    <script src="submission.js?v=20260515-profile-preview"></script>
+    <script src="submission.js?v=20260515-profile-edit"></script>
   </body>
 </html>

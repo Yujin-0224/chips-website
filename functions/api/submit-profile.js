@@ -1,3 +1,5 @@
+import { getSessionUser } from "./auth/_shared.js";
+
 const PUBLIC_BASE_URL = "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev";
 
 function json(body, status = 200) {
@@ -37,7 +39,7 @@ export async function onRequestOptions() {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Headers": "Authorization, Content-Type",
     },
   });
 }
@@ -50,7 +52,8 @@ export async function onRequestPost({ request, env }) {
     const name = `${form.get("name") || ""}`.trim();
     if (!name) return json({ error: "name is required." }, 400);
 
-    const actorId = slugify(form.get("actor_id") || name, "actor");
+    const user = await getSessionUser(env.CHIPS_MEDIA, request);
+    const actorId = user && user.role !== "admin" ? user.actorId : slugify(form.get("actor_id") || name, "actor");
     let profileImageUrl = "";
     let profileImageKey = "";
     const image = form.get("profile_image");

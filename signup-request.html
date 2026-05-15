@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CHIPS Signup Request</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="submission.css?v=20260515-auth" />
+  </head>
+  <body>
+    <main class="submission-shell">
+      <div class="submission-topbar">
+        <a class="brand-mark" href="index.html#top" aria-label="CHIPS home">
+          <img src="assets/chips_logo_1.png" alt="CHIPS" />
+        </a>
+        <nav class="submission-nav" aria-label="운영 페이지">
+          <a href="login.html">로그인</a>
+          <a class="is-active" href="signup-request.html">회원가입 요청</a>
+          <a href="profile-edit.html">프로필 수정</a>
+          <a href="audio-create.html">오디오 만들기</a>
+        </nav>
+      </div>
+
+      <section class="submission-hero">
+        <div>
+          <p class="submission-kicker">CHIPS OPERATIONS</p>
+          <h1>SIGNUP REQUEST</h1>
+          <p>아이디와 비밀번호를 정해서 요청하면 운영자가 확인 후 계정을 활성화합니다.</p>
+        </div>
+        <aside class="status-panel">
+          <strong>승인 후 사용</strong>
+          <p>요청만으로 바로 로그인되지는 않습니다. 승인 후 해당 아이디로 본인 프로필과 오디오만 관리할 수 있습니다.</p>
+        </aside>
+      </section>
+
+      <form class="submission-form auth-form" id="signup-request-form">
+        <section class="form-section">
+          <h2>계정 요청</h2>
+          <div class="field-grid">
+            <div class="field">
+              <label for="signup-username">아이디</label>
+              <input id="signup-username" name="username" autocomplete="username" required placeholder="예: gamza" />
+            </div>
+            <div class="field">
+              <label for="signup-password">비밀번호</label>
+              <input id="signup-password" name="password" type="password" autocomplete="new-password" required minlength="6" />
+            </div>
+            <div class="field">
+              <label for="signup-name">성우 이름</label>
+              <input id="signup-name" name="name" required placeholder="예: 감자" />
+            </div>
+            <div class="field">
+              <label for="signup-contact">연락처</label>
+              <input id="signup-contact" name="contact" placeholder="이메일 또는 카카오톡 등" />
+            </div>
+            <div class="field is-wide">
+              <label for="signup-note">메모</label>
+              <textarea id="signup-note" name="note" placeholder="운영자에게 남길 내용을 적어주세요."></textarea>
+            </div>
+          </div>
+        </section>
+
+        <div class="form-actions">
+          <a class="secondary-button button-link" href="login.html">로그인으로 이동</a>
+          <button class="primary-button" type="submit">가입 요청 보내기</button>
+        </div>
+        <pre class="result-box" id="auth-result" hidden></pre>
+      </form>
+    </main>
+
+    <script src="auth.js?v=20260515-auth"></script>
+  </body>
+</html>

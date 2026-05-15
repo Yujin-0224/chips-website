@@ -627,6 +627,7 @@ const contactLocaleButtons = [...document.querySelectorAll("[data-contact-locale
 const sampleEmpty = document.querySelector("#sample-empty");
 const statusEl = document.querySelector("#form-status");
 const contactToast = document.querySelector("#contact-toast");
+const contactToastClose = document.querySelector("#contact-toast-close");
 const contactStatusBar = document.querySelector("#contact-status-bar");
 const fileInput = document.querySelector(".file-input");
 const fileUploadName = document.querySelector("#file-upload-name");
@@ -801,7 +802,6 @@ const contactLocales = {
 const initialContactLocale = new URLSearchParams(window.location.search).get("contactLocale");
 let activeContactLocale = contactLocales[initialContactLocale] ? initialContactLocale : "ko";
 let contactStatusTimer = null;
-let contactToastTimer = null;
 const newsArticleSection = document.querySelector("#news-article");
 const newsArticleContent = document.querySelector("#news-article-content");
 const topNewsRail = document.querySelector("#top-news-rail");
@@ -859,7 +859,6 @@ function hideContactStatusBar() {
 }
 
 function hideContactSuccessUi() {
-  window.clearTimeout(contactToastTimer);
   if (contactToast) contactToast.hidden = true;
   if (statusEl) statusEl.textContent = "";
 }
@@ -1776,7 +1775,6 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
 
   submitButton.disabled = true;
   contactToast.hidden = true;
-  window.clearTimeout(contactToastTimer);
   statusEl.textContent = contactLocales[activeContactLocale].status.sending;
   showContactStatusBar(contactLocales[activeContactLocale].status.sending, "info", 0);
 
@@ -1792,9 +1790,7 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
     statusEl.textContent = "";
     hideContactStatusBar();
     contactToast.hidden = false;
-    contactToastTimer = window.setTimeout(() => {
-      contactToast.hidden = true;
-    }, 5200);
+    contactToastClose?.focus();
   } catch (error) {
     statusEl.textContent = contactLocales[activeContactLocale].status.error;
     showContactStatusBar(contactLocales[activeContactLocale].status.error, "error", 7000);
@@ -1802,6 +1798,8 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
     submitButton.disabled = false;
   }
 });
+
+contactToastClose?.addEventListener("click", hideContactSuccessUi);
 
 if (fileInput && fileUploadName) {
   fileInput.addEventListener("change", syncFileUploadUi);

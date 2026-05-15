@@ -427,9 +427,11 @@
             <p class="form-status" id="form-status" role="status"></p>
           </form>
         </div>
-        <div class="contact-toast" id="contact-toast" hidden role="alert">
-          <strong data-contact-text="toastTitle">문의가 정상적으로 접수되었습니다.</strong>
-          <span data-contact-text="toastBody">확인 후 1~2일 이내에 이메일로 답변드리겠습니다.</span>
+        <div class="contact-toast" id="contact-toast" hidden role="alertdialog" aria-modal="true" aria-labelledby="contact-toast-title">
+          <button class="contact-toast-close" id="contact-toast-close" type="button" aria-label="??">?</button>
+          <strong id="contact-toast-title">??? ???????.</strong>
+          <span>?? ? 1~2? ??? ???? ????????.</span>
+          <em>Your inquiry has been submitted. We will review it and reply by email within 1-2 business days.</em>
         </div>
       </section>
 

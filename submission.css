@@ -604,6 +604,7 @@ a {
   padding: 14px 16px;
   font-weight: 800;
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 .profile-preview-capabilities {

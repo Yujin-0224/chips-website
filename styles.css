@@ -1771,9 +1771,9 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  gap: 16px;
+  gap: 14px;
   min-width: 0;
-  padding-top: 5px;
+  padding-top: 2px;
 }
 
 .profile-name-en {
@@ -1796,7 +1796,7 @@ a {
 
 .profile-audio-card,
 .profile-summary-card {
-  padding: 18px;
+  padding: 20px;
 }
 
 .profile-highlights {
@@ -1836,19 +1836,20 @@ a {
 .profile-copy #detail-bio {
   margin: 0;
   max-width: 580px;
-  padding: 14px 16px;
+  padding: 15px 16px;
   border: 1px solid rgba(32, 26, 18, 0.08);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.72);
   color: var(--ink);
-  line-height: 1.72;
+  line-height: 1.82;
   font-size: 14px;
   font-weight: 800;
+  white-space: pre-line;
 }
 
 .profile-capabilities {
   max-width: none;
-  margin: 12px 0 0;
+  margin: 13px 0 0;
   padding: 11px 14px;
   border: 1px solid rgba(32, 26, 18, 0.08);
   border-radius: 8px;
@@ -1856,13 +1857,14 @@ a {
   color: #5e574e;
   font-size: 12.5px;
   font-weight: 800;
-  line-height: 1.68;
+  line-height: 1.72;
+  white-space: pre-line;
 }
 
 .voice-demo {
   width: 100%;
-  margin: 22px 0 0;
-  padding-top: 16px;
+  margin: 20px 0 0;
+  padding-top: 15px;
   border-top: 1px solid rgba(32, 26, 18, 0.08);
 }
 
@@ -1884,31 +1886,30 @@ a {
 }
 
 .profile-section-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: flex-start;
-  gap: 9px 14px;
-  margin-bottom: 12px;
+  display: grid;
+  align-items: start;
+  justify-content: start;
+  gap: 6px;
+  margin-bottom: 14px;
 }
 
 .profile-section-head span {
   color: var(--blue);
   font-size: 10px;
   font-weight: 900;
-  letter-spacing: 0.18em;
-  line-height: 1;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
   text-transform: uppercase;
 }
 
 .profile-section-head h3 {
   margin: 0;
-  padding: 4px 10px 6px;
+  padding: 5px 11px 7px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.72);
-  font-size: clamp(21px, 2.5vw, 28px);
+  font-size: clamp(20px, 2.25vw, 26px);
   font-weight: 900;
-  line-height: 1.14;
+  line-height: 1.08;
 }
 
 .profile-player-head {
@@ -1917,7 +1918,7 @@ a {
 
 .profile-player-head span {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .profile-intro-demo .sample-player {
@@ -2006,7 +2007,7 @@ a {
 .profile-career {
   grid-column: 1 / -1;
   width: min(100%, 920px);
-  margin: 32px auto 0;
+  margin: 28px auto 0;
   padding: 20px 22px;
 }
 

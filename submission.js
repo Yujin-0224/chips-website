@@ -170,6 +170,17 @@ const mimeExtensions = {
   "audio/flac": "flac",
 };
 
+const categorySelectionLimits = {
+  gender: 1,
+  ageRange: 2,
+  tone: 3,
+  texture: 1,
+  emotion: 3,
+  language: 1,
+  accent: 1,
+  characterType: 2,
+};
+
 function slugify(value, fallback = "item") {
   const slug = `${value || ""}`
     .trim()
@@ -194,7 +205,7 @@ function renderCategoryGrid(targetId, prefix) {
         <section class="category-group">
           <header>
             <strong>${group.label}</strong>
-            <small>${group.hint}</small>
+            <small>${group.hint} · 최대 ${categorySelectionLimits[group.key] || group.options.length}개</small>
           </header>
           <div class="option-list">
             ${group.options
@@ -215,11 +226,28 @@ function renderCategoryGrid(targetId, prefix) {
     .join("");
 }
 
+function enforceCategorySelectionLimit(input) {
+  if (!input?.checked) return true;
+  const limit = categorySelectionLimits[input.name];
+  if (!limit) return true;
+  const form = input.closest("form") || document;
+  const checked = [...form.querySelectorAll(`input[name="${input.name}"]:checked`)];
+  if (checked.length <= limit) return true;
+  input.checked = false;
+  return false;
+}
+
 function collectCategoryValues(form) {
   return chipsCategoryGroups.reduce((values, group) => {
     values[group.key] = [...form.querySelectorAll(`input[name="${group.key}"]:checked`)].map((input) => input.value);
     return values;
   }, {});
+}
+
+function showInlineResult(target, message) {
+  if (!target) return;
+  target.hidden = false;
+  target.textContent = message;
 }
 
 function showResult(target, value) {
@@ -520,6 +548,16 @@ function bindAudioForm() {
   const fileName = document.getElementById("file-name");
   const result = document.getElementById("audio-result");
   const button = form.querySelector(".primary-button");
+  const limitMessages = {
+    gender: "성별은 1개만 선택할 수 있습니다.",
+    ageRange: "나이대는 최대 2개까지 선택할 수 있습니다.",
+    tone: "톤은 최대 3개까지 선택할 수 있습니다.",
+    texture: "음색은 1개만 선택할 수 있습니다.",
+    emotion: "감정은 최대 3개까지 선택할 수 있습니다.",
+    language: "언어는 1개만 선택할 수 있습니다.",
+    accent: "억양/사투리는 1개만 선택할 수 있습니다.",
+    characterType: "캐릭터 타입은 최대 2개까지 선택할 수 있습니다.",
+  };
 
   const syncAudioKind = () => {
     const isIntro = audioKind?.value === "intro";
@@ -537,6 +575,14 @@ function bindAudioForm() {
 
   audioKind?.addEventListener("change", syncAudioKind);
   syncAudioKind();
+
+  form.addEventListener("change", (event) => {
+    const input = event.target;
+    if (!input.matches('#audio-category-grid input[type="checkbox"]')) return;
+    if (!enforceCategorySelectionLimit(input)) {
+      showInlineResult(result, limitMessages[input.name] || "선택 가능한 개수를 초과했습니다.");
+    }
+  });
 
   fileInput.addEventListener("change", () => {
     fileName.textContent = fileInput.files[0]?.name || "파일 선택";

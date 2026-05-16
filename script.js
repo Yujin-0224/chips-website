@@ -1143,6 +1143,59 @@ function selectedFilterValues() {
   }, {});
 }
 
+function getEmptyFilterValues() {
+  return filterGroups.reduce((values, group) => {
+    values[group.key] = [];
+    return values;
+  }, {});
+}
+
+function getAudioSourceFilterValues(actor, source = {}) {
+  const sourceCategories = source.categories && typeof source.categories === "object" ? source.categories : null;
+  const hasSourceCategories = sourceCategories && Object.values(sourceCategories).some((values) => Array.isArray(values) ? values.length : `${values || ""}`.trim());
+  if (!hasSourceCategories) return getActorFilterValues(actor);
+
+  const values = getEmptyFilterValues();
+  values.gender = actor.gender === "male" ? ["?⑥옄"] : ["?ъ옄"];
+  mergeCategoryValues(values, sourceCategories);
+  return values;
+}
+
+function audioSourceMatchesFilters(actor, source, filters) {
+  const sourceValues = getAudioSourceFilterValues(actor, source);
+  const selectedEntries = Object.entries(filters).filter(([, values]) => values.length);
+  return selectedEntries.every(([key, values]) => values.some((value) => sourceValues[key]?.includes(value)));
+}
+
+function countAudioSourcesForFilters(filters) {
+  return actors.reduce((count, actor) => {
+    const sources = getSearchAudioSources(actor);
+    return count + sources.filter((source) => audioSourceMatchesFilters(actor, source, filters)).length;
+  }, 0);
+}
+
+function filtersWithOption(baseFilters, groupKey, optionValue) {
+  const nextFilters = filterGroups.reduce((filters, group) => {
+    filters[group.key] = [...(baseFilters[group.key] || [])];
+    return filters;
+  }, {});
+  if (!nextFilters[groupKey].includes(optionValue)) nextFilters[groupKey].push(optionValue);
+  return nextFilters;
+}
+
+function updateFilterOptionCounts() {
+  if (!filterControls) return;
+  const currentFilters = selectedFilterValues();
+  filterControls.querySelectorAll("[data-filter-option]").forEach((optionEl) => {
+    const groupKey = optionEl.dataset.group;
+    const optionValue = optionEl.dataset.value;
+    const filters = filtersWithOption(currentFilters, groupKey, optionValue);
+    const count = countAudioSourcesForFilters(filters);
+    const countEl = optionEl.querySelector(".filter-option-count");
+    if (countEl) countEl.textContent = `${count}`;
+  });
+}
+
 function restoreFilterSelections(selections = {}) {
   Object.entries(selections).forEach(([groupKey, values]) => {
     values.forEach((value) => {
@@ -1151,6 +1204,7 @@ function restoreFilterSelections(selections = {}) {
     });
     updateFilterSummary(groupKey);
   });
+  updateFilterOptionCounts();
 }
 
 function updateFilterSummary(groupKey) {
@@ -1212,7 +1266,10 @@ function renderFilterControls(selections = {}) {
                   (option) => `
                     <label class="filter-check">
                       <input type="checkbox" name="${group.key}" value="${option.value}" />
-                      <span>${option.label}</span>
+                      <span class="filter-option-label" data-filter-option data-group="${group.key}" data-value="${option.value}">
+                        <span>${option.label}</span>
+                        <em class="filter-option-count">0</em>
+                      </span>
                     </label>
                   `,
                 )
@@ -1224,6 +1281,7 @@ function renderFilterControls(selections = {}) {
     })
     .join("");
   restoreFilterSelections(selections);
+  updateFilterOptionCounts();
 }
 
 function filterSamples() {
@@ -1504,6 +1562,7 @@ document.addEventListener("click", (event) => {
       input.checked = checked;
     });
     updateFilterSummary(groupKey);
+    updateFilterOptionCounts();
     return;
   }
 
@@ -1563,6 +1622,7 @@ document.addEventListener("keydown", (event) => {
 filterControls.addEventListener("change", (event) => {
   if (!event.target.matches('input[type="checkbox"]')) return;
   updateFilterSummary(event.target.name);
+  updateFilterOptionCounts();
   syncFilterPanelSpace();
 });
 

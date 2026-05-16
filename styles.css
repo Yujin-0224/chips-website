@@ -593,6 +593,28 @@ a {
   accent-color: var(--chip-yellow-deep);
 }
 
+.filter-option-label {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+}
+
+.filter-option-label > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.filter-option-count {
+  flex: 0 0 auto;
+  color: rgba(23, 19, 13, 0.44);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 900;
+}
+
 .sample-filter > .dark-button {
   align-self: start;
   height: 68px;

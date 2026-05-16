@@ -182,8 +182,6 @@ a {
 .career-field-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
 }
 
 .career-input-list {
@@ -212,10 +210,23 @@ a {
 }
 
 .small-add-button {
-  min-height: 36px;
-  padding: 0 13px;
+  z-index: 2;
+  display: inline-grid;
+  place-items: center;
+  justify-self: center;
+  width: 42px;
+  height: 42px;
+  min-height: 0;
+  margin-top: -31px;
+  margin-bottom: 1px;
+  padding: 0;
+  border-radius: 50%;
   background: rgba(255, 246, 219, 0.9);
   border-color: rgba(246, 185, 59, 0.38);
+  color: var(--blue);
+  font-size: 22px;
+  line-height: 1;
+  transform: translateY(0);
 }
 
 .small-remove-button {
@@ -228,6 +239,13 @@ a {
 .small-remove-button:hover {
   border-color: rgba(246, 185, 59, 0.58);
   background: rgba(255, 246, 219, 0.98);
+}
+
+.small-add-button:hover {
+  transform: translateY(-1px) scale(1.04);
+}
+
+.small-remove-button:hover {
   transform: translateY(-1px);
 }
 

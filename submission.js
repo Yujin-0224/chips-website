@@ -816,8 +816,18 @@ function bindProfileEditForm() {
   });
 }
 
+function bindPreviewJumpButtons() {
+  document.querySelectorAll("[data-preview-jump]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = document.querySelector(button.dataset.previewJump);
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+}
+
 renderCategoryGrid("audio-category-grid", "audio");
 populateActorSelect();
+bindPreviewJumpButtons();
 bindAudioForm();
 bindProfileForm();
 bindProfileEditForm();

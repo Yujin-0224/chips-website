@@ -23,8 +23,7 @@
           <img src="assets/chips_logo_1.png" alt="CHIPS" />
         </a>
         <nav class="submission-nav" aria-label="운영 페이지" data-auth-nav hidden>
-          <a class="is-active" href="profile-create.html">프로필 추가</a>
-          <a href="profile-edit.html">프로필 수정</a>
+          <a class="is-active" href="profile-create.html">프로필 작성</a>
           <a href="audio-create.html">오디오 추가</a>
           <a href="admin.html" data-admin-link>관리자</a>
           <a href="index.html#members">홈페이지</a>
@@ -35,12 +34,12 @@
       <section class="submission-hero">
         <div>
           <p class="submission-kicker">VOICE ACTOR PROFILE</p>
-          <h1>PROFILE CREATE</h1>
-          <p>프로필 기본 정보를 입력하면 운영자가 검토할 수 있도록 R2에 제출 데이터가 저장됩니다.</p>
+          <h1>PROFILE FORM</h1>
+          <p>프로필이 없으면 새로 생성하고, 이미 작성된 프로필이 있으면 기존 정보를 불러와 수정 요청으로 저장합니다.</p>
         </div>
         <aside class="status-panel">
-          <strong>운영자 검토</strong>
-          <p>제출 데이터는 바로 공개되지 않고, 운영자가 승인한 뒤 웹사이트에 반영하는 흐름으로 사용할 수 있습니다.</p>
+          <strong>프로필 작성</strong>
+          <p>프로필 생성은 바로 반영되고, 기존 프로필 수정은 운영자 승인 후 웹사이트에 반영됩니다.</p>
         </aside>
       </section>
 
@@ -88,7 +87,7 @@
 
         <div class="form-actions">
           <button class="secondary-button" type="reset">초기화</button>
-          <button class="primary-button" type="submit">프로필 제출</button>
+          <button class="primary-button" type="submit">프로필 생성하기</button>
         </div>
         <pre class="result-box" id="profile-result" hidden></pre>
         <section class="profile-preview-panel" id="profile-preview-panel" aria-live="polite">

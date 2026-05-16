@@ -115,6 +115,13 @@ export async function onRequestPost({ request, env }) {
     if (!name) return json({ error: "name is required." }, 400);
 
     const actorId = user && user.role !== "admin" ? user.actorId : slugify(form.get("actor_id") || name, "actor");
+    const cms = await loadCms(env.CHIPS_MEDIA);
+    cms.actors = Array.isArray(cms.actors) ? cms.actors : [];
+    const existingActor = cms.actors.find((actor) => actor.id === actorId);
+    if (user.role !== "admin" && existingActor) {
+      return json({ error: "Profile already exists. Please use profile update." }, 409);
+    }
+
     let profileImageUrl = "";
     let profileImageKey = "";
     const image = form.get("profile_image");
@@ -141,7 +148,6 @@ export async function onRequestPost({ request, env }) {
       submittedAt: new Date().toISOString(),
     };
     const metadataKey = `approved/profiles/${actorId}-${Date.now()}.json`;
-    const cms = await loadCms(env.CHIPS_MEDIA);
     const actor = ensureActor(cms, profileToActor(metadata, cms.actors?.length || 0));
     await saveCms(env.CHIPS_MEDIA, cms);
     await env.CHIPS_MEDIA.put(metadataKey, JSON.stringify({ ...metadata, approvedAt: new Date().toISOString() }, null, 2), {

@@ -339,6 +339,12 @@ function profileImageFromActor(actor = {}) {
   return actor.profileImage || actor.profileImageUrl || actor.image || "";
 }
 
+function actorForUser(actors = [], user = {}) {
+  if (!user) return null;
+  if (user.role === "actor") return actors.find((actor) => actor.id === user.actorId) || null;
+  return null;
+}
+
 function getCareerItems(actor = {}) {
   const career = actor.career || actor.careers || actor.credits || actor.profileCareer || actor.workHistory;
   if (Array.isArray(career)) return career.filter(Boolean);
@@ -670,6 +676,130 @@ function bindProfileForm() {
   });
 }
 
+function bindUnifiedProfileForm() {
+  const form = document.getElementById("profile-form");
+  if (!form) return;
+
+  const result = document.getElementById("profile-result");
+  const button = form.querySelector(".primary-button");
+  const previewPhoto = document.getElementById("profile-preview-photo");
+  const previewName = document.getElementById("profile-preview-name");
+  const previewNameEn = document.getElementById("profile-preview-name-en");
+  const previewBio = document.getElementById("profile-preview-bio");
+  const previewCapabilities = document.getElementById("profile-preview-capabilities");
+  const previewCareerList = document.getElementById("profile-preview-career-list");
+  const imageInput = document.getElementById("profile-image");
+  const careerList = document.getElementById("profile-career-list");
+  const careerController = bindCareerInputs({ form, list: careerList, previewList: previewCareerList });
+  const fields = {
+    name: document.getElementById("profile-name"),
+    nameEn: document.getElementById("profile-name-en"),
+    bio: document.getElementById("profile-bio"),
+    capabilities: document.getElementById("profile-capabilities"),
+  };
+  const state = { user: null, currentActor: null, mode: "create", previewImageUrl: "" };
+
+  const setPreviewImage = (url = "") => {
+    previewPhoto.innerHTML = url ? `<img src="${url}" alt="" />` : "PROFILE IMAGE";
+  };
+
+  const setMode = (actor = null) => {
+    state.currentActor = actor;
+    state.mode = actor?.id ? "update" : "create";
+    button.textContent = state.mode === "update" ? "수정하기" : "프로필 생성하기";
+  };
+
+  const renderPreview = () => {
+    const data = new FormData(form);
+    previewName.textContent = data.get("name") || "감자";
+    previewNameEn.textContent = data.get("name_en") || "GAMZA";
+    previewBio.textContent = data.get("bio") || "소개글을 입력하면 여기에 표시됩니다.";
+    previewCapabilities.textContent = formatCapabilitiesPreview(data.get("capabilities"));
+    careerController?.sync();
+    fitTextToParent(previewName, { max: 58, min: 22 });
+    fitTextToParent(previewNameEn, { max: 25, min: 12 });
+  };
+
+  const fillForm = (actor = null) => {
+    if (state.previewImageUrl) URL.revokeObjectURL(state.previewImageUrl);
+    state.previewImageUrl = "";
+    imageInput.value = "";
+    fields.name.value = actor?.name || "";
+    fields.nameEn.value = actor?.nameEn || "";
+    fields.bio.value = actor?.bio || "";
+    fields.capabilities.value = actor?.capabilities || "";
+    careerController?.setValues(getCareerItems(actor));
+    setPreviewImage(profileImageFromActor(actor));
+    result.hidden = true;
+    setMode(actor);
+    renderPreview();
+  };
+
+  imageInput?.addEventListener("change", () => {
+    const file = imageInput.files?.[0];
+    if (state.previewImageUrl) URL.revokeObjectURL(state.previewImageUrl);
+    state.previewImageUrl = file ? URL.createObjectURL(file) : "";
+    setPreviewImage(state.previewImageUrl || profileImageFromActor(state.currentActor));
+    renderPreview();
+  });
+
+  form.addEventListener("input", renderPreview);
+  form.addEventListener("reset", () => {
+    window.setTimeout(() => fillForm(state.currentActor));
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    button.disabled = true;
+    button.textContent = state.mode === "update" ? "수정 요청 중..." : "생성 중...";
+
+    const data = new FormData(form);
+    const actorId = state.currentActor?.id || (state.user?.role === "actor" ? state.user.actorId : slugify(data.get("name"), "actor"));
+    data.set("actor_id", actorId);
+    data.set("career_json", JSON.stringify(careerController?.values() || []));
+    if (state.currentActor) data.set("existing_profile_image", profileImageFromActor(state.currentActor));
+
+    try {
+      await setCompressedProfileImage(data, imageInput);
+      const endpoint = state.mode === "update" ? "/api/update-profile" : "/api/submit-profile";
+      const response = await fetch(endpoint, { method: "POST", headers: authHeaders(), body: data });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.error || "Submit failed");
+      showResult(
+        result,
+        state.mode === "update"
+          ? {
+              message: "프로필 수정 승인 요청 완료",
+              actorId: payload.requestedActor?.id || actorId,
+              metadataKey: payload.metadataKey,
+              approvalRequired: true,
+            }
+          : {
+              message: "프로필 생성 완료",
+              profileId: payload.profileId,
+              metadataKey: payload.metadataKey,
+              profileImageUrl: payload.profileImageUrl,
+            },
+      );
+    } catch (error) {
+      showResult(result, { error: error.message });
+    } finally {
+      button.disabled = false;
+      button.textContent = state.mode === "update" ? "수정하기" : "프로필 생성하기";
+    }
+  });
+
+  Promise.all([authReady, loadActors()])
+    .then(([user, actors]) => {
+      state.user = user;
+      fillForm(actorForUser(actors, user));
+    })
+    .catch(() => {
+      setMode(null);
+      renderPreview();
+    });
+}
+
 async function populateProfileEditSelect(state) {
   const select = document.getElementById("edit-actor-select");
   if (!select) return;
@@ -829,5 +959,5 @@ renderCategoryGrid("audio-category-grid", "audio");
 populateActorSelect();
 bindPreviewJumpButtons();
 bindAudioForm();
-bindProfileForm();
+bindUnifiedProfileForm();
 bindProfileEditForm();

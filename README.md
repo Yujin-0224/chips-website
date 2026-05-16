@@ -22,8 +22,7 @@ Production is connected to Cloudflare Pages:
 
 Voice actors can use these Cloudflare Pages forms:
 
-- `/profile-create.html`: submit profile information and an optional profile image
-- `/profile-edit.html`: select an existing actor and update profile text or image
+- `/profile-create.html`: create a profile or edit the logged-in member's existing profile
 - `/audio-create.html`: upload an audio sample directly into R2
 - `/login.html`: sign in with an approved actor/admin account
 - `/signup-request.html`: request an actor account for operator approval

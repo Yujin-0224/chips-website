@@ -2322,7 +2322,7 @@ a {
 
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
-  color: rgba(111, 103, 91, 0.62);
+  color: rgba(111, 103, 91, 0.42);
 }
 
 .contact-form input:focus,

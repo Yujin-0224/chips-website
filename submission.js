@@ -180,6 +180,10 @@ function slugify(value, fallback = "item") {
   return slug || fallback;
 }
 
+function escapeHtml(value = "") {
+  return `${value}`.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+}
+
 function renderCategoryGrid(targetId, prefix) {
   const target = document.getElementById(targetId);
   if (!target) return;
@@ -335,6 +339,13 @@ function profileImageFromActor(actor = {}) {
   return actor.profileImage || actor.profileImageUrl || actor.image || "";
 }
 
+function getCareerItems(actor = {}) {
+  const career = actor.career || actor.careers || actor.credits || actor.profileCareer || actor.workHistory;
+  if (Array.isArray(career)) return career.filter(Boolean);
+  if (typeof career === "string" && career.trim()) return career.split(/\n|,/).map((item) => item.trim()).filter(Boolean);
+  return [];
+}
+
 function canvasToBlob(canvas, type, quality) {
   return new Promise((resolve) => canvas.toBlob(resolve, type, quality));
 }
@@ -390,6 +401,64 @@ async function setCompressedProfileImage(formData, input) {
   const compressed = await compressProfileImage(file);
   formData.set("profile_image", compressed);
   return compressed;
+}
+
+function careerValuesFrom(container) {
+  if (!container) return [];
+  return [...container.querySelectorAll('input[name="career"]')]
+    .map((input) => input.value.trim())
+    .filter(Boolean);
+}
+
+function renderCareerPreview(list, values) {
+  if (!list) return;
+  const items = values.length ? values : ["경력 사항은 준비 중입니다."];
+  list.innerHTML = items.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+}
+
+function createCareerRow(value = "") {
+  const row = document.createElement("div");
+  row.className = "career-input-row";
+  row.innerHTML = `
+    <input name="career" type="text" placeholder="예: 애니메이션 주연 캐릭터 보이스 참여" />
+    <button class="small-remove-button" type="button" data-career-remove aria-label="경력 삭제">×</button>
+  `;
+  row.querySelector("input").value = value;
+  return row;
+}
+
+function bindCareerInputs({ form, list, previewList, initialValues = [] }) {
+  if (!form || !list) return;
+
+  const sync = () => renderCareerPreview(previewList, careerValuesFrom(list));
+  const setValues = (values = []) => {
+    const nextValues = values.length ? values : [""];
+    list.innerHTML = "";
+    nextValues.forEach((value) => list.append(createCareerRow(value)));
+    sync();
+  };
+
+  form.addEventListener("click", (event) => {
+    const addButton = event.target.closest("[data-career-add]");
+    if (addButton && addButton.dataset.careerAdd === `#${list.id}`) {
+      list.append(createCareerRow());
+      list.querySelector(".career-input-row:last-child input")?.focus();
+      sync();
+      return;
+    }
+
+    const removeButton = event.target.closest("[data-career-remove]");
+    if (removeButton && list.contains(removeButton)) {
+      removeButton.closest(".career-input-row")?.remove();
+      if (!list.children.length) list.append(createCareerRow());
+      sync();
+    }
+  });
+
+  list.addEventListener("input", sync);
+  setValues(initialValues);
+
+  return { sync, setValues, values: () => careerValuesFrom(list) };
 }
 
 function actorOptionLabel(actor = {}) {
@@ -525,7 +594,10 @@ function bindProfileForm() {
   const previewNameEn = document.getElementById("profile-preview-name-en");
   const previewBio = document.getElementById("profile-preview-bio");
   const previewCapabilities = document.getElementById("profile-preview-capabilities");
+  const previewCareerList = document.getElementById("profile-preview-career-list");
   const imageInput = document.getElementById("profile-image");
+  const careerList = document.getElementById("profile-career-list");
+  const careerController = bindCareerInputs({ form, list: careerList, previewList: previewCareerList });
   let previewImageUrl = "";
 
   const renderPreview = () => {
@@ -534,6 +606,7 @@ function bindProfileForm() {
     previewNameEn.textContent = data.get("name_en") || "GAMZA";
     previewBio.textContent = data.get("bio") || "소개글을 입력하면 여기에 표시됩니다.";
     previewCapabilities.textContent = data.get("capabilities") || "작업 가능 조건을 입력하면 여기에 표시됩니다.";
+    careerController?.sync();
     fitTextToParent(previewName, { max: 58, min: 22 });
     fitTextToParent(previewNameEn, { max: 25, min: 12 });
   };
@@ -555,6 +628,7 @@ function bindProfileForm() {
       previewImageUrl = "";
       previewPhoto.textContent = "PROFILE IMAGE";
       result.hidden = true;
+      careerController?.setValues([]);
       renderPreview();
     });
   });
@@ -566,6 +640,7 @@ function bindProfileForm() {
 
     const data = new FormData(form);
     data.set("actor_id", slugify(data.get("name"), "actor"));
+    data.set("career_json", JSON.stringify(careerController?.values() || []));
 
     try {
       await setCompressedProfileImage(data, imageInput);
@@ -630,7 +705,10 @@ function bindProfileEditForm() {
     nameEn: document.getElementById("profile-edit-preview-name-en"),
     bio: document.getElementById("profile-edit-preview-bio"),
     capabilities: document.getElementById("profile-edit-preview-capabilities"),
+    careerList: document.getElementById("profile-edit-preview-career-list"),
   };
+  const careerList = document.getElementById("edit-profile-career-list");
+  const careerController = bindCareerInputs({ form, list: careerList, previewList: preview.careerList });
 
   const setPreviewImage = (url = "") => {
     preview.photo.innerHTML = url ? `<img src="${url}" alt="" />` : "PROFILE IMAGE";
@@ -641,6 +719,7 @@ function bindProfileEditForm() {
     preview.nameEn.textContent = fields.nameEn.value || "GAMZA";
     preview.bio.textContent = fields.bio.value || "소개글을 입력하면 여기에 표시됩니다.";
     preview.capabilities.textContent = fields.capabilities.value || "작업 가능 조건을 입력하면 여기에 표시됩니다.";
+    careerController?.sync();
     fitTextToParent(preview.name, { max: 58, min: 22 });
     fitTextToParent(preview.nameEn, { max: 25, min: 12 });
   };
@@ -654,6 +733,7 @@ function bindProfileEditForm() {
     fields.nameEn.value = actor?.nameEn || "";
     fields.bio.value = actor?.bio || "";
     fields.capabilities.value = actor?.capabilities || "";
+    careerController?.setValues(getCareerItems(actor));
     setPreviewImage(profileImageFromActor(actor));
     result.hidden = true;
     renderPreview();
@@ -689,6 +769,7 @@ function bindProfileEditForm() {
     const data = new FormData(form);
     data.set("actor_id", select.value);
     data.set("existing_profile_image", profileImageFromActor(state.currentActor));
+    data.set("career_json", JSON.stringify(careerController?.values() || []));
 
     try {
       await setCompressedProfileImage(data, imageInput);

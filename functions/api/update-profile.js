@@ -22,6 +22,14 @@ async function loadCms(bucket) {
   return stored.json();
 }
 
+function parseJson(value, fallback) {
+  try {
+    return JSON.parse(`${value || ""}`);
+  } catch {
+    return fallback;
+  }
+}
+
 export async function onRequestOptions() {
   return new Response(null, {
     headers: {
@@ -67,6 +75,7 @@ export async function onRequestPost({ request, env }) {
       name: `${form.get("name") || currentActor.name || ""}`.trim(),
       nameEn: `${form.get("name_en") || ""}`.trim(),
       bio: `${form.get("bio") || ""}`.trim(),
+      career: parseJson(form.get("career_json"), []).filter(Boolean),
       capabilities: `${form.get("capabilities") || ""}`.trim(),
       profileImage: profileImage || currentActor.profileImage || "assets/sample_profile-optimized.webp",
       profileImageKey,

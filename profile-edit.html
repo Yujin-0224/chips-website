@@ -77,6 +77,19 @@
               <label for="edit-profile-bio">소개글</label>
               <textarea id="edit-profile-bio" name="bio" placeholder="목소리 특성, 가능한 장르, 간단한 소개를 적어주세요."></textarea>
             </div>
+            <div class="field is-wide career-field">
+              <div class="career-field-head">
+                <label>경력 사항</label>
+                <button class="small-add-button" type="button" data-career-add="#edit-profile-career-list">+ 추가</button>
+              </div>
+              <div class="career-input-list" id="edit-profile-career-list">
+                <div class="career-input-row">
+                  <input name="career" type="text" placeholder="예: 애니메이션 주연 캐릭터 보이스 참여" />
+                  <button class="small-remove-button" type="button" data-career-remove aria-label="경력 삭제">×</button>
+                </div>
+              </div>
+              <small>한 줄에 하나씩 입력해 주세요. 입력한 순서대로 프로필의 CAREER 영역에 표시됩니다.</small>
+            </div>
           </div>
         </section>
 
@@ -129,7 +142,7 @@
                   <span>CAREER</span>
                   <h3>경력</h3>
                 </div>
-                <ul>
+                <ul id="profile-edit-preview-career-list">
                   <li>경력 사항은 준비 중입니다.</li>
                 </ul>
               </section>

@@ -32,6 +32,7 @@ function profileChanges(profile = {}, actor = {}) {
     ["name", "Name"],
     ["nameEn", "English name"],
     ["bio", "Intro"],
+    ["career", "Career"],
     ["capabilities", "Work options"],
     ["profileImage", "Profile image"],
   ];

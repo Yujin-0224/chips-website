@@ -175,6 +175,62 @@ a {
   word-break: keep-all;
 }
 
+.career-field {
+  gap: 10px;
+}
+
+.career-field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.career-input-list {
+  display: grid;
+  gap: 10px;
+}
+
+.career-input-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px;
+  gap: 8px;
+  align-items: center;
+}
+
+.small-add-button,
+.small-remove-button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.small-add-button {
+  min-height: 36px;
+  padding: 0 13px;
+  background: rgba(255, 246, 219, 0.9);
+  border-color: rgba(246, 185, 59, 0.38);
+}
+
+.small-remove-button {
+  width: 42px;
+  min-height: 46px;
+  color: rgba(23, 19, 13, 0.52);
+}
+
+.small-add-button:hover,
+.small-remove-button:hover {
+  border-color: rgba(246, 185, 59, 0.58);
+  background: rgba(255, 246, 219, 0.98);
+  transform: translateY(-1px);
+}
+
 .field input,
 .field textarea,
 .field select {

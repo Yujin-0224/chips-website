@@ -38,6 +38,7 @@ function profileToActor(profile, currentLength) {
     category: "",
     mood: "",
     bio: profile.bio || "",
+    career: Array.isArray(profile.career) ? profile.career : [],
     tags,
     capabilities: profile.capabilities || "",
     demos: [],

@@ -454,7 +454,7 @@ a {
 
 .preview-fab {
   position: fixed;
-  right: max(18px, calc((100vw - 1180px) / 2 - 42px));
+  right: max(18px, calc((100vw - 1180px) / 2 - 92px));
   bottom: 82px;
   z-index: 30;
   display: grid;

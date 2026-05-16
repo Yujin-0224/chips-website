@@ -911,8 +911,8 @@ function renderDetailAudioOption(index = 0, options = {}) {
   activeDemoTitle.textContent = option.label;
   introDemoPlayer.innerHTML = audioMarkup(option.label, option.sources);
   if (activeDemoMeta) {
-    activeDemoMeta.textContent = option.meta || "";
-    activeDemoMeta.hidden = !option.meta;
+    activeDemoMeta.textContent = "";
+    activeDemoMeta.hidden = true;
   }
   demoGrid.querySelectorAll("[data-audio-option]").forEach((button) => {
     const isActive = Number(button.dataset.audioOption) === index;

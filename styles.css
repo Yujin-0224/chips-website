@@ -2356,7 +2356,7 @@ a {
   align-items: center;
   gap: 10px;
   min-height: 46px;
-  padding: 10px 12px;
+  padding: 0 14px;
   border: 1px solid rgba(32, 26, 18, 0.12);
   border-radius: 8px;
   background: rgba(255, 252, 244, 0.72);
@@ -2500,6 +2500,10 @@ a {
   margin: 0;
   width: 18px;
   height: 18px;
+  min-height: 0;
+  padding: 0;
+  border: 1px solid rgba(32, 26, 18, 0.38);
+  background: #fff;
   flex: 0 0 auto;
   accent-color: var(--blue);
 }

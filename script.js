@@ -588,8 +588,8 @@ const contactLocales = {
       email: "hello@example.com",
       budget: "",
       project_type: "광고, 유튜브, 애니, 게임, 교육 등",
-      message: "문의 내용, 분량, 일정, 원하는 목소리 조건 등을 자유롭게 작성해 주세요.",
-      reference_link: "Google Drive, Dropbox, YouTube, 참고 사이트 링크",
+      message: "문의 내용, 분량, 일정, 원하는 목소리 조건 등",
+      reference_link: "Google Drive, Dropbox, YouTube",
     },
     options: {
       placeholder: "선택해 주세요",
@@ -663,8 +663,8 @@ const contactLocales = {
       email: "hello@example.com",
       budget: "",
       project_type: "Commercial, YouTube, animation, game, education, etc.",
-      message: "Tell us about the request, volume, schedule, and voice direction you have in mind.",
-      reference_link: "Google Drive, Dropbox, YouTube, or reference website link",
+      message: "Request details, volume, schedule, and voice direction",
+      reference_link: "Google Drive, Dropbox, YouTube",
     },
     options: {
       placeholder: "Please select",

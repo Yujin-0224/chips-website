@@ -1230,7 +1230,7 @@ a {
   display: flex;
   justify-content: center;
   height: auto;
-  margin: -4px 0 2px;
+  margin: -2px 0 18px;
 }
 
 .contact-section .page-heading h2 span {
@@ -2094,8 +2094,8 @@ a {
 
 .contact-layout {
   display: grid;
-  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
-  gap: 24px;
+  grid-template-columns: minmax(210px, 270px) minmax(0, 1fr);
+  gap: 28px;
   align-items: start;
 }
 
@@ -2113,9 +2113,9 @@ a {
   align-self: start;
   display: grid;
   align-content: start;
-  gap: 14px;
+  gap: 12px;
   max-height: calc(100vh - 120px);
-  padding: 20px;
+  padding: 20px 18px;
   overflow: auto;
   scrollbar-width: thin;
 }
@@ -2146,7 +2146,8 @@ a {
 
 .contact-aside h3 {
   margin: 0;
-  font-size: clamp(22px, 2.4vw, 28px);
+  color: rgba(23, 19, 13, 0.66);
+  font-size: clamp(21px, 2.2vw, 26px);
   line-height: 1.18;
 }
 
@@ -2157,14 +2158,15 @@ a {
 
 .contact-aside p {
   margin: 0;
-  color: var(--muted);
-  font-size: 14px;
+  color: rgba(23, 19, 13, 0.52);
+  font-size: 13px;
   font-weight: 800;
-  line-height: 1.65;
+  line-height: 1.85;
+  word-break: keep-all;
 }
 
 .contact-aside p strong {
-  color: var(--ink);
+  color: rgba(23, 19, 13, 0.64);
 }
 
 .contact-aside-en {
@@ -2202,7 +2204,7 @@ a {
   padding: clamp(20px, 3vw, 28px);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px 22px;
+  gap: 16px 22px;
 }
 
 .required-note,
@@ -2213,7 +2215,7 @@ a {
 }
 
 .required-note {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 8px;
   margin: 0;
@@ -2247,7 +2249,7 @@ a {
 
 .contact-form label {
   display: grid;
-  gap: 8px;
+  gap: 7px;
   font-weight: 900;
 }
 
@@ -2259,7 +2261,7 @@ a {
   gap: 6px;
   min-height: 22px;
   color: var(--ink);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.25;
   white-space: nowrap;
 }
@@ -2285,9 +2287,10 @@ a {
   border: 1px solid rgba(32, 26, 18, 0.12);
   background: rgba(255, 252, 244, 0.72);
   border-radius: 8px;
-  padding: 12px 14px;
+  min-height: 46px;
+  padding: 11px 14px;
   color: var(--ink);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   resize: vertical;
   transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;

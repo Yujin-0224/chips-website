@@ -545,8 +545,8 @@ const contactLocales = {
   ko: {
     text: {
       pageTitle: "문의하기",
-      pageLead: "성우 섭외, 더빙 제작, 견적 요청, 협업 관련 문의를 아래 양식으로 접수해 주세요.",
-      guideKicker: "문의 안내",
+      pageLead: "",
+      guideKicker: "",
       guideTitle: "문의 안내",
       guideBody:
         "문의 내용 확인 후 <strong>1~2일 이내</strong>에 이메일로 답변드리겠습니다. 급한 일정이 있으신 경우 희망 납기일을 함께 작성해 주세요.",
@@ -564,7 +564,6 @@ const contactLocales = {
       budgetLabel: "예산 범위",
       deadlineLabel: "희망 마감일",
       projectTypeLabel: "프로젝트 종류",
-      voiceLabel: "언어 / 목소리 조건",
       messageLabel: "신청 내용",
       referenceLabel: "파일 또는 참고 링크",
       attachmentLabel: "파일 첨부",
@@ -583,13 +582,12 @@ const contactLocales = {
       toastBody: "확인 후 1~2일 이내에 이메일로 답변드리겠습니다.",
     },
     placeholders: {
-      name: "홍길동",
-      company: "CHIPS Studio",
-      phone: "010-0000-0000",
+      name: "",
+      company: "",
+      phone: "",
       email: "hello@example.com",
-      budget: "예: 100만원 내외",
+      budget: "",
       project_type: "광고, 유튜브, 애니, 게임, 교육 등",
-      voice_direction: "한국어 / 밝은 톤, 20대 여성 등",
       message: "문의 내용, 분량, 일정, 원하는 목소리 조건 등을 자유롭게 작성해 주세요.",
       reference_link: "Google Drive, Dropbox, YouTube, 참고 사이트 링크",
     },
@@ -622,8 +620,8 @@ const contactLocales = {
   en: {
     text: {
       pageTitle: "Contact Us",
-      pageLead: "Please use the form below for voice actor casting, dubbing production, estimate requests, and partnership inquiries.",
-      guideKicker: "INQUIRY GUIDE",
+      pageLead: "",
+      guideKicker: "",
       guideTitle: "Inquiry Guide",
       guideBody:
         "After reviewing your inquiry, we will reply by email within <strong>1-2 business days</strong>. If your schedule is urgent, please include your preferred deadline.",
@@ -641,7 +639,6 @@ const contactLocales = {
       budgetLabel: "Budget range",
       deadlineLabel: "Preferred deadline",
       projectTypeLabel: "Project type",
-      voiceLabel: "Language and voice requirements",
       messageLabel: "Inquiry details",
       referenceLabel: "File or reference link",
       attachmentLabel: "File attachment",
@@ -660,13 +657,12 @@ const contactLocales = {
       toastBody: "We will review it and reply by email within 1-2 business days.",
     },
     placeholders: {
-      name: "Alex Kim",
-      company: "CHIPS Studio",
-      phone: "+82 10 0000 0000",
+      name: "",
+      company: "",
+      phone: "",
       email: "hello@example.com",
-      budget: "Example: Around USD 1,000",
+      budget: "",
       project_type: "Commercial, YouTube, animation, game, education, etc.",
-      voice_direction: "English / bright tone, female voice in her 20s, etc.",
       message: "Tell us about the request, volume, schedule, and voice direction you have in mind.",
       reference_link: "Google Drive, Dropbox, YouTube, or reference website link",
     },

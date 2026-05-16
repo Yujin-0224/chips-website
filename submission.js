@@ -410,6 +410,14 @@ function careerValuesFrom(container) {
     .filter(Boolean);
 }
 
+function formatCapabilitiesPreview(value = "") {
+  const items = `${value || ""}`
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  return items.length ? items.join(" · ") : "작업 가능 조건을 입력하면 여기에 표시됩니다.";
+}
+
 function renderCareerPreview(list, values) {
   if (!list) return;
   const items = values.length ? values : ["경력 사항은 준비 중입니다."];
@@ -605,7 +613,7 @@ function bindProfileForm() {
     previewName.textContent = data.get("name") || "감자";
     previewNameEn.textContent = data.get("name_en") || "GAMZA";
     previewBio.textContent = data.get("bio") || "소개글을 입력하면 여기에 표시됩니다.";
-    previewCapabilities.textContent = data.get("capabilities") || "작업 가능 조건을 입력하면 여기에 표시됩니다.";
+    previewCapabilities.textContent = formatCapabilitiesPreview(data.get("capabilities"));
     careerController?.sync();
     fitTextToParent(previewName, { max: 58, min: 22 });
     fitTextToParent(previewNameEn, { max: 25, min: 12 });
@@ -718,7 +726,7 @@ function bindProfileEditForm() {
     preview.name.textContent = fields.name.value || "감자";
     preview.nameEn.textContent = fields.nameEn.value || "GAMZA";
     preview.bio.textContent = fields.bio.value || "소개글을 입력하면 여기에 표시됩니다.";
-    preview.capabilities.textContent = fields.capabilities.value || "작업 가능 조건을 입력하면 여기에 표시됩니다.";
+    preview.capabilities.textContent = formatCapabilitiesPreview(fields.capabilities.value);
     careerController?.sync();
     fitTextToParent(preview.name, { max: 58, min: 22 });
     fitTextToParent(preview.nameEn, { max: 25, min: 12 });

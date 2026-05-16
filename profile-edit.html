@@ -69,9 +69,10 @@
               <input id="edit-profile-image" name="profile_image" type="file" accept="image/*" />
               <small>정사각형 이미지 권장 · 800x800px 이상 · JPG/PNG/WebP · 업로드 시 자동 압축됩니다.</small>
             </div>
-            <div class="field">
+            <div class="field is-wide">
               <label for="edit-profile-capabilities">작업 가능 조건</label>
-              <input id="edit-profile-capabilities" name="capabilities" placeholder="예: 홈레코딩 가능 · 원격 디렉팅 가능 · 빠른 납기" />
+              <input id="edit-profile-capabilities" name="capabilities" placeholder="예: 홈레코딩 가능, 원격 디렉팅 가능, 빠른 납기" />
+              <small>쉼표로 구분하면 프로필 화면에서는 점 구분 문구로 표시됩니다.</small>
             </div>
             <div class="field is-wide">
               <label for="edit-profile-bio">소개글</label>
@@ -115,7 +116,7 @@
             <div class="profile-preview-content">
               <section class="profile-preview-audio">
                 <div class="profile-preview-section-head profile-preview-player-head">
-                  <span>AUDIO PLAYER</span>
+                  <span>VOICE SAMPLE</span>
                   <h3>대표 자기소개 샘플</h3>
                 </div>
                 <div class="profile-preview-player" aria-hidden="true">
@@ -125,8 +126,8 @@
                   <span class="profile-preview-volume">VOL <i></i></span>
                 </div>
                 <div class="profile-preview-samples">
+                  <button class="is-active" type="button" disabled>자기소개</button>
                   <button type="button" disabled>샘플 1</button>
-                  <button type="button" disabled>샘플 2</button>
                 </div>
               </section>
               <section class="profile-preview-summary">

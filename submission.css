@@ -167,6 +167,14 @@ a {
   font-weight: 900;
 }
 
+.field small {
+  color: rgba(23, 19, 13, 0.52);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
 .field input,
 .field textarea,
 .field select {

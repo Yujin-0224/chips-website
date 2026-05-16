@@ -335,6 +335,63 @@ function profileImageFromActor(actor = {}) {
   return actor.profileImage || actor.profileImageUrl || actor.image || "";
 }
 
+function canvasToBlob(canvas, type, quality) {
+  return new Promise((resolve) => canvas.toBlob(resolve, type, quality));
+}
+
+async function compressProfileImage(file) {
+  if (!file || !file.type?.startsWith("image/")) return file;
+
+  const imageUrl = URL.createObjectURL(file);
+  const image = new Image();
+  image.decoding = "async";
+
+  try {
+    await new Promise((resolve, reject) => {
+      image.onload = resolve;
+      image.onerror = reject;
+      image.src = imageUrl;
+    });
+
+    const maxSize = 900;
+    const sourceWidth = image.naturalWidth || image.width;
+    const sourceHeight = image.naturalHeight || image.height;
+    const scale = Math.min(1, maxSize / Math.max(sourceWidth, sourceHeight));
+    const width = Math.max(1, Math.round(sourceWidth * scale));
+    const height = Math.max(1, Math.round(sourceHeight * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    const context = canvas.getContext("2d", { alpha: false });
+    if (!context) return file;
+    context.fillStyle = "#fffaf0";
+    context.fillRect(0, 0, width, height);
+    context.drawImage(image, 0, 0, width, height);
+
+    const blob = await canvasToBlob(canvas, "image/webp", 0.82);
+    if (!blob || blob.size >= file.size) return file;
+
+    const baseName = file.name.replace(/\.[^.]+$/, "") || "profile";
+    return new File([blob], `${baseName}.webp`, {
+      type: "image/webp",
+      lastModified: Date.now(),
+    });
+  } catch {
+    return file;
+  } finally {
+    URL.revokeObjectURL(imageUrl);
+  }
+}
+
+async function setCompressedProfileImage(formData, input) {
+  const file = input?.files?.[0];
+  if (!file) return null;
+  const compressed = await compressProfileImage(file);
+  formData.set("profile_image", compressed);
+  return compressed;
+}
+
 function actorOptionLabel(actor = {}) {
   return `${actor.name || actor.id}${actor.nameEn ? ` / ${actor.nameEn}` : ""}`;
 }
@@ -511,6 +568,7 @@ function bindProfileForm() {
     data.set("actor_id", slugify(data.get("name"), "actor"));
 
     try {
+      await setCompressedProfileImage(data, imageInput);
       const response = await fetch("/api/submit-profile", { method: "POST", headers: authHeaders(), body: data });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Submit failed");
@@ -633,6 +691,7 @@ function bindProfileEditForm() {
     data.set("existing_profile_image", profileImageFromActor(state.currentActor));
 
     try {
+      await setCompressedProfileImage(data, imageInput);
       const response = await fetch("/api/update-profile", { method: "POST", headers: authHeaders(), body: data });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Update failed");

@@ -1719,17 +1719,18 @@ a {
 
 .actor-profile {
   display: grid;
-  grid-template-columns: minmax(200px, 270px) minmax(0, 1fr);
-  gap: clamp(28px, 4vw, 48px);
+  grid-template-columns: 270px minmax(0, 665px);
+  gap: 48px;
   align-items: start;
-  width: 100%;
+  justify-content: center;
+  width: min(100%, 1010px);
   margin: 0 auto;
   padding: 0;
 }
 
 .profile-sidebar {
   display: grid;
-  gap: 14px;
+  gap: 12px;
 }
 
 .profile-portrait {
@@ -1755,7 +1756,7 @@ a {
 }
 
 .profile-identity-title {
-  padding: 13px 14px 15px;
+  padding: 15px 14px 16px;
   border-bottom: 0;
   background: transparent;
   text-align: center;
@@ -1765,7 +1766,7 @@ a {
 .profile-identity-title h2 {
   margin: 0;
   color: var(--blue);
-  font-size: clamp(30px, 3.8vw, 43px);
+  font-size: clamp(30px, 3.8vw, 42px);
   font-weight: 900;
   line-height: 0.94;
   letter-spacing: 0;
@@ -1782,7 +1783,7 @@ a {
   justify-content: start;
   gap: 14px;
   min-width: 0;
-  padding-top: 2px;
+  padding-top: 0;
 }
 
 .profile-name-en {
@@ -1806,7 +1807,7 @@ a {
 
 .profile-audio-card,
 .profile-summary-card {
-  padding: 20px;
+  padding: 18px 20px;
 }
 
 .profile-highlights {
@@ -1845,7 +1846,7 @@ a {
 
 .profile-copy #detail-bio {
   margin: 0;
-  max-width: 580px;
+  max-width: none;
   padding: 15px 16px;
   border: 1px solid rgba(32, 26, 18, 0.08);
   border-radius: 8px;
@@ -1859,7 +1860,7 @@ a {
 
 .profile-capabilities {
   max-width: none;
-  margin: 13px 0 0;
+  margin: 18px 0 0;
   padding: 11px 14px;
   border: 1px solid rgba(32, 26, 18, 0.08);
   border-radius: 8px;
@@ -1873,12 +1874,12 @@ a {
 
 .voice-demo {
   width: 100%;
-  margin: 20px 0 0;
-  padding-top: 15px;
+  margin: 18px 0 0;
+  padding-top: 18px;
   border-top: 1px solid rgba(32, 26, 18, 0.08);
 }
 
-.profile-copy .voice-demo .profile-section-head h3 {
+.profile-copy .voice-demo .profile-section-head {
   display: none;
 }
 
@@ -1888,7 +1889,7 @@ a {
 }
 
 .profile-intro-demo #intro-demo-player {
-  max-width: 540px;
+  max-width: none;
 }
 
 .profile-audio-meta {
@@ -1918,21 +1919,15 @@ a {
 
 .profile-section-head span {
   color: var(--blue);
-  font-size: 10px;
+  font-size: 27px;
   font-weight: 900;
-  letter-spacing: 0.16em;
-  line-height: 1.2;
+  letter-spacing: 0;
+  line-height: 1;
   text-transform: uppercase;
 }
 
 .profile-section-head h3 {
-  margin: 0;
-  padding: 5px 11px 7px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.72);
-  font-size: clamp(20px, 2.25vw, 26px);
-  font-weight: 900;
-  line-height: 1.08;
+  display: none;
 }
 
 .profile-player-head {
@@ -1941,13 +1936,13 @@ a {
 
 .profile-player-head span {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
 
 .profile-intro-demo .sample-player {
-  grid-template-columns: 38px minmax(120px, 1fr) 34px minmax(78px, 104px);
+  grid-template-columns: 38px minmax(140px, 1fr) 38px minmax(82px, 108px);
   gap: 8px;
-  max-width: 548px;
+  max-width: none;
 }
 
 .profile-intro-demo .play-button {
@@ -2049,10 +2044,10 @@ a {
 }
 
 .profile-career {
-  grid-column: 1 / -1;
-  width: min(100%, 920px);
-  margin: 28px auto 0;
-  padding: 20px 22px;
+  width: 665px;
+  max-width: calc(100% - 318px);
+  margin: 14px 0 0 auto;
+  padding: 18px 20px;
 }
 
 .profile-career ul {
@@ -2891,6 +2886,12 @@ a {
     gap: 24px;
   }
 
+  .profile-career {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
   .profile-sidebar {
     width: min(360px, 100%);
     margin: 0 auto;
@@ -2902,7 +2903,7 @@ a {
 
   .profile-portrait {
     min-height: 0;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
   }
 
   .profile-capabilities {

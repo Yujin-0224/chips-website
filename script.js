@@ -1762,7 +1762,32 @@ function setActiveNav(targetHash) {
 
 function navigateTo(hash) {
   stopActivePlayer();
-  if (window.location.hash === hash) {
+  const currentHash = window.location.hash || "#top";
+  if (currentHash === hash) {
+    const appHashes = ["#news", "#members", "#services", "#contact"];
+    const targetPage = document.querySelector(hash);
+    if (hash === "#members" && !actorDetail.hidden) {
+      showRoute();
+      return;
+    }
+    if (appHashes.includes(hash) && targetPage && !targetPage.hidden) {
+      setActiveNav(hash);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    if (hash === "#voice-sample") {
+      document.querySelector("#voice-sample").scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    if (hash === "#info") {
+      document.querySelector("#info").scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    if (hash === "#top") {
+      setActiveNav("#top");
+      document.querySelector("#top").scrollIntoView({ behavior: "smooth" });
+      return;
+    }
     showRoute();
     return;
   }

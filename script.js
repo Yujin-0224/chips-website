@@ -501,8 +501,16 @@ let newsArticles = [
 
 let activePlayer = null;
 let preferredAudioVolume = 0.85;
+const samplePagination = {
+  items: [],
+  page: 0,
+  perPage: 4,
+};
 
 const sampleGrid = document.querySelector("#sample-grid");
+const sampleResults = document.querySelector("#sample-results");
+const samplePageStatus = document.querySelector("#sample-page-status");
+const samplePageButtons = [...document.querySelectorAll("[data-sample-page]")];
 const actorGrid = document.querySelector("#actor-grid");
 const actorDetail = document.querySelector("#actor-detail");
 const homePage = document.querySelector("#home");
@@ -930,8 +938,30 @@ function renderSamples(list = actors) {
   const searchableActors = list
     .map((actor) => ({ ...actor, audioSources: getSearchAudioSources(actor) }))
     .filter((actor) => actor.audioSources.length);
+  samplePagination.items = shuffleItems(searchableActors);
+  samplePagination.page = 0;
+  renderSamplePage();
+}
+
+function shuffleItems(items = []) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const target = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[target]] = [shuffled[target], shuffled[index]];
+  }
+  return shuffled;
+}
+
+function renderSamplePage() {
+  const { items, page, perPage } = samplePagination;
+  const totalPages = Math.max(1, Math.ceil(items.length / perPage));
+  if (samplePagination.page >= totalPages) samplePagination.page = totalPages - 1;
+  const start = samplePagination.page * perPage;
+  const pageItems = items.slice(start, start + perPage);
+
   sampleEmpty.hidden = true;
-  sampleGrid.innerHTML = searchableActors
+  if (sampleResults) sampleResults.hidden = false;
+  sampleGrid.innerHTML = pageItems
     .map(
       (actor) => `
         <article class="sample-card" data-actor="${actor.id}" tabindex="0" role="button" aria-label="${actor.name} 프로필 보기">
@@ -948,9 +978,39 @@ function renderSamples(list = actors) {
       `,
     )
     .join("");
+  samplePageButtons.forEach((button) => {
+    const direction = button.dataset.samplePage;
+    button.hidden = totalPages <= 1;
+    button.disabled = direction === "prev" ? samplePagination.page === 0 : samplePagination.page >= totalPages - 1;
+  });
+  if (samplePageStatus) {
+    samplePageStatus.hidden = totalPages <= 1;
+    samplePageStatus.textContent = `${samplePagination.page + 1} / ${totalPages}`;
+  }
   document.querySelectorAll(".sample-card").forEach((element) => element.classList.add("reveal"));
   setupAudioPlayers(sampleGrid);
   observeReveals();
+}
+
+function moveSamplePage(direction) {
+  const totalPages = Math.max(1, Math.ceil(samplePagination.items.length / samplePagination.perPage));
+  const nextPage = Math.min(Math.max(samplePagination.page + direction, 0), totalPages - 1);
+  if (nextPage === samplePagination.page) return;
+  stopActivePlayer();
+  samplePagination.page = nextPage;
+  renderSamplePage();
+}
+
+function clearSampleResults() {
+  stopActivePlayer();
+  samplePagination.items = [];
+  samplePagination.page = 0;
+  sampleGrid.innerHTML = "";
+  if (sampleResults) sampleResults.hidden = true;
+  if (samplePageStatus) {
+    samplePageStatus.hidden = true;
+    samplePageStatus.textContent = "";
+  }
 }
 
 function renderActors() {
@@ -1290,7 +1350,7 @@ function filterSamples() {
   const filters = selectedFilterValues();
   const hasFilter = Object.values(filters).some((values) => values.length);
   if (!hasFilter) {
-    sampleGrid.innerHTML = "";
+    clearSampleResults();
     sampleEmpty.hidden = false;
     sampleEmpty.textContent = "카테고리를 하나 이상 선택하고 검색해 주세요.";
     return;
@@ -1303,7 +1363,7 @@ function filterSamples() {
     return selectedEntries.every(([key, values]) => values.every((value) => actorFilters[key]?.includes(value)));
   });
   if (!filtered.length) {
-    sampleGrid.innerHTML = "";
+    clearSampleResults();
     sampleEmpty.hidden = false;
     sampleEmpty.textContent = "조건에 맞는 성우 샘플이 아직 없습니다.";
     return;
@@ -1580,6 +1640,13 @@ document.addEventListener("click", (event) => {
   if (topNewsArrow && topNewsRail) {
     const direction = topNewsArrow.dataset.newsSlide === "next" ? 1 : -1;
     topNewsRail.scrollBy({ left: direction * topNewsRail.clientWidth, behavior: "smooth" });
+    return;
+  }
+
+  const samplePageButton = event.target.closest("[data-sample-page]");
+  if (samplePageButton) {
+    event.stopPropagation();
+    moveSamplePage(samplePageButton.dataset.samplePage === "next" ? 1 : -1);
     return;
   }
 
@@ -2056,7 +2123,7 @@ async function initializeSite() {
   await loadCmsData();
   renderFilterControls();
   renderActors();
-  sampleGrid.innerHTML = "";
+  clearSampleResults();
   sampleEmpty.hidden = false;
   applyContactLocale(activeContactLocale);
   observeReveals();

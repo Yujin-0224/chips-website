@@ -878,20 +878,11 @@ a {
   transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, opacity 180ms ease;
 }
 
-.sample-page-button::before {
-  content: "";
-  width: 11px;
-  height: 11px;
-  border-top: 3px solid currentColor;
-  border-right: 3px solid currentColor;
-}
-
-.sample-page-button[data-sample-page="prev"]::before {
-  transform: translateX(2px) rotate(-135deg);
-}
-
-.sample-page-button[data-sample-page="next"]::before {
-  transform: translateX(-2px) rotate(45deg);
+.sample-page-button img {
+  width: 22px;
+  height: 22px;
+  display: block;
+  pointer-events: none;
 }
 
 .sample-page-button:hover,

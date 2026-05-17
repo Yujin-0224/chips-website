@@ -866,17 +866,32 @@ a {
   z-index: 2;
   width: 44px;
   height: 44px;
+  display: grid;
+  place-items: center;
   border: 1px solid rgba(246, 185, 59, 0.46);
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.88);
   color: var(--ink);
   cursor: pointer;
-  font-size: 32px;
-  font-weight: 900;
-  line-height: 1;
   box-shadow: 0 16px 34px rgba(73, 52, 25, 0.13);
   backdrop-filter: blur(12px);
   transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, opacity 180ms ease;
+}
+
+.sample-page-button::before {
+  content: "";
+  width: 11px;
+  height: 11px;
+  border-top: 3px solid currentColor;
+  border-right: 3px solid currentColor;
+}
+
+.sample-page-button[data-sample-page="prev"]::before {
+  transform: translateX(2px) rotate(-135deg);
+}
+
+.sample-page-button[data-sample-page="next"]::before {
+  transform: translateX(-2px) rotate(45deg);
 }
 
 .sample-page-button:hover,

@@ -2022,9 +2022,12 @@ function normalizeCmsArticle(article) {
 async function loadCmsData() {
   try {
     const remoteCmsUrl = "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/cms/cms-data.json";
-    let response = await fetch(remoteCmsUrl, { cache: "no-store" });
-    if (!response.ok) {
-      response = await fetch("data/cms-data.json", { cache: "no-store" });
+    const isLocalPreview = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+    const cmsUrls = isLocalPreview ? ["data/cms-data.json", remoteCmsUrl] : [remoteCmsUrl, "data/cms-data.json"];
+    let response = null;
+    for (const cmsUrl of cmsUrls) {
+      response = await fetch(cmsUrl, { cache: "no-store" });
+      if (response.ok) break;
     }
     if (!response.ok) return;
 

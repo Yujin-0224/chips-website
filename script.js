@@ -1164,7 +1164,7 @@ function getAudioSourceFilterValues(actor, source = {}) {
 function audioSourceMatchesFilters(actor, source, filters) {
   const sourceValues = getAudioSourceFilterValues(actor, source);
   const selectedEntries = Object.entries(filters).filter(([, values]) => values.length);
-  return selectedEntries.every(([key, values]) => values.some((value) => sourceValues[key]?.includes(value)));
+  return selectedEntries.every(([key, values]) => values.every((value) => sourceValues[key]?.includes(value)));
 }
 
 function countAudioSourcesForFilters(filters) {
@@ -1298,7 +1298,7 @@ function filterSamples() {
     if (!getSearchAudioSources(actor).length) return false;
     const actorFilters = getActorFilterValues(actor);
     const selectedEntries = Object.entries(filters).filter(([, values]) => values.length);
-    return selectedEntries.every(([key, values]) => values.some((value) => actorFilters[key]?.includes(value)));
+    return selectedEntries.every(([key, values]) => values.every((value) => actorFilters[key]?.includes(value)));
   });
   if (!filtered.length) {
     sampleGrid.innerHTML = "";

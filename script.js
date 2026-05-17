@@ -962,8 +962,10 @@ function renderActors() {
             <img src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" loading="lazy" decoding="async" />
           </span>
           <span class="actor-card-info">
+            <span class="actor-card-role">Voice Actor</span>
             <strong>${actor.name}</strong>
-            <span>${actor.nameEn}</span>
+            <span class="actor-card-en">${actor.nameEn}</span>
+            <span class="actor-card-open" aria-hidden="true">View Profile</span>
           </span>
         </button>
       `,

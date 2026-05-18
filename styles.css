@@ -2105,6 +2105,12 @@ a {
   margin-bottom: 12px;
 }
 
+.profile-player-head h3,
+#active-demo-title {
+  color: rgba(23, 19, 13, 0.72);
+  font-weight: 900;
+}
+
 .profile-intro-demo .sample-player {
   grid-template-columns: 38px minmax(140px, 1fr) 38px minmax(82px, 108px);
   gap: 8px;

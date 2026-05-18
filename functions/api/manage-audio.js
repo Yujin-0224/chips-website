@@ -27,6 +27,7 @@ function publicActor(actor = {}) {
     id: actor.id || "",
     name: actor.name || "",
     nameEn: actor.nameEn || "",
+    sortOrder: actor.sortOrder || 9999,
   };
 }
 
@@ -87,7 +88,9 @@ export async function onRequestGet({ request, env }) {
   const actor = visibleActors.find((item) => item.id === actorId) || visibleActors[0] || null;
 
   return json({
-    actors: visibleActors.map(publicActor).sort((a, b) => `${a.name}`.localeCompare(`${b.name}`, "ko")),
+    actors: visibleActors
+      .map(publicActor)
+      .sort((a, b) => Number(a.sortOrder || 9999) - Number(b.sortOrder || 9999) || `${a.name || a.id}`.localeCompare(`${b.name || b.id}`, "ko")),
     actor: actor ? publicManageActor(actor) : null,
   });
 }

@@ -72,13 +72,15 @@ function actorOption(actor = {}) {
 }
 
 async function loadActors() {
-  const response = await fetch("/api/manage-audio", { headers: authHeaders(), cache: "no-store" });
+  const query = currentUser?.role === "admin" ? "?all=1" : "";
+  const response = await fetch(`/api/manage-audio${query}`, { headers: authHeaders(), cache: "no-store" });
   const payload = await response.json();
   if (!response.ok) throw new Error(payload.error || "Audio data load failed");
   actorSelect.innerHTML = payload.actors.length ? payload.actors.map(actorOption).join("") : '<option value="">프로필이 없습니다</option>';
   actorSelect.disabled = currentUser?.role !== "admin";
-  if (payload.actors[0]) {
-    actorSelect.value = payload.actors[0].id;
+  const initialActorId = payload.actor?.id || payload.actors[0]?.id || "";
+  if (initialActorId) {
+    actorSelect.value = initialActorId;
     await loadActorAudio(actorSelect.value);
   }
 }

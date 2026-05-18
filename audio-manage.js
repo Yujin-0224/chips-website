@@ -167,7 +167,7 @@ function audioCard(source = {}, { intro = false } = {}) {
           <span>제목</span>
           <input class="audio-title-input" value="${escapeHtml(source.title || (intro ? "자기소개" : ""))}" ${intro ? "readonly" : ""} />
         </label>
-        <details class="audio-category-editor" ${intro ? "" : "open"}>
+        <details class="audio-category-editor">
           <summary>${intro ? "자기소개는 카테고리를 사용하지 않습니다" : "카테고리 수정"}</summary>
           <div class="category-grid audio-edit-category-grid">
             ${chipsCategoryGroups

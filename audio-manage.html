@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CHIPS Audio Manage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="submission.css?v=20260518-audio-manage" />
+  </head>
+  <body data-requires-auth="true">
+    <main class="submission-shell">
+      <div class="submission-topbar">
+        <a class="brand-mark" href="index.html#top" aria-label="CHIPS home">
+          <img src="assets/chips_logo_1.png" alt="CHIPS" />
+        </a>
+        <nav class="submission-nav" aria-label="운영 페이지" data-auth-nav hidden>
+          <a href="profile-create.html">프로필 작성</a>
+          <a href="audio-create.html">오디오 추가</a>
+          <a class="is-active" href="audio-manage.html">오디오 관리</a>
+          <a href="admin.html" data-admin-link>관리자</a>
+          <a href="index.html#members">홈페이지</a>
+        </nav>
+        <div class="topbar-account" data-auth-greeting hidden></div>
+      </div>
+
+      <section class="submission-hero">
+        <div>
+          <p class="submission-kicker">VOICE SAMPLE MANAGE</p>
+          <h1>AUDIO MANAGE</h1>
+          <p>오디오 제목, 카테고리, 공개 순서를 관리합니다. 자기소개 오디오는 프로필 상단에 고정되고, 일반 샘플만 드래그해서 순서를 변경할 수 있습니다.</p>
+        </div>
+        <aside class="status-panel">
+          <strong>정렬 방식</strong>
+          <p>샘플 오디오 카드를 드래그해서 원하는 순서로 옮긴 뒤 저장하면 공개 프로필 화면에 반영됩니다.</p>
+        </aside>
+      </section>
+
+      <section class="form-section audio-manage-panel">
+        <div class="field-grid">
+          <div class="field">
+            <label for="manage-actor-select">성우 선택</label>
+            <select id="manage-actor-select" name="actor_id">
+              <option value="">목록을 불러오는 중</option>
+            </select>
+            <small class="field-help">멤버 계정은 본인 프로필만 선택할 수 있습니다.</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section audio-manage-panel">
+        <div class="audio-manage-head">
+          <div>
+            <span>PINNED</span>
+            <h2>자기소개 오디오</h2>
+          </div>
+          <small>순서 고정</small>
+        </div>
+        <div id="intro-audio-panel" class="audio-manage-list"></div>
+      </section>
+
+      <section class="form-section audio-manage-panel">
+        <div class="audio-manage-head">
+          <div>
+            <span>SAMPLES</span>
+            <h2>샘플 오디오</h2>
+          </div>
+          <small>드래그로 순서 변경</small>
+        </div>
+        <div id="sample-audio-list" class="audio-manage-list is-sortable"></div>
+      </section>
+
+      <div class="form-actions">
+        <button class="secondary-button" id="reload-audio-manage" type="button">다시 불러오기</button>
+        <button class="primary-button" id="save-audio-manage" type="button">변경사항 저장</button>
+      </div>
+      <pre class="result-box" id="audio-manage-result" hidden></pre>
+    </main>
+
+    <script src="assets/vendor/Sortable.min.js"></script>
+    <script src="submission.js?v=20260518-audio-manage-categories"></script>
+    <script src="audio-manage.js?v=20260518-audio-manage"></script>
+  </body>
+</html>

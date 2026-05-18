@@ -4,9 +4,12 @@ const sampleList = document.getElementById("sample-audio-list");
 const reloadButton = document.getElementById("reload-audio-manage");
 const saveButton = document.getElementById("save-audio-manage");
 const resultBox = document.getElementById("audio-manage-result");
+const remoteCmsUrl = "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/cms/cms-data.json";
 
 let currentUser = null;
 let currentActor = null;
+let fallbackActors = [];
+let usingFallbackCms = false;
 let sortable = null;
 
 function escapeHtml(value = "") {
@@ -27,10 +30,21 @@ function authHeaders(extra = {}) {
 
 function cachedAuthUser() {
   try {
-    return JSON.parse(localStorage.getItem("chipsAuthUser") || "null");
+    return normalizeUser(JSON.parse(localStorage.getItem("chipsAuthUser") || "null"));
   } catch {
     return null;
   }
+}
+
+function normalizeRole(role = "") {
+  const value = `${role || ""}`.trim().toLowerCase();
+  if (["admin", "administrator", "owner", "manager", "관리자", "운영자"].includes(value)) return "admin";
+  if (["member", "actor", "voice_actor", "voice-actor", "성우", "멤버"].includes(value)) return "actor";
+  return value || "actor";
+}
+
+function normalizeUser(user) {
+  return user ? { ...user, role: normalizeRole(user.role) } : null;
 }
 
 function showResult(value) {
@@ -57,17 +71,24 @@ async function requireUser() {
     window.location.href = "login.html";
     return null;
   }
-  const response = await fetch("/api/auth/me", { headers: authHeaders(), cache: "no-store" });
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok || !payload.user) {
+  try {
+    const response = await fetch("/api/auth/me", { headers: authHeaders(), cache: "no-store" });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || !payload.user) throw new Error(payload.error || "Auth check failed");
+    const user = normalizeUser(payload.user || cached);
+    localStorage.setItem("chipsAuthUser", JSON.stringify(user));
+    renderAuthStatus(user);
+    return user;
+  } catch (error) {
+    if (cached) {
+      renderAuthStatus(cached);
+      return cached;
+    }
     localStorage.removeItem("chipsAuthToken");
     localStorage.removeItem("chipsAuthUser");
     window.location.href = "login.html";
     return null;
   }
-  localStorage.setItem("chipsAuthUser", JSON.stringify(payload.user));
-  renderAuthStatus(payload.user || cached);
-  return payload.user;
 }
 
 function actorOption(actor = {}) {
@@ -75,11 +96,42 @@ function actorOption(actor = {}) {
   return `<option value="${escapeHtml(actor.id)}">${escapeHtml(label)}</option>`;
 }
 
+async function loadFallbackActors() {
+  const response = await fetch(remoteCmsUrl, { cache: "no-store" });
+  if (!response.ok) throw new Error("Public CMS data load failed");
+  const data = await response.json();
+  fallbackActors = Array.isArray(data.actors) ? data.actors.filter((actor) => actor.id) : [];
+  usingFallbackCms = true;
+  return fallbackActors;
+}
+
 async function loadActors() {
   const query = currentUser?.role === "admin" ? "?all=1" : "";
-  const response = await fetch(`/api/manage-audio${query}`, { headers: authHeaders(), cache: "no-store" });
-  const payload = await response.json();
-  if (!response.ok) throw new Error(payload.error || "Audio data load failed");
+  let payload = null;
+  try {
+    const response = await fetch(`/api/manage-audio${query}`, { headers: authHeaders(), cache: "no-store" });
+    payload = await response.json();
+    if (!response.ok) throw new Error(payload.error || "Audio data load failed");
+    usingFallbackCms = false;
+  } catch (error) {
+    const actors = await loadFallbackActors();
+    const visibleActors = currentUser?.role === "admin" ? actors : actors.filter((actor) => actor.id === currentUser?.actorId);
+    payload = {
+      actors: visibleActors.map(publicActorFromCms),
+      actor: visibleActors[0] || null,
+    };
+    showResult({
+      notice: "로컬 미리보기에서는 공개 CMS 데이터로 목록을 표시합니다. 저장은 Cloudflare 배포 주소에서 로그인 후 사용해 주세요.",
+    });
+  }
+
+  if (currentUser?.role === "admin" && (!Array.isArray(payload.actors) || !payload.actors.length)) {
+    const actorsFromCms = await loadFallbackActors();
+    payload = {
+      actors: actorsFromCms.map(publicActorFromCms),
+      actor: actorsFromCms[0] || null,
+    };
+  }
 
   const actors = Array.isArray(payload.actors) ? payload.actors : [];
   actorSelect.innerHTML = actors.length ? actors.map(actorOption).join("") : '<option value="">프로필이 없습니다</option>';
@@ -93,6 +145,15 @@ async function loadActors() {
     introPanel.innerHTML = '<p class="empty-note">관리할 프로필이 없습니다.</p>';
     sampleList.innerHTML = '<p class="empty-note">관리할 오디오가 없습니다.</p>';
   }
+}
+
+function publicActorFromCms(actor = {}) {
+  return {
+    id: actor.id || "",
+    name: actor.name || "",
+    nameEn: actor.nameEn || "",
+    sortOrder: actor.sortOrder || 9999,
+  };
 }
 
 function audioCard(source = {}, { intro = false } = {}) {
@@ -168,6 +229,12 @@ async function loadActorAudio(actorId) {
   if (!actorId) return;
   introPanel.innerHTML = "Loading...";
   sampleList.innerHTML = "Loading...";
+  if (usingFallbackCms) {
+    const actor = fallbackActors.find((item) => item.id === actorId);
+    if (!actor) throw new Error("Actor audio load failed");
+    renderActorAudio(actor);
+    return;
+  }
   const response = await fetch(`/api/manage-audio?actorId=${encodeURIComponent(actorId)}`, { headers: authHeaders(), cache: "no-store" });
   const payload = await response.json();
   if (!response.ok) throw new Error(payload.error || "Actor audio load failed");

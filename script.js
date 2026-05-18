@@ -881,9 +881,8 @@ function getProfileAudioOptions(actor) {
   const introSources = getIntroAudioSources(actor);
   const introPlayerSources = introSources;
   const sampleSources = getSearchAudioSources(actor);
-  const sampleLabels = actor.demos?.length
-    ? actor.demos
-    : sampleSources.map((source, index) => source.title || source.category || `\uc0d8\ud50c ${index + 1}`);
+  const legacyDemos = Array.isArray(actor.demos) && actor.demos.length === sampleSources.length ? actor.demos : [];
+  const sampleLabels = sampleSources.map((source, index) => source.title || source.category || legacyDemos[index] || `\uc0d8\ud50c ${index + 1}`);
   const options = [
     {
       label: "\uc790\uae30\uc18c\uac1c",
@@ -893,7 +892,7 @@ function getProfileAudioOptions(actor) {
   ];
 
   sampleLabels.forEach((label, index) => {
-    const source = sampleSources[index] || sampleSources[0];
+    const source = sampleSources[index];
     if (source) {
       options.push({
         label,

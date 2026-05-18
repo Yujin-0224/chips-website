@@ -39,8 +39,12 @@ function showResult(value) {
 }
 
 function renderAuthStatus(user) {
-  document.querySelectorAll("[data-auth-nav]").forEach((nav) => { nav.hidden = !user; });
-  document.querySelectorAll("[data-admin-link]").forEach((link) => { link.hidden = user?.role !== "admin"; });
+  document.querySelectorAll("[data-auth-nav]").forEach((nav) => {
+    nav.hidden = !user;
+  });
+  document.querySelectorAll("[data-admin-link]").forEach((link) => {
+    link.hidden = user?.role !== "admin";
+  });
   document.querySelectorAll("[data-auth-greeting]").forEach((greeting) => {
     greeting.hidden = !user;
     if (user) greeting.innerHTML = `<strong>${escapeHtml(user.name || user.username)}</strong>님 반갑습니다.`;
@@ -76,12 +80,18 @@ async function loadActors() {
   const response = await fetch(`/api/manage-audio${query}`, { headers: authHeaders(), cache: "no-store" });
   const payload = await response.json();
   if (!response.ok) throw new Error(payload.error || "Audio data load failed");
-  actorSelect.innerHTML = payload.actors.length ? payload.actors.map(actorOption).join("") : '<option value="">프로필이 없습니다</option>';
-  actorSelect.disabled = currentUser?.role !== "admin";
-  const initialActorId = payload.actor?.id || payload.actors[0]?.id || "";
+
+  const actors = Array.isArray(payload.actors) ? payload.actors : [];
+  actorSelect.innerHTML = actors.length ? actors.map(actorOption).join("") : '<option value="">프로필이 없습니다</option>';
+  actorSelect.disabled = currentUser?.role !== "admin" || !actors.length;
+
+  const initialActorId = payload.actor?.id || actors[0]?.id || "";
   if (initialActorId) {
     actorSelect.value = initialActorId;
     await loadActorAudio(actorSelect.value);
+  } else {
+    introPanel.innerHTML = '<p class="empty-note">관리할 프로필이 없습니다.</p>';
+    sampleList.innerHTML = '<p class="empty-note">관리할 오디오가 없습니다.</p>';
   }
 }
 

@@ -52,6 +52,13 @@ export function randomId(prefix = "id") {
   return `${prefix}-${crypto.randomUUID()}`;
 }
 
+export function normalizeRole(role = "") {
+  const value = `${role || ""}`.trim().toLowerCase();
+  if (["admin", "administrator", "owner", "manager", "관리자", "운영자"].includes(value)) return "admin";
+  if (["member", "actor", "voice_actor", "voice-actor", "성우", "멤버"].includes(value)) return "actor";
+  return value || "actor";
+}
+
 export function bearerToken(request) {
   const header = request.headers.get("Authorization") || "";
   return header.startsWith("Bearer ") ? header.slice(7).trim() : "";
@@ -79,7 +86,7 @@ export async function getSessionUser(bucket, request) {
 export function publicUser(user = {}) {
   return {
     username: user.username,
-    role: user.role || "actor",
+    role: normalizeRole(user.role),
     actorId: user.actorId || "",
     name: user.name || "",
     status: user.status || "active",

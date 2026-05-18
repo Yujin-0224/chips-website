@@ -37,6 +37,11 @@ function publicUrl(key) {
   return `${PUBLIC_BASE_URL}/${key.split("/").map(encodeURIComponent).join("/")}`;
 }
 
+function uniqueSampleId(actorId, title) {
+  const base = slugify(`${actorId}-${title}`, "sample");
+  return `${base}-${Date.now().toString(36)}`;
+}
+
 function parseJson(value, fallback) {
   try {
     return JSON.parse(`${value || ""}`);
@@ -101,7 +106,7 @@ function addAudioToCms(cms, audio) {
   if (index >= 0) actor.audioSources[index] = source;
   else actor.audioSources.push(source);
 
-  actor.demos = Array.from(new Set([...(actor.demos || []), audio.sampleTitle].filter(Boolean)));
+  actor.demos = actor.audioSources.map((item) => item.title).filter(Boolean);
   actor.updatedAt = new Date().toISOString();
   return { source };
 }
@@ -134,9 +139,9 @@ export async function onRequestPost({ request, env }) {
     if (!actorName || !sampleTitle) return json({ error: "actor_name and sample_title are required." }, 400);
     if (user.role !== "admin" && actorId !== user.actorId) return json({ error: "You can only upload audio to your own profile." }, 403);
 
-    const sampleId = audioKind === "intro" ? `${actorId}-intro` : slugify(form.get("sample_id") || `${actorId}-${sampleTitle}`, "sample");
+    const sampleId = audioKind === "intro" ? `${actorId}-intro` : uniqueSampleId(actorId, sampleTitle);
     const extension = mimeExtensions[file.type] || file.name.split(".").pop() || "mp3";
-    const r2Key = `${audioKind === "intro" ? `audio/${actorId}/intro.${extension}` : form.get("r2_key") || `audio/${actorId}/${sampleId}.${extension}`}`.replace(/^\/+/, "");
+    const r2Key = `${audioKind === "intro" ? `audio/${actorId}/intro.${extension}` : `audio/${actorId}/${sampleId}.${extension}`}`.replace(/^\/+/, "");
 
     await env.CHIPS_MEDIA.put(r2Key, await file.arrayBuffer(), {
       httpMetadata: { contentType: file.type || "audio/mpeg" },

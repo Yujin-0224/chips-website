@@ -82,7 +82,7 @@ function approveAudio(cms, audio) {
   if (index >= 0) actor.audioSources[index] = source;
   else actor.audioSources.push(source);
 
-  actor.demos = Array.from(new Set([...(actor.demos || []), audio.sampleTitle].filter(Boolean)));
+  actor.demos = actor.audioSources.map((item) => item.title).filter(Boolean);
   return source;
 }
 

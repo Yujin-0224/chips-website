@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="submission.css?v=20260515-delete-token" />
+    <link rel="stylesheet" href="submission.css?v=20260518-profile-delete" />
   </head>
   <body>
     <main class="submission-shell">
@@ -101,9 +101,28 @@
         </div>
       </section>
 
+      <section class="form-section admin-profile-delete">
+        <h2>프로필 삭제</h2>
+        <p class="form-help">관리자 계정으로 로그인한 경우에만 공개 프로필을 삭제할 수 있습니다. 삭제하면 홈페이지 목록과 검색 결과에서 해당 성우가 제거됩니다.</p>
+        <form class="admin-profile-delete-form" id="admin-profile-delete-form">
+          <div class="field-grid">
+            <div class="field is-wide">
+              <label for="delete-profile-id">삭제할 프로필</label>
+              <select id="delete-profile-id" name="actorId" required>
+                <option value="">운영 데이터를 먼저 불러와 주세요</option>
+              </select>
+              <small class="field-help">아이디 - 성우 이름 형식으로 표시됩니다.</small>
+            </div>
+          </div>
+          <div class="form-actions compact-actions">
+            <button class="danger-button profile-delete-submit" type="submit">프로필 삭제하기</button>
+          </div>
+        </form>
+      </section>
+
       <pre class="result-box" id="admin-result" hidden></pre>
     </main>
 
-    <script src="admin.js?v=20260515-delete-token"></script>
+    <script src="admin.js?v=20260518-profile-delete"></script>
   </body>
 </html>

@@ -4,6 +4,8 @@ const audioList = document.getElementById("audio-submissions");
 const signupList = document.getElementById("signup-requests");
 const accountList = document.getElementById("account-list");
 const accountForm = document.getElementById("admin-account-form");
+const profileDeleteForm = document.getElementById("admin-profile-delete-form");
+const profileDeleteSelect = document.getElementById("delete-profile-id");
 const resultBox = document.getElementById("admin-result");
 
 function showResult(value) {
@@ -182,6 +184,21 @@ function accountRow(item) {
   `;
 }
 
+function renderProfileDeleteOptions(profiles = []) {
+  if (!profileDeleteSelect) return;
+  profileDeleteSelect.innerHTML = profiles.length
+    ? `<option value="">삭제할 프로필을 선택해 주세요</option>${profiles
+        .map((profile) => {
+          const label = `${profile.id} - ${profile.name || profile.nameEn || "이름 없음"}`;
+          const meta = [profile.nameEn, profile.audioCount ? `오디오 ${profile.audioCount}개` : "", profile.hasIntro ? "자기소개 있음" : ""]
+            .filter(Boolean)
+            .join(" / ");
+          return `<option value="${escapeHtml(profile.id)}">${escapeHtml(meta ? `${label} (${meta})` : label)}</option>`;
+        })
+        .join("")}`
+    : '<option value="">삭제할 프로필이 없습니다</option>';
+}
+
 function requireAdminSession() {
   if (hasAdminSession()) return true;
   showResult({
@@ -198,15 +215,19 @@ async function loadSubmissions() {
   audioList.innerHTML = "Loading...";
   if (signupList) signupList.innerHTML = "Loading...";
   if (accountList) accountList.innerHTML = "Loading...";
+  if (profileDeleteSelect) profileDeleteSelect.innerHTML = '<option value="">Loading...</option>';
 
-  const [submissionsResponse, accountsResponse] = await Promise.all([
+  const [submissionsResponse, accountsResponse, profilesResponse] = await Promise.all([
     fetch("/api/admin/submissions", { headers: adminHeaders() }),
     fetch("/api/admin/accounts", { headers: adminHeaders() }),
+    fetch("/api/admin/profiles", { headers: adminHeaders() }),
   ]);
   const payload = await submissionsResponse.json();
   const accountsPayload = await accountsResponse.json();
+  const profilesPayload = await profilesResponse.json();
   if (!submissionsResponse.ok) throw new Error(payload.error || "Load failed");
   if (!accountsResponse.ok) throw new Error(accountsPayload.error || "Accounts load failed");
+  if (!profilesResponse.ok) throw new Error(profilesPayload.error || "Profiles load failed");
 
   profileList.innerHTML = payload.profiles.length
     ? payload.profiles.map((item) => submissionCard(item, "profile")).join("")
@@ -224,6 +245,7 @@ async function loadSubmissions() {
       ? accountsPayload.users.map(accountRow).join("")
       : '<p class="empty-note">No active accounts.</p>';
   }
+  renderProfileDeleteOptions(profilesPayload.profiles || []);
   showResult({
     message: "Admin data loaded.",
     counts: {
@@ -231,6 +253,7 @@ async function loadSubmissions() {
       audio: payload.audio.length,
       signupRequests: accountsPayload.requests.length,
       accounts: accountsPayload.users.length,
+      publicProfiles: profilesPayload.profiles.length,
     },
   });
 }
@@ -278,6 +301,28 @@ async function createAccount(form) {
   });
   const payload = await response.json();
   if (!response.ok) throw new Error(payload.error || "Create account failed");
+  form.reset();
+  showResult(payload);
+  await loadSubmissions();
+}
+
+async function deleteProfile(form) {
+  if (!requireAdminSession()) return;
+  const actorId = `${new FormData(form).get("actorId") || ""}`.trim();
+  if (!actorId) {
+    showResult({ error: "삭제할 프로필을 선택해 주세요." });
+    return;
+  }
+  const label = profileDeleteSelect?.selectedOptions?.[0]?.textContent || actorId;
+  if (!window.confirm(`${label}\n\n이 프로필을 삭제할까요? 홈페이지 목록과 검색 결과에서 제거됩니다.`)) return;
+
+  const response = await fetch("/api/admin/profiles", {
+    method: "POST",
+    headers: adminHeaders({ "Content-Type": "application/json" }),
+    body: JSON.stringify({ action: "delete", actorId }),
+  });
+  const payload = await response.json();
+  if (!response.ok) throw new Error(payload.error || "Profile delete failed");
   form.reset();
   showResult(payload);
   await loadSubmissions();
@@ -338,6 +383,19 @@ accountForm?.addEventListener("submit", (event) => {
     });
 });
 
+profileDeleteForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const button = profileDeleteForm.querySelector(".profile-delete-submit");
+  button.disabled = true;
+  button.textContent = "Deleting...";
+  deleteProfile(profileDeleteForm)
+    .catch((error) => showResult({ error: error.message }))
+    .finally(() => {
+      button.disabled = false;
+      button.textContent = "프로필 삭제하기";
+    });
+});
+
 updateAdminTopbar();
 if (hasAdminSession()) {
   showResult({
@@ -347,6 +405,9 @@ if (hasAdminSession()) {
 } else {
   loadButton.disabled = true;
   accountForm?.querySelectorAll("button, input, select").forEach((element) => {
+    element.disabled = true;
+  });
+  profileDeleteForm?.querySelectorAll("button, input, select").forEach((element) => {
     element.disabled = true;
   });
   showResult({

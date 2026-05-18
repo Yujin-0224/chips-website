@@ -836,6 +836,15 @@ a {
   margin-top: 28px;
 }
 
+.admin-profile-delete {
+  margin-top: 22px;
+}
+
+.admin-profile-delete-form {
+  display: grid;
+  gap: 14px;
+}
+
 .admin-actions {
   justify-content: end;
 }

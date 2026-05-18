@@ -1,3 +1,4 @@
+(() => {
 const actorSelect = document.getElementById("manage-actor-select");
 const introPanel = document.getElementById("intro-audio-panel");
 const sampleList = document.getElementById("sample-audio-list");
@@ -309,3 +310,4 @@ requireUser()
     return loadActors();
   })
   .catch((error) => showResult({ error: error.message }));
+})();

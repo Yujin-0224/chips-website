@@ -867,11 +867,32 @@ function getSearchAudioSources(actor = {}) {
   return (actor.audioSources || []).filter((source) => source.audioKind !== "intro" && !introSrcs.has(source.src));
 }
 
+const filterValueAliases = {
+  ageRange: {
+    "나이 불명": "나이 불명 (괴물이나 크리쳐의 경우)",
+  },
+  emotion: {
+    무감정: "무감정/중립",
+    수줍음: "쑥스러움",
+    친절한: "친절함",
+    공손한: "공손함",
+    진지한: "진지함",
+  },
+  characterType: {
+    빌런: "악당",
+  },
+};
+
+function normalizeFilterValue(key, value) {
+  const trimmed = `${value || ""}`.trim();
+  return filterValueAliases[key]?.[trimmed] || trimmed;
+}
+
 function mergeCategoryValues(target, source = {}) {
   Object.entries(source).forEach(([key, values]) => {
     if (!Array.isArray(target[key])) return;
     const list = Array.isArray(values) ? values : `${values || ""}`.split(",");
-    list.map((value) => `${value}`.trim()).filter(Boolean).forEach((value) => {
+    list.map((value) => normalizeFilterValue(key, value)).filter(Boolean).forEach((value) => {
       if (!target[key].includes(value)) target[key].push(value);
     });
   });
@@ -1217,8 +1238,8 @@ function getAudioSourceFilterValues(actor, source = {}) {
   if (!hasSourceCategories) return getActorFilterValues(actor);
 
   const values = getEmptyFilterValues();
-  values.gender = actor.gender === "male" ? ["?⑥옄"] : ["?ъ옄"];
   mergeCategoryValues(values, sourceCategories);
+  if (!values.gender.length) values.gender = actor.gender === "male" ? ["남자"] : actor.gender === "female" ? ["여자"] : [];
   return values;
 }
 
@@ -1355,12 +1376,12 @@ function filterSamples() {
     return;
   }
 
-  const filtered = actors.filter((actor) => {
-    if (!getSearchAudioSources(actor).length) return false;
-    const actorFilters = getActorFilterValues(actor);
-    const selectedEntries = Object.entries(filters).filter(([, values]) => values.length);
-    return selectedEntries.every(([key, values]) => values.every((value) => actorFilters[key]?.includes(value)));
-  });
+  const filtered = actors
+    .map((actor) => ({
+      ...actor,
+      audioSources: getSearchAudioSources(actor).filter((source) => audioSourceMatchesFilters(actor, source, filters)),
+    }))
+    .filter((actor) => actor.audioSources.length);
   if (!filtered.length) {
     clearSampleResults();
     sampleEmpty.hidden = false;

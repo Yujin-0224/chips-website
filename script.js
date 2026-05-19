@@ -775,20 +775,25 @@ function formatTime(seconds = 0) {
 
 function audioMarkup(label, sourcesList = sampleAudioSources, options = {}) {
   const showVolume = options.showVolume !== false;
-  const sources = sourcesList
-    .map((source) => `<source src="${source.src}" type="${source.type}" />`)
-    .join("");
-  const isEmpty = !sourcesList.length;
+  const validSources = sourcesList.filter((source) => source?.src);
+  const primarySource = validSources[0];
+  const useAudioSrc = validSources.length === 1;
+  const sources = useAudioSrc
+    ? ""
+    : validSources
+        .map((source) => `<source src="${escapeHtml(source.src)}" type="${escapeHtml(source.type || "")}" />`)
+        .join("");
+  const isEmpty = !validSources.length;
 
   return `
     <div class="sample-player${isEmpty ? " is-empty" : ""}">
-      <audio preload="metadata" crossorigin="anonymous">${sources}</audio>
-      <button class="play-button" type="button" aria-label="${label} \uc7ac\uc0dd" ${isEmpty ? "disabled" : ""}>\u25b6</button>
+      <audio preload="metadata" crossorigin="anonymous"${useAudioSrc ? ` src="${escapeHtml(primarySource.src)}"` : ""}>${sources}</audio>
+      <button class="play-button" type="button" aria-label="${escapeHtml(label)} \uc7ac\uc0dd" ${isEmpty ? "disabled" : ""}>\u25b6</button>
       <div class="wave" aria-hidden="true"><span></span></div>
-      <small class="time-left" aria-label="${label} \uae38\uc774">0:00</small>
+      <small class="time-left" aria-label="${escapeHtml(label)} \uae38\uc774">0:00</small>
       ${
         showVolume
-          ? `<label class="volume-control" aria-label="${label} \ubcfc\ub968">
+          ? `<label class="volume-control" aria-label="${escapeHtml(label)} \ubcfc\ub968">
               <span>VOL</span>
               <input type="range" min="0" max="1" step="0.01" value="${preferredAudioVolume}" />
             </label>`
@@ -1508,6 +1513,7 @@ function togglePlayer(player) {
     activePlayer = player;
     setPlayerError(player, false);
     setPlayerLoading(player, true);
+    player.dataset.playRetry = "";
     audio
       .play()
       .then(() => {
@@ -1516,6 +1522,34 @@ function togglePlayer(player) {
         button.textContent = "Ⅱ";
       })
       .catch(() => {
+        if (activePlayer !== player) return;
+        if (!audio.error && player.dataset.playRetry !== "true") {
+          player.dataset.playRetry = "true";
+          audio.load();
+          audio.addEventListener(
+            "canplay",
+            () => {
+              if (activePlayer !== player || !audio.paused) return;
+              audio
+                .play()
+                .then(() => {
+                  if (activePlayer !== player || audio.paused) return;
+                  setPlayerLoading(player, false);
+                  setPlayerError(player, false);
+                  button.textContent = "Ⅱ";
+                })
+                .catch(() => {
+                  if (activePlayer !== player) return;
+                  setPlayerLoading(player, false);
+                  setPlayerError(player, true);
+                  activePlayer = null;
+                  button.textContent = "▶";
+                });
+            },
+            { once: true },
+          );
+          return;
+        }
         setPlayerLoading(player, false);
         setPlayerError(player, true);
         if (activePlayer === player) activePlayer = null;

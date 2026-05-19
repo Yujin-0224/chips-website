@@ -987,7 +987,6 @@ function renderSamplePage() {
   sampleGrid.innerHTML = pageItems
     .map(({ actor, source }) => {
       const sourceTitle = source.title || source.category || `${actor.name} 샘플`;
-      const sourceMeta = formatAudioMeta(source);
       return `
         <article class="sample-card" data-actor="${actor.id}" tabindex="0" role="button" aria-label="${escapeHtml(actor.name)} ${escapeHtml(sourceTitle)} 프로필 보기">
           <div>
@@ -997,7 +996,6 @@ function renderSamplePage() {
               <span>${escapeHtml(actor.nameEn || "")}</span>
             </p>
             <p class="sample-card-title">${escapeHtml(sourceTitle)}</p>
-            ${sourceMeta ? `<p class="sample-card-category">${escapeHtml(sourceMeta)}</p>` : ""}
             ${audioMarkup(sourceTitle, [source])}
             <p class="profile-card-hint">Profile <span>→</span></p>
           </div>

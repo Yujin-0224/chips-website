@@ -955,10 +955,13 @@ function renderDetailAudioOption(index = 0, options = {}) {
 }
 
 function renderSamples(list = actors) {
-  const searchableActors = list
-    .map((actor) => ({ ...actor, audioSources: getSearchAudioSources(actor) }))
-    .filter((actor) => actor.audioSources.length);
-  samplePagination.items = shuffleItems(searchableActors);
+  const searchableItems = list.flatMap((actor) =>
+    getSearchAudioSources(actor).map((source) => ({
+      actor,
+      source,
+    })),
+  );
+  samplePagination.items = shuffleItems(searchableItems);
   samplePagination.page = 0;
   renderSamplePage();
 }
@@ -982,21 +985,25 @@ function renderSamplePage() {
   sampleEmpty.hidden = true;
   if (sampleResults) sampleResults.hidden = false;
   sampleGrid.innerHTML = pageItems
-    .map(
-      (actor) => `
-        <article class="sample-card" data-actor="${actor.id}" tabindex="0" role="button" aria-label="${actor.name} 프로필 보기">
+    .map(({ actor, source }) => {
+      const sourceTitle = source.title || source.category || `${actor.name} 샘플`;
+      const sourceMeta = formatAudioMeta(source);
+      return `
+        <article class="sample-card" data-actor="${actor.id}" tabindex="0" role="button" aria-label="${escapeHtml(actor.name)} ${escapeHtml(sourceTitle)} 프로필 보기">
           <div>
-            <img class="avatar" src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${actor.name} 프로필 사진" loading="lazy" decoding="async" />
+            <img class="avatar" src="${actor.profileImage || "assets/sample_profile-optimized.webp"}" alt="${escapeHtml(actor.name)} 프로필 사진" loading="lazy" decoding="async" />
             <p class="sample-card-meta">
-              <strong>${actor.name}</strong>
-              <span>${actor.nameEn}</span>
+              <strong>${escapeHtml(actor.name)}</strong>
+              <span>${escapeHtml(actor.nameEn || "")}</span>
             </p>
-            ${audioMarkup(`${actor.name} 샘플`, actor.audioSources)}
+            <p class="sample-card-title">${escapeHtml(sourceTitle)}</p>
+            ${sourceMeta ? `<p class="sample-card-category">${escapeHtml(sourceMeta)}</p>` : ""}
+            ${audioMarkup(sourceTitle, [source])}
             <p class="profile-card-hint">Profile <span>→</span></p>
           </div>
         </article>
-      `,
-    )
+      `;
+    })
     .join("");
   samplePageButtons.forEach((button) => {
     const direction = button.dataset.samplePage;

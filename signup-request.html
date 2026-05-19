@@ -55,6 +55,19 @@
               <small class="field-help">6자 이상, 특수문자 1개 이상을 포함해 주세요.</small>
             </div>
             <div class="field">
+              <label for="signup-password-confirm">비밀번호 확인</label>
+              <input
+                id="signup-password-confirm"
+                name="passwordConfirm"
+                type="password"
+                autocomplete="new-password"
+                required
+                minlength="6"
+                pattern="^(?=.*[^A-Za-z0-9]).{6,}$"
+              />
+              <small class="field-help">위에 입력한 비밀번호와 똑같이 한 번 더 입력해 주세요.</small>
+            </div>
+            <div class="field">
               <label for="signup-name">멤버 이름</label>
               <input id="signup-name" name="name" required placeholder="예: 감자" />
             </div>
@@ -77,6 +90,6 @@
       </form>
     </main>
 
-    <script src="auth.js?v=20260515-signup-clean"></script>
+    <script src="auth.js?v=20260519-password-confirm"></script>
   </body>
 </html>

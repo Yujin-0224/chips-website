@@ -11,6 +11,7 @@ export async function onRequestPost({ request, env }) {
     const body = await request.json();
     const username = safeUsername(body.username);
     const password = `${body.password || ""}`;
+    const passwordConfirm = `${body.passwordConfirm || ""}`;
     const name = `${body.name || ""}`.trim();
     const contact = `${body.contact || ""}`.trim();
     const note = `${body.note || ""}`.trim();
@@ -18,6 +19,7 @@ export async function onRequestPost({ request, env }) {
     if (!username || username.length < 3) return json({ error: "아이디는 3자 이상이어야 합니다." }, 400);
     const passwordError = passwordPolicyError(password);
     if (passwordError) return json({ error: passwordError }, 400);
+    if (passwordConfirm && password !== passwordConfirm) return json({ error: "비밀번호 확인이 일치하지 않습니다." }, 400);
     if (!name) return json({ error: "멤버 이름을 입력해 주세요." }, 400);
 
     const existingUser = await env.CHIPS_MEDIA.get(`auth/users/${username}.json`);

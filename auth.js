@@ -78,6 +78,11 @@ document.getElementById("signup-request-form")?.addEventListener("submit", async
     showAuthResult({ error: passwordError });
     return;
   }
+  if (data.password !== data.passwordConfirm) {
+    showAuthResult({ error: "비밀번호 확인이 일치하지 않습니다." });
+    return;
+  }
+  delete data.passwordConfirm;
 
   button.disabled = true;
   button.textContent = "요청 중...";

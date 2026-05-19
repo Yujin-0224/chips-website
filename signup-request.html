@@ -42,6 +42,10 @@
               <small class="field-help">이 아이디가 프로필과 오디오를 연결하는 기본키로 사용됩니다.</small>
             </div>
             <div class="field">
+              <label for="signup-name">멤버 이름</label>
+              <input id="signup-name" name="name" required placeholder="예: 감자" />
+            </div>
+            <div class="field">
               <label for="signup-password">비밀번호</label>
               <input
                 id="signup-password"
@@ -66,10 +70,6 @@
                 pattern="^(?=.*[^A-Za-z0-9]).{6,}$"
               />
               <small class="field-help">위에 입력한 비밀번호와 똑같이 한 번 더 입력해 주세요.</small>
-            </div>
-            <div class="field">
-              <label for="signup-name">멤버 이름</label>
-              <input id="signup-name" name="name" required placeholder="예: 감자" />
             </div>
             <div class="field">
               <label for="signup-contact">연락처</label>

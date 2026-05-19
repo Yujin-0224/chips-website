@@ -326,6 +326,18 @@ a {
   line-height: 1.5;
 }
 
+.field-help.is-placeholder {
+  visibility: hidden;
+}
+
+.auth-form .field {
+  align-content: start;
+}
+
+.auth-form .field input {
+  min-height: 54px;
+}
+
 .category-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

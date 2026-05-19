@@ -2027,10 +2027,10 @@ a {
   border: 1px solid rgba(32, 26, 18, 0.08);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.72);
-  color: var(--ink);
+  color: var(--muted);
   line-height: 1.82;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   white-space: pre-line;
 }
 

@@ -56,11 +56,23 @@
               <input id="sample-title" name="sample_title" required placeholder="예: 미소년 캐릭터 샘플" />
             </div>
             <div class="field is-wide">
-              <label for="audio-kind">오디오 종류</label>
-              <select id="audio-kind" name="audio_kind">
-                <option value="intro" selected>자기소개</option>
-                <option value="sample">샘플 오디오</option>
-              </select>
+              <span class="group-label">오디오 종류</span>
+              <div class="audio-kind-options" id="audio-kind">
+                <label class="audio-kind-card">
+                  <input type="radio" name="audio_kind" value="sample" checked />
+                  <span>
+                    <strong>샘플 오디오</strong>
+                    <small>검색과 프로필 샘플 목록에 표시됩니다.</small>
+                  </span>
+                </label>
+                <label class="audio-kind-card">
+                  <input type="radio" name="audio_kind" value="intro" />
+                  <span>
+                    <strong>자기소개</strong>
+                    <small>성우당 1개만 유지되며, 새로 올리면 기존 자기소개를 교체합니다.</small>
+                  </span>
+                </label>
+              </div>
               <small class="field-help">자기소개는 성우당 1개만 유지되며, 새로 올리면 기존 자기소개를 교체합니다.</small>
             </div>
             <div class="field is-wide">
@@ -92,6 +104,6 @@
       </form>
     </main>
 
-    <script src="submission.js?v=20260515-filter-audio"></script>
+    <script src="submission.js?v=20260520-audio-kind-radio"></script>
   </body>
 </html>

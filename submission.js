@@ -541,7 +541,7 @@ function bindAudioForm() {
 
   const actorSelect = document.getElementById("actor-select");
   const actorName = document.getElementById("actor-name");
-  const audioKind = document.getElementById("audio-kind");
+  const audioKindOptions = form.querySelectorAll('input[name="audio_kind"]');
   const sampleTitleInput = document.getElementById("sample-title");
   const categorySection = document.getElementById("audio-category-section");
   const fileInput = document.getElementById("audio-file");
@@ -560,7 +560,8 @@ function bindAudioForm() {
   };
 
   const syncAudioKind = () => {
-    const isIntro = audioKind?.value === "intro";
+    const selectedAudioKind = form.querySelector('input[name="audio_kind"]:checked')?.value || "sample";
+    const isIntro = selectedAudioKind === "intro";
     if (sampleTitleInput) {
       sampleTitleInput.readOnly = isIntro;
       if (isIntro) sampleTitleInput.value = "\uc790\uae30\uc18c\uac1c";
@@ -573,7 +574,9 @@ function bindAudioForm() {
     });
   };
 
-  audioKind?.addEventListener("change", syncAudioKind);
+  audioKindOptions.forEach((input) => {
+    input.addEventListener("change", syncAudioKind);
+  });
   syncAudioKind();
 
   form.addEventListener("change", (event) => {

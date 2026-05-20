@@ -2136,7 +2136,7 @@ a {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 7px 10px;
 }
 
 .profile-audio-tags[hidden] {
@@ -2144,19 +2144,18 @@ a {
 }
 
 .profile-audio-tags span {
-  display: inline-flex;
-  align-items: center;
-  min-height: 22px;
-  padding: 3px 8px;
-  border: 1px solid rgba(42, 166, 224, 0.16);
-  border-radius: 999px;
-  background: rgba(42, 166, 224, 0.07);
-  color: rgba(42, 166, 224, 0.82);
-  font-size: 11px;
-  font-weight: 900;
+  display: inline;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(23, 19, 13, 0.5);
+  font-size: 12px;
+  font-weight: 800;
   letter-spacing: 0;
-  line-height: 1;
+  line-height: 1.45;
   text-transform: none;
+  word-break: keep-all;
 }
 
 .profile-player-head h3,

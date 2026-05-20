@@ -2137,8 +2137,8 @@ a {
 
 .profile-audio-tags {
   position: absolute;
-  right: 0;
-  bottom: -28px;
+  right: 86px;
+  bottom: -22px;
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;

@@ -2117,6 +2117,8 @@ a {
 
 .profile-player-head {
   display: block;
+  position: relative;
+  padding-right: 250px;
 }
 
 .profile-player-label-row {
@@ -2134,13 +2136,15 @@ a {
 }
 
 .profile-audio-tags {
+  position: absolute;
+  right: 0;
+  bottom: -28px;
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 7px 10px;
-  margin-left: auto;
-  max-width: min(58%, 560px);
+  max-width: min(52%, 520px);
   text-align: right;
 }
 
@@ -2155,6 +2159,7 @@ a {
   border-radius: 0;
   background: transparent;
   color: rgba(23, 19, 13, 0.5);
+  font-family: "Hakgyoansim Poster", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   font-size: 13.5px;
   font-weight: 800;
   letter-spacing: 0;
@@ -3126,6 +3131,18 @@ a {
 
   .actor-profile {
     gap: 24px;
+  }
+
+  .profile-player-head {
+    padding-right: 0;
+  }
+
+  .profile-audio-tags {
+    position: static;
+    max-width: none;
+    justify-content: flex-start;
+    text-align: left;
+    margin-top: 4px;
   }
 
   .profile-career {

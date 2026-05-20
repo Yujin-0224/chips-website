@@ -1236,9 +1236,9 @@ a {
   gap: 6px;
 }
 
-.audio-note-field textarea {
-  min-height: 66px;
-  resize: vertical;
+.audio-note-field input {
+  min-height: 40px;
+  font-size: 12px;
 }
 
 .audio-manage-main label span,

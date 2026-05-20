@@ -159,6 +159,11 @@ function publicActorFromCms(actor = {}) {
 
 function audioCard(source = {}, { intro = false } = {}) {
   const categories = source.categories && typeof source.categories === "object" ? source.categories : {};
+  const tagSource = source.representativeTags || source.representative_tags || source.tags;
+  const representativeTags = (Array.isArray(tagSource) ? tagSource : `${tagSource || ""}`.split(","))
+    .map((tag) => `${tag || ""}`.trim().replace(/^#+/, ""))
+    .filter(Boolean)
+    .slice(0, 4);
   return `
     <article class="audio-manage-card" data-audio-id="${escapeHtml(source.id || "")}" data-r2-key="${escapeHtml(source.r2Key || "")}" data-intro="${intro ? "true" : "false"}">
       <div class="drag-handle" aria-hidden="true">${intro ? "PIN" : "DRAG"}</div>
@@ -167,6 +172,21 @@ function audioCard(source = {}, { intro = false } = {}) {
           <span>제목</span>
           <input class="audio-title-input" value="${escapeHtml(source.title || (intro ? "자기소개" : ""))}" ${intro ? "readonly" : ""} />
         </label>
+        <div class="audio-manage-tags" ${intro ? "hidden" : ""}>
+          <span>대표 해시태그</span>
+          <div class="representative-tag-grid compact-tag-grid">
+            ${[0, 1, 2, 3]
+              .map(
+                (index) => `
+                  <label>
+                    <span>#</span>
+                    <input class="audio-tag-input" value="${escapeHtml(representativeTags[index] || "")}" placeholder="${["중국어", "10대", "츤데레", "소녀"][index]}" />
+                  </label>
+                `,
+              )
+              .join("")}
+          </div>
+        </div>
         <details class="audio-category-editor">
           <summary>${intro ? "자기소개는 카테고리를 사용하지 않습니다" : "카테고리 수정"}</summary>
           <div class="category-grid audio-edit-category-grid">
@@ -255,6 +275,10 @@ function collectAudioSources() {
     r2Key: card.dataset.r2Key,
     title: card.querySelector(".audio-title-input")?.value.trim() || `샘플 ${index + 1}`,
     categories: collectCategories(card),
+    representativeTags: [...card.querySelectorAll(".audio-tag-input")]
+      .map((input) => input.value.trim().replace(/^#+/, ""))
+      .filter(Boolean)
+      .slice(0, 4),
   }));
 }
 

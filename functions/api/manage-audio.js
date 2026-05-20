@@ -46,6 +46,14 @@ function normalizeCategories(categories = {}) {
   }, {});
 }
 
+function normalizeRepresentativeTags(tags = []) {
+  const list = Array.isArray(tags) ? tags : `${tags || ""}`.split(",");
+  return list
+    .map((tag) => `${tag || ""}`.trim().replace(/^#+/, ""))
+    .filter(Boolean)
+    .slice(0, 4);
+}
+
 function publicAudio(source = {}) {
   return {
     id: source.id || "",
@@ -53,6 +61,7 @@ function publicAudio(source = {}) {
     audioKind: source.audioKind || "sample",
     category: source.category || "",
     categories: normalizeCategories(source.categories),
+    representativeTags: normalizeRepresentativeTags(source.representativeTags || source.representative_tags || source.tags),
     src: source.src || "",
     r2Key: source.r2Key || "",
     type: source.type || "audio/mpeg",
@@ -122,12 +131,14 @@ export async function onRequestPost({ request, env }) {
       const current = currentById.get(id);
       if (!current) continue;
       const categories = normalizeCategories(item.categories);
+      const representativeTags = normalizeRepresentativeTags(item.representativeTags);
       const title = `${item.title || current.title || ""}`.trim() || current.title || id;
       nextSources.push({
         ...current,
         title,
         categories,
         category: summarizeCategories(categories),
+        representativeTags,
         audioKind: current.audioKind || "sample",
       });
       seen.add(id);

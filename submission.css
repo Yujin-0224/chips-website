@@ -1237,10 +1237,30 @@ a {
 }
 
 .audio-manage-main label span,
+.audio-manage-tags > span,
 .audio-category-editor summary {
   color: var(--muted);
   font-size: 12px;
   font-weight: 900;
+}
+
+.audio-manage-tags {
+  display: grid;
+  gap: 8px;
+}
+
+.compact-tag-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.compact-tag-grid label {
+  min-height: 40px;
+}
+
+.compact-tag-grid input {
+  min-height: 40px;
+  font-size: 12px;
 }
 
 .audio-manage-main audio {
@@ -1332,6 +1352,10 @@ a {
 
   .drag-handle {
     min-height: 36px;
+  }
+
+  .compact-tag-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .audio-edit-category-grid {

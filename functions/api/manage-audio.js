@@ -62,6 +62,7 @@ function publicAudio(source = {}) {
     category: source.category || "",
     categories: normalizeCategories(source.categories),
     representativeTags: normalizeRepresentativeTags(source.representativeTags || source.representative_tags || source.tags),
+    notes: `${source.notes || ""}`,
     src: source.src || "",
     r2Key: source.r2Key || "",
     type: source.type || "audio/mpeg",
@@ -133,12 +134,14 @@ export async function onRequestPost({ request, env }) {
       const categories = normalizeCategories(item.categories);
       const representativeTags = normalizeRepresentativeTags(item.representativeTags);
       const title = `${item.title || current.title || ""}`.trim() || current.title || id;
+      const notes = `${item.notes || ""}`.trim();
       nextSources.push({
         ...current,
         title,
         categories,
         category: summarizeCategories(categories),
         representativeTags,
+        notes,
         audioKind: current.audioKind || "sample",
       });
       seen.add(id);

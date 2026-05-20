@@ -219,6 +219,10 @@ function audioCard(source = {}, { intro = false } = {}) {
           </div>
         </details>
         ${source.src ? `<audio controls preload="none" src="${escapeHtml(source.src)}"></audio>` : ""}
+        <label class="audio-note-field" ${intro ? "hidden" : ""}>
+          <span>메모</span>
+          <textarea class="audio-note-input" rows="2" placeholder="오디오 관련 메모를 입력해 주세요.">${escapeHtml(source.notes || "")}</textarea>
+        </label>
       </div>
       <button class="danger-button audio-delete-button" type="button" ${intro ? "disabled" : ""}>삭제</button>
     </article>
@@ -279,6 +283,7 @@ function collectAudioSources() {
       .map((input) => input.value.trim().replace(/^#+/, ""))
       .filter(Boolean)
       .slice(0, 4),
+    notes: card.querySelector(".audio-note-input")?.value.trim() || "",
   }));
 }
 

@@ -99,6 +99,7 @@ function addAudioToCms(cms, audio) {
     category: summarizeCategories(audio.categories),
     categories: audio.categories,
     representativeTags: normalizeRepresentativeTags(audio.representativeTags),
+    notes: `${audio.notes || ""}`,
     src: audio.r2Url,
     r2Key: audio.r2Key,
     type: audio.audioType || "audio/mpeg",

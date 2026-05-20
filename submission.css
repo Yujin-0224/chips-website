@@ -1236,6 +1236,11 @@ a {
   gap: 6px;
 }
 
+.audio-note-field textarea {
+  min-height: 66px;
+  resize: vertical;
+}
+
 .audio-manage-main label span,
 .audio-manage-tags > span,
 .audio-category-editor summary {

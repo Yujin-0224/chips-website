@@ -544,6 +544,7 @@ function bindAudioForm() {
   const audioKindOptions = form.querySelectorAll('input[name="audio_kind"]');
   const sampleTitleInput = document.getElementById("sample-title");
   const categorySection = document.getElementById("audio-category-section");
+  const representativeTagsField = document.getElementById("representative-tags-field");
   const fileInput = document.getElementById("audio-file");
   const fileName = document.getElementById("file-name");
   const result = document.getElementById("audio-result");
@@ -571,6 +572,11 @@ function bindAudioForm() {
     categorySection?.querySelectorAll("input").forEach((input) => {
       input.disabled = isIntro;
       if (isIntro) input.checked = false;
+    });
+    if (representativeTagsField) representativeTagsField.hidden = isIntro;
+    representativeTagsField?.querySelectorAll("input").forEach((input) => {
+      input.disabled = isIntro;
+      if (isIntro) input.value = "";
     });
   };
 
@@ -617,12 +623,17 @@ function bindAudioForm() {
     const sampleId = `${slugify(actorId, "actor")}-${slugify(sampleTitle, "sample")}`;
     const ext = mimeExtensions[file.type] || file.name.split(".").pop() || "mp3";
     const r2Key = `audio/${slugify(actorId, "actor")}/${sampleId}.${ext}`;
+    const representativeTags = [...form.querySelectorAll('input[name="representative_tag"]')]
+      .map((input) => input.value.trim().replace(/^#+/, ""))
+      .filter(Boolean)
+      .slice(0, 4);
 
     data.set("actor_name", selectedActorName);
     data.set("sample_title", sampleTitle);
     data.set("sample_id", sampleId);
     data.set("r2_key", r2Key);
     data.set("categories_json", JSON.stringify(isIntro ? {} : collectCategoryValues(form)));
+    data.set("representative_tags_json", JSON.stringify(isIntro ? [] : representativeTags));
 
     try {
       const response = await fetch("/api/upload-audio", { method: "POST", headers: authHeaders(), body: data });

@@ -61,6 +61,14 @@ function summarizeCategories(categories = {}) {
     .join(" / ");
 }
 
+function normalizeRepresentativeTags(tags = []) {
+  if (!Array.isArray(tags)) return [];
+  return tags
+    .map((tag) => `${tag || ""}`.trim().replace(/^#+/, ""))
+    .filter(Boolean)
+    .slice(0, 4);
+}
+
 async function loadCms(bucket) {
   const stored = await bucket.get("cms/cms-data.json");
   if (!stored) return { enabled: true, sampleAudioSources: [], actors: [], newsArticles: [] };
@@ -90,6 +98,7 @@ function addAudioToCms(cms, audio) {
     audioKind: audio.audioKind,
     category: summarizeCategories(audio.categories),
     categories: audio.categories,
+    representativeTags: normalizeRepresentativeTags(audio.representativeTags),
     src: audio.r2Url,
     r2Key: audio.r2Key,
     type: audio.audioType || "audio/mpeg",
@@ -150,6 +159,7 @@ export async function onRequestPost({ request, env }) {
         actorId,
         sampleTitle,
         categories: `${form.get("categories_json") || "{}"}`,
+        representativeTags: `${form.get("representative_tags_json") || "[]"}`,
       },
     });
 
@@ -162,6 +172,7 @@ export async function onRequestPost({ request, env }) {
       sampleTitle,
       sampleId,
       categories: parseJson(form.get("categories_json"), {}),
+      representativeTags: normalizeRepresentativeTags(parseJson(form.get("representative_tags_json"), [])),
       notes: `${form.get("notes") || ""}`,
       r2Key,
       r2Url,

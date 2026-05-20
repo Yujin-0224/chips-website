@@ -74,9 +74,15 @@
                 </label>
               </div>
             </div>
-            <div class="field is-wide">
-              <label for="language-note">언어/메모</label>
-              <input id="language-note" name="notes" placeholder="예: 한국어, 10대/20대, 부끄러운 톤" />
+            <div class="field is-wide" id="representative-tags-field">
+              <span class="group-label">대표 카테고리</span>
+              <div class="representative-tag-grid" aria-label="대표 카테고리 최대 4개">
+                <label><span>#</span><input name="representative_tag" placeholder="중국어" /></label>
+                <label><span>#</span><input name="representative_tag" placeholder="10대" /></label>
+                <label><span>#</span><input name="representative_tag" placeholder="츤데레" /></label>
+                <label><span>#</span><input name="representative_tag" placeholder="소녀" /></label>
+              </div>
+              <small class="field-help">해당 오디오 샘플의 대표 카테고리를 입력해주세요. (최대 4개)</small>
             </div>
           </div>
         </section>
@@ -103,6 +109,6 @@
       </form>
     </main>
 
-    <script src="submission.js?v=20260520-audio-kind-radio"></script>
+    <script src="submission.js?v=20260520-representative-tags"></script>
   </body>
 </html>

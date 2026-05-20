@@ -867,6 +867,12 @@ function formatAudioMeta(source = {}) {
   return categories.join(" / ");
 }
 
+function getRepresentativeTags(source = {}) {
+  const tags = source.representativeTags || source.representative_tags || source.tags;
+  const list = Array.isArray(tags) ? tags : `${tags || ""}`.split(",");
+  return list.map((tag) => `${tag || ""}`.trim().replace(/^#+/, "")).filter(Boolean).slice(0, 4);
+}
+
 function getSearchAudioSources(actor = {}) {
   const introSrcs = new Set(getIntroAudioSources(actor).map((source) => source.src));
   return (actor.audioSources || []).filter((source) => source.audioKind !== "intro" && !introSrcs.has(source.src));
@@ -924,6 +930,7 @@ function getProfileAudioOptions(actor) {
         label,
         sources: [source],
         meta: formatAudioMeta(source),
+        tags: getRepresentativeTags(source),
       });
     }
   });
@@ -943,6 +950,11 @@ function renderDetailAudioOption(index = 0, options = {}) {
   introDemo.hidden = false;
   activeDemoTitle.textContent = option.label;
   introDemoPlayer.innerHTML = audioMarkup(option.label, option.sources);
+  const activeDemoTags = document.querySelector("#active-demo-tags");
+  if (activeDemoTags) {
+    activeDemoTags.innerHTML = (option.tags || []).map((tag) => `<span>#${escapeHtml(tag)}</span>`).join("");
+    activeDemoTags.hidden = !(option.tags || []).length;
+  }
   if (activeDemoMeta) {
     activeDemoMeta.textContent = "";
     activeDemoMeta.hidden = true;
@@ -2098,6 +2110,9 @@ function normalizeAudioSources(sources = []) {
       ...source,
       src: normalizeDriveAudioLink(source.src || source.audio_src || ""),
       type: source.type || source.audio_type || "audio/mpeg",
+      representativeTags: Array.isArray(source.representativeTags)
+        ? source.representativeTags
+        : `${source.representativeTags || source.representative_tags || ""}`.split(",").map((value) => value.trim()).filter(Boolean),
     }))
     .filter((source) => source.src);
 }

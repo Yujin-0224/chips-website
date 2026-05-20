@@ -13,6 +13,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -415,6 +419,46 @@ a {
 .audio-kind-card input:focus-visible + span {
   outline: 3px solid rgba(42, 166, 224, 0.24);
   outline-offset: 2px;
+}
+
+.representative-tag-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.representative-tag-grid label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.representative-tag-grid span {
+  padding-left: 14px;
+  color: var(--blue);
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.representative-tag-grid input {
+  min-height: 46px;
+  border: 0;
+  border-radius: 0;
+  padding-left: 6px;
+}
+
+.representative-tag-grid input:focus {
+  outline: none;
+}
+
+.representative-tag-grid label:focus-within {
+  border-color: var(--chip-yellow-deep);
+  box-shadow: 0 0 0 3px rgba(246, 185, 59, 0.16);
 }
 
 .auth-form .field {
@@ -1259,6 +1303,7 @@ a {
   .field-grid,
   .category-grid,
   .audio-kind-options,
+  .representative-tag-grid,
   .profile-preview-profile,
   .admin-grid {
     grid-template-columns: 1fr;

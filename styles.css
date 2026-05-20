@@ -2123,6 +2123,7 @@ a {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: 8px 10px;
   margin-bottom: 12px;
 }
@@ -2136,7 +2137,11 @@ a {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 7px 10px;
+  margin-left: auto;
+  max-width: min(58%, 560px);
+  text-align: right;
 }
 
 .profile-audio-tags[hidden] {
@@ -2150,7 +2155,7 @@ a {
   border-radius: 0;
   background: transparent;
   color: rgba(23, 19, 13, 0.5);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 800;
   letter-spacing: 0;
   line-height: 1.45;

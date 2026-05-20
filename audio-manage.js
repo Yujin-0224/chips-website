@@ -180,7 +180,7 @@ function audioCard(source = {}, { intro = false } = {}) {
                 (index) => `
                   <label>
                     <span>#</span>
-                    <input class="audio-tag-input" value="${escapeHtml(representativeTags[index] || "")}" placeholder="${["중국어", "10대", "츤데레", "소녀"][index]}" />
+                    <input class="audio-tag-input" value="${escapeHtml(representativeTags[index] || "")}" />
                   </label>
                 `,
               )

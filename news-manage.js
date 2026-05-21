@@ -6,6 +6,7 @@ const reloadButton = document.getElementById("news-reload");
 const resetButton = document.getElementById("news-reset");
 
 let articles = [];
+let userTouchedForm = false;
 
 function escapeHtml(value = "") {
   return `${value}`.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
@@ -105,18 +106,25 @@ function setSelectedCategories(categories = []) {
   });
 }
 
-function resetForm() {
+function resetForm({ markPristine = true } = {}) {
   form.reset();
   document.getElementById("news-id").value = "";
   document.getElementById("news-date").value = today();
   setSelectedCategories(["Notice"]);
   editorTitle.textContent = "새 뉴스 작성";
   form.querySelector(".primary-button").textContent = "뉴스 저장";
+  if (markPristine) userTouchedForm = false;
+}
+
+function prepareInitialForm() {
+  if (!document.getElementById("news-date").value) document.getElementById("news-date").value = today();
+  if (!selectedCategories().length) setSelectedCategories(["Notice"]);
 }
 
 function editArticle(id) {
   const article = articles.find((item) => item.id === id);
   if (!article) return;
+  userTouchedForm = false;
   document.getElementById("news-id").value = article.id;
   document.getElementById("news-title").value = article.title || "";
   document.getElementById("news-date").value = article.datetime || "";
@@ -230,9 +238,16 @@ reloadButton.addEventListener("click", () => {
 });
 resetButton.addEventListener("click", resetForm);
 form.addEventListener("reset", () => window.setTimeout(resetForm, 0));
+form.addEventListener("input", () => {
+  userTouchedForm = true;
+});
+form.addEventListener("change", () => {
+  userTouchedForm = true;
+});
 
+prepareInitialForm();
 currentUser().then((user) => {
   renderAuthStatus(user);
-  resetForm();
+  if (!userTouchedForm) prepareInitialForm();
   if (user?.role === "admin") loadNews().catch((error) => showResult({ error: error.message }));
 });

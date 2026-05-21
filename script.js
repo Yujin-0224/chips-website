@@ -546,8 +546,8 @@ const privacyDetails = document.querySelector(".privacy-details");
 const privacyInput = document.querySelector(".privacy-native-input");
 const privacyCheckControl = document.querySelector(".privacy-check-control");
 const navLinks = [...document.querySelectorAll(".nav-link")];
-const newsCards = [...document.querySelectorAll(".news-feature, .news-item")];
-const newsFilterLinks = [...document.querySelectorAll(".news-filter-link")];
+let newsCards = [...document.querySelectorAll(".news-feature, .news-item")];
+let newsFilterLinks = [...document.querySelectorAll(".news-filter-link")];
 
 const contactLocales = {
   ko: {
@@ -1455,6 +1455,109 @@ function filterNews(type = "all", value = "") {
       : "선택한 카테고리에 등록된 뉴스가 아직 없습니다.";
 }
 
+function newsArchive(article) {
+  return `${article.datetime || article.date || ""}`.slice(0, 7).replace("-", ".");
+}
+
+function newsCategoryString(article) {
+  return (article.categories || []).join(" ");
+}
+
+function renderNewsCard(article, featured = false) {
+  const tags = (article.categories || []).map((category) => `<span>${escapeHtml(category)}</span>`).join("");
+  const image = escapeHtml(article.image || "assets/chips-hero-optimized.webp");
+  const title = escapeHtml(article.title || "");
+  const lead = escapeHtml(article.lead || "");
+  const date = escapeHtml(article.date || article.datetime || "");
+  const id = escapeHtml(article.id || "");
+  const category = escapeHtml(newsCategoryString(article));
+  const archive = escapeHtml(newsArchive(article));
+
+  if (featured) {
+    return `
+      <article class="news-feature" data-news-id="${id}" data-news-category="${category}" data-news-archive="${archive}" tabindex="0" role="button">
+        <div class="news-feature-visual">
+          <img src="${image}" alt="${title}" />
+        </div>
+        <div class="news-feature-copy">
+          <time datetime="${escapeHtml(article.datetime || "")}">${date}</time>
+          <p class="news-tags">${tags}</p>
+          <h3>${title}</h3>
+          <p>${lead}</p>
+          <p class="news-more">Read more <span>→</span></p>
+        </div>
+      </article>
+    `;
+  }
+
+  return `
+    <article class="news-item" data-news-id="${id}" data-news-category="${category}" data-news-archive="${archive}" tabindex="0" role="button">
+      <img class="news-thumb" src="${image}" alt="${title}" />
+      <div class="news-item-copy">
+        <time datetime="${escapeHtml(article.datetime || "")}">${date}</time>
+        <p class="news-tags">${tags}</p>
+        <h3>${title}</h3>
+        <p>${lead}</p>
+        <p class="news-more">Read more <span>→</span></p>
+      </div>
+    </article>
+  `;
+}
+
+function renderTopNewsCard(article) {
+  const image = escapeHtml(article.image || "assets/chips-hero-optimized.webp");
+  const title = escapeHtml(article.title || "");
+  const lead = escapeHtml(article.lead || "");
+  return `
+    <article class="top-news-card" data-news-id="${escapeHtml(article.id || "")}" tabindex="0" role="button">
+      <img src="${image}" alt="${title}" />
+      <div>
+        <time datetime="${escapeHtml(article.datetime || "")}">${escapeHtml(article.date || article.datetime || "")}</time>
+        <h3>${title}</h3>
+        <p>${lead} <span>→</span></p>
+      </div>
+    </article>
+  `;
+}
+
+function renderNewsSidebar() {
+  const sidebar = document.querySelector(".news-sidebar");
+  if (!sidebar) return;
+  const categories = [...new Set(newsArticles.flatMap((article) => article.categories || []))].filter(Boolean);
+  const archives = [...new Set(newsArticles.map(newsArchive).filter(Boolean))];
+  sidebar.innerHTML = `
+    <div class="news-sidebar-card">
+      <h3>Category</h3>
+      <button class="news-filter-link is-active" type="button" data-news-filter="all">All</button>
+      ${categories
+        .map((category) => `<button class="news-filter-link" type="button" data-news-filter="category" data-filter-value="${escapeHtml(category)}">${escapeHtml(category)}</button>`)
+        .join("")}
+    </div>
+    <div class="news-sidebar-card">
+      <h3>Archive</h3>
+      ${archives
+        .map((archive) => `<button class="news-filter-link" type="button" data-news-filter="archive" data-filter-value="${escapeHtml(archive)}">${escapeHtml(archive)}</button>`)
+        .join("")}
+    </div>
+  `;
+  newsFilterLinks = [...document.querySelectorAll(".news-filter-link")];
+}
+
+function renderNewsArticles() {
+  const newsMain = document.querySelector(".news-main");
+  if (!newsMain || !newsArticles.length) return;
+  const [feature, ...rest] = newsArticles;
+  newsMain.innerHTML = `
+    ${renderNewsCard(feature, true)}
+    <div class="news-list">${rest.map((article) => renderNewsCard(article)).join("")}</div>
+  `;
+  if (topNewsRail) {
+    topNewsRail.innerHTML = newsArticles.slice(0, 6).map(renderTopNewsCard).join("");
+  }
+  renderNewsSidebar();
+  newsCards = [...document.querySelectorAll(".news-feature, .news-item")];
+}
+
 function articleHash(articleId) {
   return `#news-article-${articleId}`;
 }
@@ -1467,14 +1570,14 @@ function openNewsArticle(articleId) {
 
   newsArticleContent.innerHTML = `
     <header class="news-article-head">
-      <p class="news-tags">${article.categories.map((category) => `<span>${category}</span>`).join("")}</p>
-      <time datetime="${article.datetime}">${article.date}</time>
-      <h2>${article.title}</h2>
-      <p>${article.lead}</p>
+      <p class="news-tags">${article.categories.map((category) => `<span>${escapeHtml(category)}</span>`).join("")}</p>
+      <time datetime="${escapeHtml(article.datetime)}">${escapeHtml(article.date)}</time>
+      <h2>${escapeHtml(article.title)}</h2>
+      <p>${escapeHtml(article.lead)}</p>
     </header>
-    <img class="news-article-image" src="${article.image}" alt="${article.title}" />
+    <img class="news-article-image" src="${escapeHtml(article.image)}" alt="${escapeHtml(article.title)}" />
     <div class="news-article-body">
-      ${article.body.map((paragraph) => `<p>${paragraph}</p>`).join("")}
+      ${article.body.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
     </div>
     <nav class="news-article-nav" aria-label="News article navigation">
       ${
@@ -2200,6 +2303,7 @@ async function loadCmsData() {
 async function initializeSite() {
   await loadCmsData();
   renderFilterControls();
+  renderNewsArticles();
   renderActors();
   clearSampleResults();
   sampleEmpty.hidden = false;

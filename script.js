@@ -1512,8 +1512,9 @@ function renderTopNewsCard(article) {
     <article class="top-news-card" data-news-id="${escapeHtml(article.id || "")}" tabindex="0" role="button">
       <img src="${image}" alt="${title}" />
       <div>
+        <time datetime="${escapeHtml(article.datetime || "")}">${escapeHtml(article.date || article.datetime || "")}</time>
         <h3>${title}</h3>
-        <p>${lead}</p>
+        <p>${lead} <span>→</span></p>
       </div>
     </article>
   `;

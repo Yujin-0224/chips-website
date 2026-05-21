@@ -33,8 +33,9 @@ function publicUrl(key) {
   return `${PUBLIC_BASE_URL}/${key.split("/").map(encodeURIComponent).join("/")}`;
 }
 
-function splitCategories(value = "") {
-  return `${value || ""}`
+function splitCategories(value = []) {
+  const source = Array.isArray(value) ? value.join(",") : `${value || ""}`;
+  return source
     .split(/[,/]+/)
     .map((item) => item.trim())
     .filter(Boolean);
@@ -142,9 +143,8 @@ export async function onRequestPost({ request, env }) {
     const title = `${form.get("title") || ""}`.trim();
     const lead = `${form.get("lead") || ""}`.trim();
     const datetime = `${form.get("datetime") || ""}`.trim();
-    const categories = splitCategories(form.get("categories"));
+    const categories = splitCategories(form.getAll("categories"));
     const body = splitBody(form.get("body"));
-    const imageUrl = `${form.get("image") || ""}`.trim();
 
     if (!title) return json({ error: "제목을 입력해 주세요." }, 400);
     if (!lead) return json({ error: "부제목을 입력해 주세요." }, 400);
@@ -165,7 +165,7 @@ export async function onRequestPost({ request, env }) {
       datetime,
       date: displayDate(datetime),
       categories,
-      image: uploadedImage?.url || imageUrl || previous.image || "",
+      image: uploadedImage?.url || previous.image || "",
       imageKey: uploadedImage?.key || previous.imageKey || "",
       body,
       updatedAt: new Date().toISOString(),
@@ -173,7 +173,7 @@ export async function onRequestPost({ request, env }) {
       createdAt: previous.createdAt || new Date().toISOString(),
     };
 
-    if (!article.image) return json({ error: "이미지 파일 또는 이미지 주소를 입력해 주세요." }, 400);
+    if (!article.image) return json({ error: "이미지 파일을 업로드해 주세요." }, 400);
 
     if (index >= 0) cms.newsArticles[index] = article;
     else cms.newsArticles.push(article);

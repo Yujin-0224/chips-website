@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="submission.css?v=20260521-news-manage" />
+    <link rel="stylesheet" href="submission.css?v=20260521-news-category-checks" />
   </head>
   <body data-requires-auth="true" data-requires-admin="true">
     <main class="submission-shell">
@@ -66,19 +66,22 @@
               <label for="news-lead">부제목</label>
               <input id="news-lead" name="lead" required />
             </div>
-            <div class="field">
-              <label for="news-categories">뉴스 카테고리</label>
-              <input id="news-categories" name="categories" required placeholder="Notice, Studio" />
-              <small class="field-help">여러 개일 경우 쉼표로 구분해 주세요.</small>
+            <div class="field news-category-field">
+              <span class="group-label">뉴스 카테고리</span>
+              <div class="news-category-options" id="news-category-options">
+                <label><input type="checkbox" name="categories" value="Notice" /> <span>Notice</span></label>
+                <label><input type="checkbox" name="categories" value="Studio" /> <span>Studio</span></label>
+                <label><input type="checkbox" name="categories" value="Casting" /> <span>Casting</span></label>
+                <label><input type="checkbox" name="categories" value="Sample" /> <span>Sample</span></label>
+                <label><input type="checkbox" name="categories" value="Crew" /> <span>Crew</span></label>
+                <label><input type="checkbox" name="categories" value="Guide" /> <span>Guide</span></label>
+              </div>
+              <small class="field-help">해당하는 카테고리를 하나 이상 선택해 주세요.</small>
             </div>
             <div class="field">
               <label for="news-image-file">이미지 업로드</label>
               <input id="news-image-file" name="image_file" type="file" accept="image/*" />
               <small class="field-help">새 이미지를 선택하면 기존 이미지보다 우선 적용됩니다.</small>
-            </div>
-            <div class="field">
-              <label for="news-image">이미지 주소</label>
-              <input id="news-image" name="image" placeholder="https://..." />
             </div>
             <div class="field is-wide">
               <label for="news-body">내용</label>
@@ -108,6 +111,6 @@
       <pre class="result-box" id="news-result" hidden></pre>
     </main>
 
-    <script src="news-manage.js?v=20260521-news-manage"></script>
+    <script src="news-manage.js?v=20260521-news-category-checks"></script>
   </body>
 </html>

@@ -94,10 +94,22 @@ function categoryText(article) {
   return Array.isArray(article.categories) ? article.categories.join(", ") : `${article.categories || article.category || ""}`;
 }
 
+function selectedCategories() {
+  return [...form.querySelectorAll('input[name="categories"]:checked')].map((input) => input.value);
+}
+
+function setSelectedCategories(categories = []) {
+  const selected = new Set(categories.map((category) => `${category}`.trim()).filter(Boolean));
+  form.querySelectorAll('input[name="categories"]').forEach((input) => {
+    input.checked = selected.has(input.value);
+  });
+}
+
 function resetForm() {
   form.reset();
   document.getElementById("news-id").value = "";
   document.getElementById("news-date").value = today();
+  setSelectedCategories(["Notice"]);
   editorTitle.textContent = "새 뉴스 작성";
   form.querySelector(".primary-button").textContent = "뉴스 저장";
 }
@@ -109,8 +121,7 @@ function editArticle(id) {
   document.getElementById("news-title").value = article.title || "";
   document.getElementById("news-date").value = article.datetime || "";
   document.getElementById("news-lead").value = article.lead || "";
-  document.getElementById("news-categories").value = categoryText(article);
-  document.getElementById("news-image").value = article.image || "";
+  setSelectedCategories(Array.isArray(article.categories) ? article.categories : categoryText(article).split(",").map((item) => item.trim()));
   document.getElementById("news-image-file").value = "";
   document.getElementById("news-body").value = bodyText(article);
   editorTitle.textContent = "뉴스 수정";
@@ -177,6 +188,10 @@ async function loadNews() {
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (!selectedCategories().length) {
+    showResult({ error: "뉴스 카테고리를 하나 이상 선택해 주세요." });
+    return;
+  }
   const data = new FormData(form);
   const response = await fetch("/api/admin/news", {
     method: "POST",

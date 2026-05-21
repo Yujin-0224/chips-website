@@ -792,6 +792,7 @@ a {
 
 .top-news-card h3 {
   margin: 0;
+  color: rgba(23, 19, 13, 0.76);
   font-family: "Hakgyoansim Poster", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   font-size: 21px;
   font-weight: 900;

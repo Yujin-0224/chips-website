@@ -836,6 +836,18 @@ body[data-requires-admin="true"] .submission-hero {
   justify-content: flex-end;
 }
 
+.news-manage-actions .secondary-button,
+.news-manage-actions .danger-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 12px;
+  line-height: 1;
+}
+
 .compact-actions {
   justify-content: flex-start;
 }

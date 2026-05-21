@@ -7,6 +7,7 @@ const resetButton = document.getElementById("news-reset");
 
 let articles = [];
 let userTouchedForm = false;
+let editingArticleId = "";
 
 function escapeHtml(value = "") {
   return `${value}`.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
@@ -108,6 +109,7 @@ function setSelectedCategories(categories = []) {
 
 function resetForm({ markPristine = true } = {}) {
   form.reset();
+  editingArticleId = "";
   document.getElementById("news-id").value = "";
   document.getElementById("news-date").value = today();
   setSelectedCategories(["Notice"]);
@@ -117,6 +119,7 @@ function resetForm({ markPristine = true } = {}) {
 }
 
 function prepareInitialForm() {
+  if (editingArticleId || userTouchedForm) return;
   if (!document.getElementById("news-date").value) document.getElementById("news-date").value = today();
   if (!selectedCategories().length) setSelectedCategories(["Notice"]);
 }
@@ -124,7 +127,8 @@ function prepareInitialForm() {
 function editArticle(id) {
   const article = articles.find((item) => item.id === id);
   if (!article) return;
-  userTouchedForm = false;
+  editingArticleId = article.id;
+  userTouchedForm = true;
   document.getElementById("news-id").value = article.id;
   document.getElementById("news-title").value = article.title || "";
   document.getElementById("news-date").value = article.datetime || "";
@@ -248,6 +252,6 @@ form.addEventListener("change", () => {
 prepareInitialForm();
 currentUser().then((user) => {
   renderAuthStatus(user);
-  if (!userTouchedForm) prepareInitialForm();
+  prepareInitialForm();
   if (user?.role === "admin") loadNews().catch((error) => showResult({ error: error.message }));
 });

@@ -1507,14 +1507,13 @@ function renderNewsCard(article, featured = false) {
 function renderTopNewsCard(article) {
   const image = escapeHtml(article.image || "assets/chips-hero-optimized.webp");
   const title = escapeHtml(article.title || "");
-  const lead = escapeHtml(article.lead || "");
   return `
     <article class="top-news-card" data-news-id="${escapeHtml(article.id || "")}" tabindex="0" role="button">
       <img src="${image}" alt="${title}" />
       <div>
         <time datetime="${escapeHtml(article.datetime || "")}">${escapeHtml(article.date || article.datetime || "")}</time>
         <h3>${title}</h3>
-        <p>${lead} <span>→</span></p>
+        <p>View detail <span>→</span></p>
       </div>
     </article>
   `;

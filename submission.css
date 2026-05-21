@@ -132,6 +132,10 @@ a {
   line-height: 1.6;
 }
 
+body[data-requires-admin="true"] .submission-hero {
+  pointer-events: none;
+}
+
 .submission-form {
   display: grid;
   gap: 22px;
@@ -695,12 +699,28 @@ a {
 }
 
 .news-form {
+  position: relative;
+  z-index: 3;
   display: grid;
   gap: 16px;
 }
 
+.news-editor-section {
+  position: relative;
+  z-index: 2;
+}
+
 .news-form .field-grid {
   align-items: start;
+}
+
+.news-form .field,
+.news-form input,
+.news-form textarea,
+.news-form button {
+  position: relative;
+  z-index: 3;
+  pointer-events: auto;
 }
 
 .news-category-field {
@@ -708,9 +728,12 @@ a {
 }
 
 .news-category-options {
+  position: relative;
+  z-index: 4;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
+  pointer-events: auto;
 }
 
 .news-category-options label {
@@ -726,13 +749,24 @@ a {
   font-size: 13px;
   font-weight: 900;
   cursor: pointer;
+  pointer-events: auto;
   transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
 }
 
-.news-category-options input {
+.news-category-options input[type="checkbox"] {
+  position: static;
+  flex: 0 0 16px;
   width: 16px;
   height: 16px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(23, 19, 13, 0.42);
+  border-radius: 4px;
+  background: #fff;
+  appearance: auto;
   accent-color: var(--chip-yellow-deep);
+  cursor: pointer;
 }
 
 .news-category-options label:has(input:checked) {

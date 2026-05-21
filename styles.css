@@ -793,9 +793,9 @@ a {
 .top-news-card h3 {
   margin: 0;
   font-family: "Hakgyoansim Poster", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  font-size: 25px;
+  font-size: 21px;
   font-weight: 900;
-  line-height: 1.16;
+  line-height: 1.2;
   letter-spacing: 0;
 }
 
@@ -806,7 +806,7 @@ a {
   margin: 0;
   color: var(--green);
   font-family: "Hakgyoansim Poster", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 900;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -3289,8 +3289,8 @@ a {
   }
 
   .top-news-card h3 {
-    font-size: 22px;
-    line-height: 1.16;
+    font-size: 19px;
+    line-height: 1.2;
   }
 
   .top-news-arrow[data-news-slide="prev"] {

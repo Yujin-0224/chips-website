@@ -55,7 +55,7 @@ const chipsCategoryGroups = [
     key: "texture",
     label: "음색 특성",
     hint: "Voice Texture",
-    options: ["중저음", "저음", "고음"],
+    options: ["저음", "중저음", "중음", "고음", "초고음"],
   },
   {
     key: "emotion",

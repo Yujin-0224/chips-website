@@ -63,7 +63,7 @@ const filterGroups = [
     key: "texture",
     label: "음색 특성",
     hint: "Voice Texture",
-    options: ["중저음", "저음", "고음"],
+    options: ["저음", "중저음", "중음", "고음", "초고음"],
   },
   {
     key: "emotion",
@@ -203,7 +203,7 @@ const filterLocales = {
           "감성적인", "아나운서", "상담원", "교관/강사", "MC", "DJ", "방송 진행",
         ],
       },
-      texture: { label: "음색 특성", hint: "Voice Texture", options: ["중저음", "저음", "고음"] },
+      texture: { label: "음색 특성", hint: "Voice Texture", options: ["저음", "중저음", "중음", "고음", "초고음"] },
       emotion: {
         label: "감정",
         hint: "Emotion",
@@ -248,7 +248,7 @@ const filterLocales = {
           "Emotional", "Announcer", "Counselor", "Instructor", "MC", "DJ", "Broadcast host",
         ],
       },
-      texture: { label: "Voice Texture", hint: "Voice Texture", options: ["Mid-low", "Low", "High"] },
+      texture: { label: "Voice Texture", hint: "Voice Texture", options: ["Low", "Mid-low", "Mid", "High", "Ultra-high"] },
       emotion: {
         label: "Emotion",
         hint: "Emotion",
@@ -289,7 +289,7 @@ const filterLocales = {
           "感性的", "アナウンサー", "相談員", "教官/講師", "MC", "DJ", "番組進行",
         ],
       },
-      texture: { label: "声質", hint: "Voice Texture", options: ["中低音", "低音", "高音"] },
+      texture: { label: "声質", hint: "Voice Texture", options: ["低音", "中低音", "中音", "高音", "超高音"] },
       emotion: {
         label: "感情",
         hint: "Emotion",
@@ -330,7 +330,7 @@ const filterLocales = {
           "感性", "播音员", "客服/咨询员", "教官/讲师", "主持人", "DJ", "节目主持",
         ],
       },
-      texture: { label: "声音质感", hint: "Voice Texture", options: ["中低音", "低音", "高音"] },
+      texture: { label: "声音质感", hint: "Voice Texture", options: ["低音", "中低音", "中音", "高音", "超高音"] },
       emotion: {
         label: "情绪",
         hint: "Emotion",

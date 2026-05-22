@@ -197,7 +197,7 @@ function audioCard(source = {}, { intro = false } = {}) {
                   <section class="category-group">
                     <header>
                       <strong>${group.label}</strong>
-                      <small>${group.hint}</small>
+                      <small>${group.hint} · 최대 ${categorySelectionLimits[group.key] || group.options.length}개</small>
                     </header>
                     <div class="option-list">
                       ${group.options

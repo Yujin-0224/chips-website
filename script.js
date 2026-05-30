@@ -536,6 +536,11 @@ const statusEl = document.querySelector("#form-status");
 const contactToast = document.querySelector("#contact-toast");
 const contactToastClose = document.querySelector("#contact-toast-close");
 const contactStatusBar = document.querySelector("#contact-status-bar");
+const contactForm = document.querySelector("#contact-form");
+const contactModeInput = document.querySelector("#contact-mode");
+const teamJoinTrigger = document.querySelector("#team-join-trigger");
+const teamContactPanel = document.querySelector("#team-contact-panel");
+const teamContactBack = document.querySelector("#team-contact-back");
 const fileInput = document.querySelector(".file-input");
 const fileUploadName = document.querySelector("#file-upload-name");
 const fileUploadActions = document.querySelector("#file-upload-actions");
@@ -558,8 +563,18 @@ const contactLocales = {
       guideTitle: "문의 안내",
       guideBody:
         "문의 내용 확인 후 <strong>1~2일 이내</strong>에 이메일로 답변드리겠습니다. 급한 일정이 있으신 경우 희망 납기일을 함께 작성해 주세요.",
-      teamJoinGuide: "팀 가입 문의의 경우 아래 버튼 또는 링크를 클릭해 주세요.",
-      teamJoinButton: "팀 가입 문의",
+      teamJoinGuide: "팀 가입 문의의 경우",
+      teamJoinButton: "여기를 클릭해주세요",
+      teamFormEyebrow: "TEAM JOIN",
+      teamFormTitle: "팀 가입 문의",
+      teamFormBack: "일반 문의로 돌아가기",
+      teamNameLabel: "활동명 / 이름",
+      teamEmailLabel: "이메일",
+      teamPhoneLabel: "연락처",
+      teamRoleLabel: "지원 분야",
+      teamLinksLabel: "포트폴리오 / 샘플 링크",
+      teamIntroLabel: "간단한 소개",
+      teamExperienceLabel: "주요 경력 / 참고 사항",
       requiredLegend: "필수 입력",
       optionalChip: "선택",
       optionalLegend: "선택 입력",
@@ -600,6 +615,9 @@ const contactLocales = {
       project_type: "광고, 유튜브, 애니, 게임, 교육 등",
       message: "문의 내용, 분량, 일정, 원하는 목소리 조건 등",
       reference_link: "Google Drive, Dropbox, YouTube",
+      team_links: "Google Drive, YouTube, SoundCloud",
+      team_intro: "활동 분야, 가능한 작업, 함께하고 싶은 이유를 적어주세요.",
+      team_experience: "참여 작품, 작업 경험, 사용 장비 등을 자유롭게 적어주세요.",
     },
     options: {
       placeholder: "선택해 주세요",
@@ -609,6 +627,11 @@ const contactLocales = {
       revision: "수정/추가 작업",
       partnership: "제휴/협업",
       other: "기타",
+      teamRolePlaceholder: "선택해 주세요",
+      teamRoleVoice: "성우",
+      teamRoleWriter: "작가/기획",
+      teamRoleSound: "사운드/믹싱",
+      teamRoleOther: "기타",
     },
     values: {
       requester: ["회사", "개인"],
@@ -635,8 +658,18 @@ const contactLocales = {
       guideTitle: "Inquiry Guide",
       guideBody:
         "After reviewing your inquiry, we will reply by email within <strong>1-2 business days</strong>. If your schedule is urgent, please include your preferred deadline.",
-      teamJoinGuide: "For team join inquiries, please click the button or link below.",
-      teamJoinButton: "Team join inquiry",
+      teamJoinGuide: "For team join inquiries,",
+      teamJoinButton: "click here",
+      teamFormEyebrow: "TEAM JOIN",
+      teamFormTitle: "Team join inquiry",
+      teamFormBack: "Back to general inquiry",
+      teamNameLabel: "Name / Display name",
+      teamEmailLabel: "Email",
+      teamPhoneLabel: "Phone",
+      teamRoleLabel: "Field",
+      teamLinksLabel: "Portfolio / Sample link",
+      teamIntroLabel: "Short introduction",
+      teamExperienceLabel: "Experience / Notes",
       requiredLegend: "Required fields",
       optionalChip: "Optional",
       optionalLegend: "Optional fields",
@@ -677,6 +710,9 @@ const contactLocales = {
       project_type: "Commercial, YouTube, animation, game, education, etc.",
       message: "Request details, volume, schedule, and voice direction",
       reference_link: "Google Drive, Dropbox, YouTube",
+      team_links: "Google Drive, YouTube, SoundCloud",
+      team_intro: "Tell us what you do, what work you can take on, and why you want to join.",
+      team_experience: "Share projects, work experience, equipment, or other notes.",
     },
     options: {
       placeholder: "Please select",
@@ -686,6 +722,11 @@ const contactLocales = {
       revision: "Revision or additional work",
       partnership: "Partnership or collaboration",
       other: "Other inquiry",
+      teamRolePlaceholder: "Please select",
+      teamRoleVoice: "Voice actor",
+      teamRoleWriter: "Writer / Planning",
+      teamRoleSound: "Sound / Mixing",
+      teamRoleOther: "Other",
     },
     values: {
       requester: ["Company", "Individual"],
@@ -1211,6 +1252,36 @@ function applyContactLocale(locale) {
   });
 
   if (fileUploadName && fileInput && !fileInput.files.length) syncFileUploadUi();
+}
+
+function setContactMode(mode, shouldScroll = false) {
+  if (!contactForm || !teamContactPanel) return;
+  const isTeamMode = mode === "team";
+  const generalFields = [...contactForm.children].filter((element) =>
+    element.matches("label, fieldset.contact-choice, .contact-extra-grid")
+  );
+  const generalInputs = generalFields.flatMap((element) => [
+    ...element.querySelectorAll("input, select, textarea"),
+  ]);
+  const teamInputs = [...teamContactPanel.querySelectorAll("input, select, textarea")];
+
+  contactForm.classList.toggle("is-team-mode", isTeamMode);
+  teamContactPanel.hidden = !isTeamMode;
+  if (contactModeInput) contactModeInput.value = isTeamMode ? "team" : "general";
+
+  generalFields.forEach((element) => {
+    element.hidden = isTeamMode;
+  });
+  generalInputs.forEach((input) => {
+    input.disabled = isTeamMode;
+  });
+  teamInputs.forEach((input) => {
+    input.disabled = !isTeamMode;
+  });
+
+  if (shouldScroll) {
+    contactForm.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 }
 
 function syncFileUploadUi() {
@@ -2003,7 +2074,11 @@ document.querySelector("#scroll-to-top").addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-document.querySelector("#contact-form").addEventListener("submit", async (event) => {
+teamJoinTrigger?.addEventListener("click", () => setContactMode("team", true));
+teamContactBack?.addEventListener("click", () => setContactMode("general", true));
+setContactMode("general");
+
+contactForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   const form = event.currentTarget;
   const submitButton = form.querySelector(".submit-button");
@@ -2015,8 +2090,14 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
     return;
   }
   const data = new FormData(form);
+  const isTeamInquiry = data.get("contact_mode") === "team";
 
-  data.set("subject", `[CHIPS 문의] ${data.get("name")}님 문의`);
+  data.set(
+    "subject",
+    isTeamInquiry
+      ? `[CHIPS 팀 가입 문의] ${data.get("team_name")}님 문의`
+      : `[CHIPS 문의] ${data.get("name")}님 문의`
+  );
 
   submitButton.disabled = true;
   contactToast.hidden = true;
@@ -2032,6 +2113,7 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
     if (!response.ok) throw new Error("Basin request failed");
 
     form.reset();
+    setContactMode(isTeamInquiry ? "team" : "general");
     statusEl.textContent = "";
     hideContactStatusBar();
     contactToast.hidden = false;

@@ -309,11 +309,14 @@
               급한 일정이 있으신 경우 희망 납기일을 함께 작성해 주세요.
             </p>
             <div class="team-join-cta" aria-label="Team join inquiry">
-              <p data-contact-text="teamJoinGuide">팀 가입 문의의 경우 아래 버튼 또는 링크를 클릭해 주세요.</p>
-              <a class="team-join-link" href="signup-request.html" data-contact-text="teamJoinButton">팀 가입 문의</a>
+              <p>
+                <span data-contact-text="teamJoinGuide">팀 가입 문의의 경우</span>
+                <button class="team-join-trigger" id="team-join-trigger" type="button" data-contact-text="teamJoinButton">여기를 클릭해주세요</button>
+              </p>
             </div>
           </aside>
           <form class="contact-form" id="contact-form" action="https://usebasin.com/f/edb9d09ea1e0" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
+            <input id="contact-mode" name="contact_mode" type="hidden" value="general" />
             <div class="contact-form-toolbar">
               <div class="filter-language-switch contact-language-switch" aria-label="Contact form language">
                 <button class="filter-locale-button is-active" type="button" data-contact-locale="ko">
@@ -325,6 +328,51 @@
                   <span>EN</span>
                 </button>
               </div>
+            </div>
+            <div class="team-contact-panel full-field" id="team-contact-panel" hidden>
+              <div class="team-contact-heading">
+                <div>
+                  <p class="eyebrow" data-contact-text="teamFormEyebrow">TEAM JOIN</p>
+                  <h3 data-contact-text="teamFormTitle">팀 가입 문의</h3>
+                </div>
+                <button class="team-contact-back" id="team-contact-back" type="button" data-contact-text="teamFormBack">일반 문의로 돌아가기</button>
+              </div>
+              <div class="team-contact-grid">
+                <label>
+                  <span><span data-contact-text="teamNameLabel">활동명 / 이름</span> <strong class="required-mark">*</strong></span>
+                  <input name="team_name" type="text" autocomplete="name" required disabled />
+                </label>
+                <label>
+                  <span><span data-contact-text="teamEmailLabel">이메일</span> <strong class="required-mark">*</strong></span>
+                  <input name="team_email" type="email" autocomplete="email" required disabled />
+                </label>
+                <label>
+                  <span><span data-contact-text="teamPhoneLabel">연락처</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
+                  <input name="team_phone" type="tel" autocomplete="tel" disabled />
+                </label>
+                <label>
+                  <span><span data-contact-text="teamRoleLabel">지원 분야</span> <strong class="required-mark">*</strong></span>
+                  <select name="team_role" required disabled>
+                    <option value="" data-contact-option="teamRolePlaceholder">선택해 주세요</option>
+                    <option value="성우" data-contact-option="teamRoleVoice">성우</option>
+                    <option value="작가/기획" data-contact-option="teamRoleWriter">작가/기획</option>
+                    <option value="사운드/믹싱" data-contact-option="teamRoleSound">사운드/믹싱</option>
+                    <option value="기타" data-contact-option="teamRoleOther">기타</option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                <span><span data-contact-text="teamLinksLabel">포트폴리오 / 샘플 링크</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
+                <input name="team_links" type="text" placeholder="Google Drive, YouTube, SoundCloud" disabled />
+              </label>
+              <label>
+                <span><span data-contact-text="teamIntroLabel">간단한 소개</span> <strong class="required-mark">*</strong></span>
+                <textarea name="team_intro" rows="5" placeholder="활동 분야, 가능한 작업, 함께하고 싶은 이유를 적어주세요." required disabled></textarea>
+              </label>
+              <label>
+                <span><span data-contact-text="teamExperienceLabel">주요 경력 / 참고 사항</span> <b class="optional-chip" data-contact-text="optionalChip">선택</b></span>
+                <textarea name="team_experience" rows="4" placeholder="참여 작품, 작업 경험, 사용 장비 등을 자유롭게 적어주세요." disabled></textarea>
+              </label>
             </div>
             <label>
               <span><span data-contact-text="nameLabel">성명</span> <strong class="required-mark">*</strong></span>

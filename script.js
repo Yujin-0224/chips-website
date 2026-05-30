@@ -1959,9 +1959,60 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 });
 
 const heroSection = document.querySelector("#top");
+const heroVideo = document.querySelector(".hero-video");
+const heroPosterPan = document.querySelector(".hero-poster-pan");
 const voiceSampleSection = document.querySelector("#voice-sample");
 let heroWheelScrollLocked = false;
 let voiceSampleWheelScrollLocked = false;
+let heroVideoLoopCount = 0;
+let heroVideoLastTime = 0;
+let heroPosterActive = false;
+
+function resetHeroVideoLoopCounter() {
+  heroVideoLoopCount = 0;
+  heroVideoLastTime = heroVideo?.currentTime || 0;
+}
+
+function showHeroPosterPan() {
+  if (!heroSection || !heroVideo || heroPosterActive) return;
+  heroPosterActive = true;
+  heroSection.classList.remove("is-poster-active");
+  void heroSection.offsetWidth;
+  heroSection.classList.add("is-poster-active");
+}
+
+function hideHeroPosterPan() {
+  if (!heroSection || !heroVideo) return;
+  heroSection.classList.remove("is-poster-active");
+  heroPosterActive = false;
+  heroVideo.currentTime = 0;
+  resetHeroVideoLoopCounter();
+  heroVideo.play?.().catch(() => {});
+}
+
+function countHeroVideoLoop() {
+  if (!heroVideo || heroPosterActive) return;
+  const currentTime = heroVideo.currentTime || 0;
+  const loopedBackToStart = currentTime + 0.35 < heroVideoLastTime;
+  if (loopedBackToStart) {
+    heroVideoLoopCount += 1;
+    if (heroVideoLoopCount >= 3) {
+      showHeroPosterPan();
+    }
+  }
+  heroVideoLastTime = currentTime;
+}
+
+heroVideo?.addEventListener("loadedmetadata", resetHeroVideoLoopCounter);
+heroVideo?.addEventListener("timeupdate", countHeroVideoLoop);
+heroVideo?.addEventListener("ended", () => {
+  if (heroPosterActive) return;
+  heroVideoLoopCount += 1;
+  if (heroVideoLoopCount >= 3) showHeroPosterPan();
+});
+heroPosterPan?.addEventListener("animationend", (event) => {
+  if (event.animationName === "heroPosterSlide") hideHeroPosterPan();
+});
 
 if (heroSection) {
   heroSection.addEventListener(

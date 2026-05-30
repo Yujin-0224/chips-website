@@ -223,7 +223,7 @@ a {
   object-fit: cover;
   object-position: center 58%;
   transform: translate3d(0, 0, 0);
-  animation: heroVideoCycle 40s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+  transition: transform 900ms cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 .hero-poster-pan {
@@ -239,7 +239,6 @@ a {
   box-shadow: 0 24px 70px rgba(28, 20, 10, 0.12);
   pointer-events: none;
   transform: translate3d(110vw, 0, 0);
-  animation: heroPosterCycle 40s cubic-bezier(0.76, 0, 0.24, 1) infinite;
 }
 
 .hero-poster-pan img {
@@ -251,49 +250,41 @@ a {
   object-fit: cover;
   object-position: left center;
   transform: translate3d(0, 0, 0);
-  animation: heroPosterPan 40s linear infinite;
   will-change: transform;
 }
 
-@keyframes heroVideoCycle {
-  0%,
-  60% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  68%,
-  96% {
-    transform: translate3d(-100vw, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
+.hero.is-poster-active .hero-video {
+  transform: translate3d(-14vw, 0, 0);
 }
 
-@keyframes heroPosterCycle {
-  0%,
-  60% {
+.hero.is-poster-active .hero-poster-pan {
+  animation: heroPosterSlide 16s linear forwards;
+}
+
+.hero.is-poster-active .hero-poster-pan img {
+  animation: heroPosterPan 16s linear forwards;
+}
+
+@keyframes heroPosterSlide {
+  0% {
     transform: translate3d(110vw, 0, 0);
   }
 
-  68%,
-  96% {
+  18%,
+  82% {
     transform: translate3d(0, 0, 0);
   }
 
   100% {
-    transform: translate3d(110vw, 0, 0);
+    transform: translate3d(-110vw, 0, 0);
   }
 }
 
 @keyframes heroPosterPan {
-  0%,
-  68% {
+  0% {
     transform: translate3d(0, 0, 0);
   }
 
-  96%,
   100% {
     transform: translate3d(calc(100vw - clamp(48px, 8vw, 128px) - 100%), 0, 0);
   }
@@ -308,6 +299,10 @@ a {
 
   .hero-poster-pan {
     transform: translate3d(110vw, 0, 0);
+  }
+
+  .hero.is-poster-active .hero-poster-pan {
+    animation: none;
   }
 }
 

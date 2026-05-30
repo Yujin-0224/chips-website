@@ -629,9 +629,8 @@ const contactLocales = {
       other: "기타",
       teamRolePlaceholder: "선택해 주세요",
       teamRoleVoice: "성우",
-      teamRoleWriter: "작가/기획",
-      teamRoleSound: "사운드/믹싱",
-      teamRoleOther: "기타",
+      teamRoleIllustration: "일러스트",
+      teamRolePlanning: "기획",
     },
     values: {
       requester: ["회사", "개인"],
@@ -724,9 +723,8 @@ const contactLocales = {
       other: "Other inquiry",
       teamRolePlaceholder: "Please select",
       teamRoleVoice: "Voice actor",
-      teamRoleWriter: "Writer / Planning",
-      teamRoleSound: "Sound / Mixing",
-      teamRoleOther: "Other",
+      teamRoleIllustration: "Illustration",
+      teamRolePlanning: "Planning",
     },
     values: {
       requester: ["Company", "Individual"],

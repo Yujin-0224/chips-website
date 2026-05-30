@@ -270,13 +270,13 @@ a {
     transform: translate3d(110vw, 0, 0);
   }
 
-  18%,
+  7%,
   82% {
     transform: translate3d(0, 0, 0);
   }
 
   100% {
-    transform: translate3d(110vw, 0, 0);
+    transform: translate3d(-110vw, 0, 0);
   }
 }
 

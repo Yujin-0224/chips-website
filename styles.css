@@ -213,24 +213,33 @@ a {
 }
 
 .hero-video {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
   margin: 0 auto;
   object-fit: cover;
   object-position: center 58%;
-  animation: heroVideoCycle 24s ease-in-out infinite;
+  transform: translate3d(0, 0, 0);
+  animation: heroVideoCycle 40s cubic-bezier(0.76, 0, 0.24, 1) infinite;
 }
 
 .hero-poster-pan {
   position: absolute;
-  inset: 0;
+  top: clamp(96px, 12vh, 126px);
+  right: clamp(24px, 4vw, 64px);
+  bottom: 82px;
+  left: clamp(24px, 4vw, 64px);
   z-index: 2;
   overflow: hidden;
-  background: #0f1113;
-  opacity: 0;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: 0 24px 70px rgba(28, 20, 10, 0.12);
   pointer-events: none;
-  animation: heroPosterCycle 24s ease-in-out infinite;
+  transform: translate3d(110vw, 0, 0);
+  animation: heroPosterCycle 40s cubic-bezier(0.76, 0, 0.24, 1) infinite;
 }
 
 .hero-poster-pan img {
@@ -242,51 +251,51 @@ a {
   object-fit: cover;
   object-position: left center;
   transform: translate3d(0, 0, 0);
-  animation: heroPosterPan 24s linear infinite;
+  animation: heroPosterPan 40s linear infinite;
   will-change: transform;
 }
 
 @keyframes heroVideoCycle {
   0%,
-  46% {
-    opacity: 1;
+  60% {
+    transform: translate3d(0, 0, 0);
   }
 
-  50%,
+  68%,
   96% {
-    opacity: 0;
+    transform: translate3d(-100vw, 0, 0);
   }
 
   100% {
-    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes heroPosterCycle {
   0%,
-  46% {
-    opacity: 0;
+  60% {
+    transform: translate3d(110vw, 0, 0);
   }
 
-  50%,
+  68%,
   96% {
-    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 
   100% {
-    opacity: 0;
+    transform: translate3d(110vw, 0, 0);
   }
 }
 
 @keyframes heroPosterPan {
   0%,
-  50% {
+  68% {
     transform: translate3d(0, 0, 0);
   }
 
   96%,
   100% {
-    transform: translate3d(calc(100vw - 100%), 0, 0);
+    transform: translate3d(calc(100vw - clamp(48px, 8vw, 128px) - 100%), 0, 0);
   }
 }
 
@@ -298,7 +307,7 @@ a {
   }
 
   .hero-poster-pan {
-    opacity: 0;
+    transform: translate3d(110vw, 0, 0);
   }
 }
 

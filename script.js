@@ -1996,7 +1996,7 @@ function countHeroVideoLoop() {
   const loopedBackToStart = currentTime + 0.35 < heroVideoLastTime;
   if (loopedBackToStart) {
     heroVideoLoopCount += 1;
-    if (heroVideoLoopCount >= 3) {
+    if (heroVideoLoopCount >= 1) {
       showHeroPosterPan();
     }
   }
@@ -2008,7 +2008,7 @@ heroVideo?.addEventListener("timeupdate", countHeroVideoLoop);
 heroVideo?.addEventListener("ended", () => {
   if (heroPosterActive) return;
   heroVideoLoopCount += 1;
-  if (heroVideoLoopCount >= 3) showHeroPosterPan();
+  if (heroVideoLoopCount >= 1) showHeroPosterPan();
 });
 heroPosterPan?.addEventListener("animationend", (event) => {
   if (event.animationName === "heroPosterSlide") hideHeroPosterPan();

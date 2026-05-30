@@ -558,6 +558,8 @@ const contactLocales = {
       guideTitle: "문의 안내",
       guideBody:
         "문의 내용 확인 후 <strong>1~2일 이내</strong>에 이메일로 답변드리겠습니다. 급한 일정이 있으신 경우 희망 납기일을 함께 작성해 주세요.",
+      teamJoinGuide: "팀 가입 문의의 경우 아래 버튼 또는 링크를 클릭해 주세요.",
+      teamJoinButton: "팀 가입 문의",
       requiredLegend: "필수 입력",
       optionalChip: "선택",
       optionalLegend: "선택 입력",
@@ -633,6 +635,8 @@ const contactLocales = {
       guideTitle: "Inquiry Guide",
       guideBody:
         "After reviewing your inquiry, we will reply by email within <strong>1-2 business days</strong>. If your schedule is urgent, please include your preferred deadline.",
+      teamJoinGuide: "For team join inquiries, please click the button or link below.",
+      teamJoinButton: "Team join inquiry",
       requiredLegend: "Required fields",
       optionalChip: "Optional",
       optionalLegend: "Optional fields",

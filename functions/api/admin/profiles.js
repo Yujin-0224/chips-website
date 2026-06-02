@@ -24,7 +24,6 @@ function publicProfile(actor = {}) {
     name: actor.name || "",
     nameEn: actor.nameEn || "",
     audioCount: Array.isArray(actor.audioSources) ? actor.audioSources.length : 0,
-    hasIntro: Array.isArray(actor.introAudio) && actor.introAudio.length > 0,
     sortOrder: actor.sortOrder || 9999,
   };
 }
@@ -32,7 +31,7 @@ function publicProfile(actor = {}) {
 function mediaKeys(actor = {}) {
   const keys = new Set();
   if (actor.profileImageKey) keys.add(actor.profileImageKey);
-  [...(actor.audioSources || []), ...(actor.introAudio || [])].forEach((source) => {
+  (actor.audioSources || []).forEach((source) => {
     if (source?.r2Key) keys.add(source.r2Key);
   });
   return [...keys].filter(Boolean);

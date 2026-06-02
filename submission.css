@@ -1387,10 +1387,6 @@ body[data-requires-admin="true"] .submission-hero {
   letter-spacing: 0.1em;
 }
 
-.audio-manage-card[data-intro="true"] .drag-handle {
-  cursor: default;
-}
-
 .audio-manage-main {
   display: grid;
   gap: 12px;

@@ -72,7 +72,6 @@ function publicAudio(source = {}) {
 function publicManageActor(actor = {}) {
   return {
     ...publicActor(actor),
-    introAudio: Array.isArray(actor.introAudio) ? actor.introAudio.map(publicAudio) : [],
     audioSources: Array.isArray(actor.audioSources) ? actor.audioSources.map(publicAudio) : [],
   };
 }

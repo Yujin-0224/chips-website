@@ -104,13 +104,6 @@ function addAudioToCms(cms, audio) {
     r2Key: audio.r2Key,
     type: audio.audioType || "audio/mpeg",
   };
-  if (audio.audioKind === "intro") {
-    const previousKey = Array.isArray(actor.introAudio) ? actor.introAudio[0]?.r2Key : "";
-    actor.introAudio = [source];
-    actor.updatedAt = new Date().toISOString();
-    return { source, previousKey };
-  }
-
   actor.audioSources = Array.isArray(actor.audioSources) ? actor.audioSources : [];
   const index = actor.audioSources.findIndex((item) => item.id === source.id || item.src === source.src);
   if (index >= 0) actor.audioSources[index] = source;
@@ -144,14 +137,14 @@ export async function onRequestPost({ request, env }) {
 
     const actorName = user.role === "admin" ? `${form.get("actor_name") || ""}`.trim() : user.name;
     const actorId = user.role === "admin" ? slugify(form.get("actor_id") || actorName, "actor") : user.actorId;
-    const audioKind = `${form.get("audio_kind") || "sample"}` === "intro" ? "intro" : "sample";
+    const audioKind = "sample";
     const sampleTitle = `${form.get("sample_title") || ""}`.trim();
     if (!actorName || !sampleTitle) return json({ error: "actor_name and sample_title are required." }, 400);
     if (user.role !== "admin" && actorId !== user.actorId) return json({ error: "You can only upload audio to your own profile." }, 403);
 
-    const sampleId = audioKind === "intro" ? `${actorId}-intro` : uniqueSampleId(actorId, sampleTitle);
+    const sampleId = uniqueSampleId(actorId, sampleTitle);
     const extension = mimeExtensions[file.type] || file.name.split(".").pop() || "mp3";
-    const r2Key = `${audioKind === "intro" ? `audio/${actorId}/intro.${extension}` : `audio/${actorId}/${sampleId}.${extension}`}`.replace(/^\/+/, "");
+    const r2Key = `audio/${actorId}/${sampleId}.${extension}`.replace(/^\/+/, "");
 
     await env.CHIPS_MEDIA.put(r2Key, await file.arrayBuffer(), {
       httpMetadata: { contentType: file.type || "audio/mpeg" },
@@ -183,11 +176,8 @@ export async function onRequestPost({ request, env }) {
     };
     const metadataKey = `approved/audio/${actorId}/${sampleId}-${Date.now()}.json`;
     const cms = await loadCms(env.CHIPS_MEDIA);
-    const { source, previousKey } = addAudioToCms(cms, metadata);
+    const { source } = addAudioToCms(cms, metadata);
     await saveCms(env.CHIPS_MEDIA, cms);
-    if (audioKind === "intro" && previousKey && previousKey !== r2Key) {
-      await env.CHIPS_MEDIA.delete(previousKey).catch(() => {});
-    }
     await env.CHIPS_MEDIA.put(metadataKey, JSON.stringify({ ...metadata, approvedAt: new Date().toISOString() }, null, 2), {
       httpMetadata: { contentType: "application/json; charset=utf-8" },
     });

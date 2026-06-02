@@ -521,8 +521,8 @@ const detailNameEn = document.querySelector("#detail-name-en");
 const detailBio = document.querySelector("#detail-bio");
 const detailHighlights = document.querySelector("#detail-highlights");
 const detailCapabilities = document.querySelector("#detail-capabilities");
-const introDemo = document.querySelector("#intro-demo");
-const introDemoPlayer = document.querySelector("#intro-demo-player");
+const audioDemo = document.querySelector("#audio-demo");
+const audioDemoPlayer = document.querySelector("#audio-demo-player");
 const activeDemoTitle = document.querySelector("#active-demo-title");
 const activeDemoMeta = document.querySelector("#active-demo-meta");
 const detailCareer = document.querySelector("#detail-career");
@@ -888,20 +888,6 @@ function getActorCareerItems(actor) {
   return ["경력 사항은 준비 중입니다."];
 }
 
-function getIntroAudioSources(actor) {
-  const intro = actor.introAudio || actor.introductionAudio || actor.representativeAudio || actor.selfIntroAudio;
-  if (Array.isArray(intro)) return normalizeAudioSources(intro);
-  if (intro?.src || intro?.audio_src) return normalizeAudioSources([intro]);
-  return [];
-}
-
-function getAdditionalDemos(actor, introSources) {
-  const introSrcs = new Set(introSources.map((source) => source.src));
-  const sampleSources = (actor.audioSources || []).filter((source) => !introSrcs.has(source.src));
-  const demos = actor.demos?.length ? actor.demos : sampleSources.map((source) => source.title || source.category).filter(Boolean);
-  return { demos, sampleSources };
-}
-
 let detailAudioOptions = [];
 
 function formatAudioMeta(source = {}) {
@@ -917,8 +903,7 @@ function getRepresentativeTags(source = {}) {
 }
 
 function getSearchAudioSources(actor = {}) {
-  const introSrcs = new Set(getIntroAudioSources(actor).map((source) => source.src));
-  return (actor.audioSources || []).filter((source) => source.audioKind !== "intro" && !introSrcs.has(source.src));
+  return (actor.audioSources || []).filter((source) => source.audioKind !== "intro");
 }
 
 const filterValueAliases = {
@@ -953,18 +938,10 @@ function mergeCategoryValues(target, source = {}) {
 }
 
 function getProfileAudioOptions(actor) {
-  const introSources = getIntroAudioSources(actor);
-  const introPlayerSources = introSources;
   const sampleSources = getSearchAudioSources(actor);
   const legacyDemos = Array.isArray(actor.demos) && actor.demos.length === sampleSources.length ? actor.demos : [];
   const sampleLabels = sampleSources.map((source, index) => source.title || source.category || legacyDemos[index] || `\uc0d8\ud50c ${index + 1}`);
-  const options = [
-    {
-      label: "\uc790\uae30\uc18c\uac1c",
-      sources: introPlayerSources,
-      meta: formatAudioMeta(introPlayerSources[0]),
-    },
-  ];
+  const options = [];
 
   sampleLabels.forEach((label, index) => {
     const source = sampleSources[index];
@@ -984,15 +961,15 @@ function renderDetailAudioOption(index = 0, options = {}) {
   const shouldAutoplay = options.autoplay === true;
   const option = detailAudioOptions[index];
   if (!option) {
-    introDemo.hidden = true;
-    introDemoPlayer.innerHTML = "";
+    audioDemo.hidden = true;
+    audioDemoPlayer.innerHTML = "";
     return;
   }
 
   stopActivePlayer();
-  introDemo.hidden = false;
+  audioDemo.hidden = false;
   activeDemoTitle.textContent = option.label;
-  introDemoPlayer.innerHTML = audioMarkup(option.label, option.sources);
+  audioDemoPlayer.innerHTML = audioMarkup(option.label, option.sources);
   const activeDemoTags = document.querySelector("#active-demo-tags");
   if (activeDemoTags) {
     activeDemoTags.innerHTML = (option.tags || []).map((tag) => `<span>#${escapeHtml(tag)}</span>`).join("");
@@ -1007,9 +984,9 @@ function renderDetailAudioOption(index = 0, options = {}) {
     button.classList.toggle("is-active", isActive);
     button.setAttribute("aria-pressed", `${isActive}`);
   });
-  setupAudioPlayers(introDemoPlayer);
+  setupAudioPlayers(audioDemoPlayer);
   if (shouldAutoplay && option.sources.length) {
-    const nextPlayer = introDemoPlayer.querySelector(".sample-player");
+    const nextPlayer = audioDemoPlayer.querySelector(".sample-player");
     togglePlayer(nextPlayer);
   }
 }
@@ -2383,7 +2360,6 @@ function normalizeCmsActor(actor) {
     tags: Array.isArray(actor.tags) ? actor.tags : `${actor.tags || ""}`.split(",").map((value) => value.trim()).filter(Boolean),
     demos: Array.isArray(actor.demos) ? actor.demos : `${actor.demos || ""}`.split(",").map((value) => value.trim()).filter(Boolean),
     audioSources: normalizeAudioSources(actor.audioSources || actor.audio_sources || []),
-    introAudio: normalizeAudioSources(actor.introAudio || actor.intro_audio || actor.selfIntroAudio || actor.self_intro_audio || []),
     highlights: Array.isArray(actor.highlights) ? actor.highlights : `${actor.highlights || ""}`.split(/\n|,/).map((value) => value.trim()).filter(Boolean),
     capabilities: Array.isArray(actor.capabilities) ? actor.capabilities : `${actor.capabilities || ""}`.split(",").map((value) => value.trim()).filter(Boolean),
     profileImage: normalizeDriveLink(actor.profileImage || actor.profile_image || ""),

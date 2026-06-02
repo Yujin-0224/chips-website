@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="submission.css?v=20260518-audio-manage-fix" />
+    <link rel="stylesheet" href="submission.css?v=20260602-no-intro-audio" />
   </head>
   <body data-requires-auth="true">
     <main class="submission-shell">
@@ -33,10 +33,7 @@
         <div>
           <p class="submission-kicker">VOICE SAMPLE MANAGE</p>
           <h1>AUDIO MANAGE</h1>
-          <p>
-            오디오 제목, 카테고리, 공개 순서를 관리합니다. 자기소개 오디오는 프로필 상단에 고정되고,
-            일반 샘플만 드래그해서 순서를 변경할 수 있습니다.
-          </p>
+          <p>오디오 제목, 카테고리, 공개 순서를 관리합니다. 샘플 오디오 카드를 드래그해서 원하는 순서로 변경할 수 있습니다.</p>
         </div>
         <aside class="status-panel">
           <strong>정렬 방식</strong>
@@ -59,17 +56,6 @@
       <section class="form-section audio-manage-panel">
         <div class="audio-manage-head">
           <div>
-            <span>PINNED</span>
-            <h2>자기소개 오디오</h2>
-          </div>
-          <small>순서 고정</small>
-        </div>
-        <div id="intro-audio-panel" class="audio-manage-list"></div>
-      </section>
-
-      <section class="form-section audio-manage-panel">
-        <div class="audio-manage-head">
-          <div>
             <span>SAMPLES</span>
             <h2>샘플 오디오</h2>
           </div>
@@ -86,7 +72,7 @@
     </main>
 
     <script src="assets/vendor/Sortable.min.js"></script>
-    <script src="submission.js?v=20260522-texture-options"></script>
-    <script src="audio-manage.js?v=20260522-category-limit-labels"></script>
+    <script src="submission.js?v=20260602-no-intro-audio"></script>
+    <script src="audio-manage.js?v=20260602-no-intro-audio"></script>
   </body>
 </html>

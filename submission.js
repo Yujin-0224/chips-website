@@ -541,10 +541,6 @@ function bindAudioForm() {
 
   const actorSelect = document.getElementById("actor-select");
   const actorName = document.getElementById("actor-name");
-  const audioKindOptions = form.querySelectorAll('input[name="audio_kind"]');
-  const sampleTitleInput = document.getElementById("sample-title");
-  const categorySection = document.getElementById("audio-category-section");
-  const representativeTagsField = document.getElementById("representative-tags-field");
   const fileInput = document.getElementById("audio-file");
   const fileName = document.getElementById("file-name");
   const result = document.getElementById("audio-result");
@@ -559,31 +555,6 @@ function bindAudioForm() {
     accent: "억양/사투리는 1개만 선택할 수 있습니다.",
     characterType: "캐릭터 타입은 최대 2개까지 선택할 수 있습니다.",
   };
-
-  const syncAudioKind = () => {
-    const selectedAudioKind = form.querySelector('input[name="audio_kind"]:checked')?.value || "sample";
-    const isIntro = selectedAudioKind === "intro";
-    if (sampleTitleInput) {
-      sampleTitleInput.readOnly = isIntro;
-      if (isIntro) sampleTitleInput.value = "\uc790\uae30\uc18c\uac1c";
-      else if (sampleTitleInput.value === "\uc790\uae30\uc18c\uac1c") sampleTitleInput.value = "";
-    }
-    if (categorySection) categorySection.hidden = isIntro;
-    categorySection?.querySelectorAll("input").forEach((input) => {
-      input.disabled = isIntro;
-      if (isIntro) input.checked = false;
-    });
-    if (representativeTagsField) representativeTagsField.hidden = isIntro;
-    representativeTagsField?.querySelectorAll("input").forEach((input) => {
-      input.disabled = isIntro;
-      if (isIntro) input.value = "";
-    });
-  };
-
-  audioKindOptions.forEach((input) => {
-    input.addEventListener("change", syncAudioKind);
-  });
-  syncAudioKind();
 
   form.addEventListener("change", (event) => {
     const input = event.target;
@@ -602,7 +573,6 @@ function bindAudioForm() {
       fileName.textContent = "파일 선택";
       result.hidden = true;
       actorName.value = "";
-      syncAudioKind();
     });
   });
 
@@ -618,8 +588,7 @@ function bindAudioForm() {
 
     const data = new FormData(form);
     const actorId = data.get("actor_id");
-    const isIntro = data.get("audio_kind") === "intro";
-    const sampleTitle = isIntro ? "\uc790\uae30\uc18c\uac1c" : data.get("sample_title");
+    const sampleTitle = data.get("sample_title");
     const sampleId = `${slugify(actorId, "actor")}-${slugify(sampleTitle, "sample")}`;
     const ext = mimeExtensions[file.type] || file.name.split(".").pop() || "mp3";
     const r2Key = `audio/${slugify(actorId, "actor")}/${sampleId}.${ext}`;
@@ -632,8 +601,8 @@ function bindAudioForm() {
     data.set("sample_title", sampleTitle);
     data.set("sample_id", sampleId);
     data.set("r2_key", r2Key);
-    data.set("categories_json", JSON.stringify(isIntro ? {} : collectCategoryValues(form)));
-    data.set("representative_tags_json", JSON.stringify(isIntro ? [] : representativeTags));
+    data.set("categories_json", JSON.stringify(collectCategoryValues(form)));
+    data.set("representative_tags_json", JSON.stringify(representativeTags));
 
     try {
       const response = await fetch("/api/upload-audio", { method: "POST", headers: authHeaders(), body: data });

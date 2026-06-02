@@ -51,29 +51,11 @@
                 <option value="">성우 목록 불러오는 중</option>
               </select>
               <input id="actor-name" name="actor_name" type="hidden" />
+              <input name="audio_kind" type="hidden" value="sample" />
             </div>
             <div class="field">
               <label for="sample-title">오디오 제목</label>
               <input id="sample-title" name="sample_title" required placeholder="예: 미소년 캐릭터 샘플" />
-            </div>
-            <div class="field is-wide">
-              <span class="group-label">오디오 종류</span>
-              <div class="audio-kind-options" id="audio-kind">
-                <label class="audio-kind-card">
-                  <input type="radio" name="audio_kind" value="sample" checked />
-                  <span>
-                    <strong>샘플 오디오</strong>
-                    <small>검색과 프로필 샘플 목록에 표시됩니다.</small>
-                  </span>
-                </label>
-                <label class="audio-kind-card">
-                  <input type="radio" name="audio_kind" value="intro" />
-                  <span>
-                    <strong>자기소개</strong>
-                    <small>성우당 1개만 유지되며, 새로 올리면 기존 자기소개를 교체합니다.</small>
-                  </span>
-                </label>
-              </div>
             </div>
             <div class="field is-wide" id="representative-tags-field">
               <span class="group-label">대표 카테고리</span>
@@ -114,6 +96,6 @@
       </form>
     </main>
 
-    <script src="submission.js?v=20260522-texture-options"></script>
+    <script src="submission.js?v=20260602-no-intro-audio"></script>
   </body>
 </html>

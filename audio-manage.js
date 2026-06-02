@@ -1,6 +1,5 @@
 (() => {
 const actorSelect = document.getElementById("manage-actor-select");
-const introPanel = document.getElementById("intro-audio-panel");
 const sampleList = document.getElementById("sample-audio-list");
 const reloadButton = document.getElementById("reload-audio-manage");
 const saveButton = document.getElementById("save-audio-manage");
@@ -143,7 +142,6 @@ async function loadActors() {
     actorSelect.value = initialActorId;
     await loadActorAudio(actorSelect.value);
   } else {
-    introPanel.innerHTML = '<p class="empty-note">관리할 프로필이 없습니다.</p>';
     sampleList.innerHTML = '<p class="empty-note">관리할 오디오가 없습니다.</p>';
   }
 }
@@ -157,7 +155,7 @@ function publicActorFromCms(actor = {}) {
   };
 }
 
-function audioCard(source = {}, { intro = false } = {}) {
+function audioCard(source = {}) {
   const categories = source.categories && typeof source.categories === "object" ? source.categories : {};
   const tagSource = source.representativeTags || source.representative_tags || source.tags;
   const representativeTags = (Array.isArray(tagSource) ? tagSource : `${tagSource || ""}`.split(","))
@@ -165,14 +163,14 @@ function audioCard(source = {}, { intro = false } = {}) {
     .filter(Boolean)
     .slice(0, 4);
   return `
-    <article class="audio-manage-card" data-audio-id="${escapeHtml(source.id || "")}" data-r2-key="${escapeHtml(source.r2Key || "")}" data-intro="${intro ? "true" : "false"}">
-      <div class="drag-handle" aria-hidden="true">${intro ? "PIN" : "DRAG"}</div>
+    <article class="audio-manage-card" data-audio-id="${escapeHtml(source.id || "")}" data-r2-key="${escapeHtml(source.r2Key || "")}">
+      <div class="drag-handle" aria-hidden="true">DRAG</div>
       <div class="audio-manage-main">
         <label>
           <span>제목</span>
-          <input class="audio-title-input" value="${escapeHtml(source.title || (intro ? "자기소개" : ""))}" ${intro ? "readonly" : ""} />
+          <input class="audio-title-input" value="${escapeHtml(source.title || "")}" />
         </label>
-        <div class="audio-manage-tags" ${intro ? "hidden" : ""}>
+        <div class="audio-manage-tags">
           <span>대표 해시태그</span>
           <div class="representative-tag-grid compact-tag-grid">
             ${[0, 1, 2, 3]
@@ -188,7 +186,7 @@ function audioCard(source = {}, { intro = false } = {}) {
           </div>
         </div>
         <details class="audio-category-editor">
-          <summary>${intro ? "자기소개는 카테고리를 사용하지 않습니다" : "카테고리 수정"}</summary>
+          <summary>카테고리 수정</summary>
           <div class="category-grid audio-edit-category-grid">
             ${chipsCategoryGroups
               .map((group) => {
@@ -205,7 +203,7 @@ function audioCard(source = {}, { intro = false } = {}) {
                           const checked = selected.includes(option) ? "checked" : "";
                           return `
                             <label class="option-pill">
-                              <input type="checkbox" name="${group.key}" value="${escapeHtml(option)}" ${checked} ${intro ? "disabled" : ""} />
+                              <input type="checkbox" name="${group.key}" value="${escapeHtml(option)}" ${checked} />
                               <span>${escapeHtml(option)}</span>
                             </label>
                           `;
@@ -219,22 +217,18 @@ function audioCard(source = {}, { intro = false } = {}) {
           </div>
         </details>
         ${source.src ? `<audio controls preload="none" src="${escapeHtml(source.src)}"></audio>` : ""}
-        <label class="audio-note-field" ${intro ? "hidden" : ""}>
+        <label class="audio-note-field">
           <span>메모</span>
           <input class="audio-note-input" value="${escapeHtml(source.notes || "")}" placeholder="오디오 관련 메모를 입력해 주세요." />
         </label>
       </div>
-      <button class="danger-button audio-delete-button" type="button" ${intro ? "disabled" : ""}>삭제</button>
+      <button class="danger-button audio-delete-button" type="button">삭제</button>
     </article>
   `;
 }
 
 function renderActorAudio(actor) {
   currentActor = actor;
-  const intro = Array.isArray(actor.introAudio) ? actor.introAudio[0] : null;
-  introPanel.innerHTML = intro
-    ? audioCard(intro, { intro: true })
-    : '<p class="empty-note">등록된 자기소개 오디오가 없습니다. 오디오 추가 페이지에서 자기소개를 업로드해 주세요.</p>';
   sampleList.innerHTML = Array.isArray(actor.audioSources) && actor.audioSources.length
     ? actor.audioSources.map((source) => audioCard(source)).join("")
     : '<p class="empty-note">등록된 샘플 오디오가 없습니다.</p>';
@@ -252,7 +246,6 @@ function renderActorAudio(actor) {
 
 async function loadActorAudio(actorId) {
   if (!actorId) return;
-  introPanel.innerHTML = "Loading...";
   sampleList.innerHTML = "Loading...";
   if (usingFallbackCms) {
     const actor = fallbackActors.find((item) => item.id === actorId);

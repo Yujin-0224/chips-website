@@ -190,7 +190,7 @@ function renderProfileDeleteOptions(profiles = []) {
     ? `<option value="">삭제할 프로필을 선택해 주세요</option>${profiles
         .map((profile) => {
           const label = `${profile.id} - ${profile.name || profile.nameEn || "이름 없음"}`;
-          const meta = [profile.nameEn, profile.audioCount ? `오디오 ${profile.audioCount}개` : "", profile.hasIntro ? "자기소개 있음" : ""]
+          const meta = [profile.nameEn, profile.audioCount ? `오디오 ${profile.audioCount}개` : ""]
             .filter(Boolean)
             .join(" / ");
           return `<option value="${escapeHtml(profile.id)}">${escapeHtml(meta ? `${label} (${meta})` : label)}</option>`;

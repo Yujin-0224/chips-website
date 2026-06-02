@@ -222,8 +222,8 @@ a {
   margin: 0 auto;
   object-fit: cover;
   object-position: center 58%;
-  transform: translate3d(0, 0, 0);
-  transition: transform 900ms cubic-bezier(0.76, 0, 0.24, 1);
+  opacity: 1;
+  transition: opacity 1200ms ease;
 }
 
 .hero-poster-pan {
@@ -238,8 +238,7 @@ a {
   background: transparent;
   box-shadow: 0 24px 70px rgba(28, 20, 10, 0.12);
   pointer-events: none;
-  transform: translate3d(110vw, 0, 0);
-  opacity: 1;
+  opacity: 0;
 }
 
 .hero-poster-pan img {
@@ -255,30 +254,28 @@ a {
 }
 
 .hero.is-poster-active .hero-video {
-  transform: translate3d(-100vw, 0, 0);
+  opacity: 0;
 }
 
 .hero.is-poster-active .hero-poster-pan {
-  animation: heroPosterSlide 16s linear forwards;
+  animation: heroPosterCrossfade 16s ease forwards;
 }
 
 .hero.is-poster-active .hero-poster-pan img {
   animation: heroPosterPan 16s linear forwards;
 }
 
-@keyframes heroPosterSlide {
+@keyframes heroPosterCrossfade {
   0% {
-    transform: translate3d(110vw, 0, 0);
+    opacity: 0;
   }
 
-  7%,
+  12%,
   82% {
-    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 
   100% {
-    transform: translate3d(0, 0, 0);
     opacity: 0;
   }
 }
@@ -301,7 +298,7 @@ a {
   }
 
   .hero-poster-pan {
-    transform: translate3d(110vw, 0, 0);
+    opacity: 0;
   }
 
   .hero.is-poster-active .hero-poster-pan {

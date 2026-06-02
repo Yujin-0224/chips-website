@@ -2011,7 +2011,7 @@ heroVideo?.addEventListener("ended", () => {
   if (heroVideoLoopCount >= 1) showHeroPosterPan();
 });
 heroPosterPan?.addEventListener("animationend", (event) => {
-  if (event.animationName === "heroPosterSlide") hideHeroPosterPan();
+  if (event.animationName === "heroPosterCrossfade") hideHeroPosterPan();
 });
 
 if (heroSection) {

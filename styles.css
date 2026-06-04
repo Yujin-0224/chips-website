@@ -1317,7 +1317,7 @@ a {
     linear-gradient(180deg, rgba(255, 250, 240, 0.96), rgba(255, 244, 219, 0.98)),
     var(--paper);
   border-top: 1px solid rgba(32, 26, 18, 0.08);
-  padding: 54px 16px 36px;
+  padding: 34px 16px 24px;
 }
 
 .top-button {
@@ -1364,18 +1364,18 @@ a {
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(180px, 0.48fr) minmax(0, 1.52fr);
-  gap: clamp(24px, 4vw, 56px);
+  gap: clamp(18px, 3vw, 42px);
   color: var(--ink);
 }
 
 .footer-brand {
   display: grid;
   align-content: center;
-  gap: 14px;
+  gap: 10px;
 }
 
 .footer-brand img {
-  width: clamp(118px, 13vw, 178px);
+  width: clamp(96px, 10vw, 138px);
   height: auto;
 }
 
@@ -1383,22 +1383,22 @@ a {
   margin: 0;
   max-width: 260px;
   color: rgba(23, 19, 13, 0.54);
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 900;
-  line-height: 1.55;
+  line-height: 1.45;
 }
 
 .footer-main {
   display: grid;
   grid-template-columns: minmax(360px, 0.82fr) minmax(0, 1fr);
-  gap: clamp(22px, 3.4vw, 46px);
+  gap: clamp(18px, 2.8vw, 36px);
   align-items: center;
 }
 
 .footer-credits,
 .footer-notice {
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 
 .footer-credits p,
@@ -1412,8 +1412,8 @@ a {
   gap: 10px;
   align-items: baseline;
   color: rgba(23, 19, 13, 0.62);
-  font-size: clamp(15px, 1.15vw, 18px);
-  line-height: 1.45;
+  font-size: clamp(13px, 1vw, 16px);
+  line-height: 1.35;
   white-space: nowrap;
 }
 
@@ -1432,16 +1432,16 @@ a {
 }
 
 .footer-notice {
-  padding-left: clamp(18px, 3vw, 34px);
+  padding-left: clamp(16px, 2.6vw, 28px);
   border-left: 2px solid rgba(246, 185, 59, 0.58);
   align-content: center;
 }
 
 .footer-notice p {
   color: rgba(23, 19, 13, 0.58);
-  font-size: clamp(13px, 1.35vw, 16px);
+  font-size: clamp(11.5px, 1.05vw, 14px);
   font-weight: 800;
-  line-height: 1.78;
+  line-height: 1.62;
   word-break: keep-all;
 }
 
@@ -1451,11 +1451,11 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  margin-top: 10px;
-  padding-top: 22px;
+  margin-top: 0;
+  padding-top: 16px;
   border-top: 1px solid rgba(32, 26, 18, 0.08);
   color: rgba(23, 19, 13, 0.52);
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 900;
 }
 
@@ -1492,14 +1492,14 @@ a {
 
 @media (max-width: 560px) {
   .info-band {
-    padding: 48px 14px 30px;
+    padding: 34px 14px 24px;
   }
 
   .footer-credits p {
     align-items: flex-start;
     flex-direction: column;
     gap: 2px;
-    font-size: 22px;
+    font-size: 17px;
     white-space: normal;
   }
 

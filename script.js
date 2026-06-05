@@ -1651,6 +1651,11 @@ function openNewsArticle(articleId) {
       }
     </nav>
   `;
+  const navItems = newsArticleContent.querySelectorAll(".news-article-nav a, .news-article-nav span");
+  const navLabels = ["← 이전 글", "목록으로", "다음 글 →"];
+  navItems.forEach((item, itemIndex) => {
+    item.textContent = navLabels[itemIndex] || item.textContent;
+  });
 }
 
 function setPlayerLoading(player, isLoading) {

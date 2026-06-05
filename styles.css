@@ -875,6 +875,10 @@ a {
   font-weight: 900;
   line-height: 1.2;
   letter-spacing: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: keep-all;
 }
 
 .top-news-card p {
@@ -1753,6 +1757,10 @@ a {
   margin: 10px 0;
   color: var(--ink);
   line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: keep-all;
 }
 
 .news-feature h3 {
@@ -1807,6 +1815,8 @@ a {
   color: var(--muted);
   font-size: 14px;
   line-height: 1.72;
+  overflow-wrap: break-word;
+  word-break: keep-all;
 }
 
 .news-tags {
@@ -1936,6 +1946,8 @@ a {
   margin: 0 auto;
   font-size: clamp(32px, 5vw, 58px);
   line-height: 1.16;
+  overflow-wrap: break-word;
+  word-break: keep-all;
 }
 
 .news-article-head > p:last-child {
@@ -1944,6 +1956,8 @@ a {
   color: var(--muted);
   font-weight: 800;
   line-height: 1.9;
+  overflow-wrap: break-word;
+  word-break: keep-all;
 }
 
 .news-article-image {
@@ -1973,6 +1987,8 @@ a {
   font-size: 16px;
   font-weight: 650;
   line-height: 2.1;
+  overflow-wrap: break-word;
+  word-break: keep-all;
 }
 
 .news-article-body p + p {

@@ -1,82 +1,82 @@
 [
   {
-    "syncedAt": "2026-06-13T19:58:36",
-    "sourceUrl": "assets/gamza_sample.mp3",
-    "level": "info",
     "r2Key": "",
-    "sampleTitle": "캐릭터 - 활발",
-    "status": "external",
     "actorName": "유레이",
-    "message": "Using existing audio URL."
+    "syncedAt": "2026-06-13T21:12:02",
+    "sourceUrl": "assets/gamza_sample.mp3",
+    "sampleTitle": "캐릭터 - 활발",
+    "message": "Using existing audio URL.",
+    "level": "info",
+    "status": "external"
   },
   {
-    "syncedAt": "2026-06-13T19:58:36",
-    "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info",
     "r2Key": "",
-    "sampleTitle": "내레이션 - 다큐",
-    "status": "external",
     "actorName": "이도윤",
-    "message": "Using existing audio URL."
+    "syncedAt": "2026-06-13T21:12:02",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "sampleTitle": "내레이션 - 다큐",
+    "message": "Using existing audio URL.",
+    "level": "info",
+    "status": "external"
   },
   {
-    "syncedAt": "2026-06-13T19:58:36",
-    "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info",
     "r2Key": "",
-    "sampleTitle": "광고 - 라이프",
-    "status": "external",
     "actorName": "박유나",
-    "message": "Using existing audio URL."
-  },
-  {
-    "syncedAt": "2026-06-13T19:58:36",
+    "syncedAt": "2026-06-13T21:12:02",
     "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info",
-    "r2Key": "",
-    "sampleTitle": "게임 - 소년",
-    "status": "external",
-    "actorName": "최서진",
-    "message": "Using existing audio URL."
-  },
-  {
-    "syncedAt": "2026-06-13T19:58:36",
-    "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info",
-    "r2Key": "",
-    "sampleTitle": "교육 - 설명",
-    "status": "external",
-    "actorName": "정수아",
-    "message": "Using existing audio URL."
-  },
-  {
-    "syncedAt": "2026-06-13T19:58:36",
-    "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info",
-    "r2Key": "",
-    "sampleTitle": "애니 - 소년",
-    "status": "external",
-    "actorName": "한리온",
-    "message": "Using existing audio URL."
-  },
-  {
-    "syncedAt": "2026-06-13T19:58:36",
-    "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info",
-    "r2Key": "",
     "sampleTitle": "광고 - 라이프",
-    "status": "external",
-    "actorName": "정유진",
-    "message": "Using existing audio URL."
+    "message": "Using existing audio URL.",
+    "level": "info",
+    "status": "external"
   },
   {
-    "syncedAt": "2026-06-13T19:58:36",
-    "sourceUrl": "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/audio/geonu/geonu-10-20.wav",
+    "r2Key": "",
+    "actorName": "최서진",
+    "syncedAt": "2026-06-13T21:12:02",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "sampleTitle": "게임 - 소년",
+    "message": "Using existing audio URL.",
     "level": "info",
+    "status": "external"
+  },
+  {
+    "r2Key": "",
+    "actorName": "정수아",
+    "syncedAt": "2026-06-13T21:12:02",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "sampleTitle": "교육 - 설명",
+    "message": "Using existing audio URL.",
+    "level": "info",
+    "status": "external"
+  },
+  {
+    "r2Key": "",
+    "actorName": "한리온",
+    "syncedAt": "2026-06-13T21:12:02",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "sampleTitle": "애니 - 소년",
+    "message": "Using existing audio URL.",
+    "level": "info",
+    "status": "external"
+  },
+  {
+    "r2Key": "",
+    "actorName": "정유진",
+    "syncedAt": "2026-06-13T21:12:02",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "sampleTitle": "광고 - 라이프",
+    "message": "Using existing audio URL.",
+    "level": "info",
+    "status": "external"
+  },
+  {
     "r2Key": "audio/geonu/geonu-10-20.wav",
-    "sampleTitle": "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
-    "status": "external",
     "actorName": "거누",
-    "message": "Using existing audio URL."
+    "syncedAt": "2026-06-13T21:12:02",
+    "sourceUrl": "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/audio/geonu/geonu-10-20.wav",
+    "sampleTitle": "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
+    "message": "Using existing audio URL.",
+    "level": "info",
+    "status": "external"
   }
 ]

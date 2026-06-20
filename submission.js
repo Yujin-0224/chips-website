@@ -117,6 +117,12 @@ const chipsCategoryGroups = [
     options: ["표준어", "서울말", "부산/경상도", "대구 억양", "전라도", "충청도", "강원도", "제주도", "외국인 억양"],
   },
   {
+    key: "actingType",
+    label: "연기타입",
+    hint: "Acting Type",
+    options: ["연기", "광고", "나레이션", "스팟"],
+  },
+  {
     key: "characterType",
     label: "캐릭터 타입",
     hint: "Character Type",
@@ -178,6 +184,7 @@ const categorySelectionLimits = {
   emotion: 3,
   language: 1,
   accent: 1,
+  actingType: 1,
   characterType: 2,
 };
 
@@ -553,6 +560,7 @@ function bindAudioForm() {
     emotion: "감정은 최대 3개까지 선택할 수 있습니다.",
     language: "언어는 1개만 선택할 수 있습니다.",
     accent: "억양/사투리는 1개만 선택할 수 있습니다.",
+    actingType: "연기타입은 1개만 선택할 수 있습니다.",
     characterType: "캐릭터 타입은 최대 2개까지 선택할 수 있습니다.",
   };
 

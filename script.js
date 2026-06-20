@@ -141,6 +141,12 @@ const filterGroups = [
     ],
   },
   {
+    key: "actingType",
+    label: "연기타입",
+    hint: "Acting Type",
+    options: ["연기", "광고", "나레이션", "스팟"],
+  },
+  {
     key: "characterType",
     label: "캐릭터 타입",
     hint: "Character Type",
@@ -221,6 +227,7 @@ const filterLocales = {
         hint: "Accent",
         options: ["표준어", "서울말", "부산/경상도", "대구 억양", "전라도", "충청도", "강원도", "제주도", "외국인 억양(한국어)"],
       },
+      actingType: { label: "연기타입", hint: "Acting Type", options: ["연기", "광고", "나레이션", "스팟"] },
       characterType: {
         label: "캐릭터 타입",
         hint: "Character Type",
@@ -262,6 +269,7 @@ const filterLocales = {
       },
       language: { label: "Language", hint: "Language", options: ["Korean", "English", "Japanese", "Chinese"] },
       accent: { label: "Accent", hint: "Accent", options: ["Standard Korean", "Seoul dialect", "Busan/Gyeongsang", "Daegu accent", "Jeolla dialect", "Chungcheong dialect", "Gangwon dialect", "Jeju dialect", "Foreign accent in Korean"] },
+      actingType: { label: "Acting Type", hint: "Acting Type", options: ["Acting", "Commercial", "Narration", "Spot"] },
       characterType: {
         label: "Character Type",
         hint: "Character Type",
@@ -303,6 +311,7 @@ const filterLocales = {
       },
       language: { label: "言語", hint: "Language", options: ["韓国語", "英語", "日本語", "中国語"] },
       accent: { label: "アクセント/方言", hint: "Accent", options: ["標準語", "ソウル方言", "釜山/慶尚道", "大邱アクセント", "全羅道", "忠清道", "江原道", "済州道", "外国人アクセント（韓国語）"] },
+      actingType: { label: "演技タイプ", hint: "Acting Type", options: ["演技", "広告", "ナレーション", "スポット"] },
       characterType: {
         label: "キャラクタータイプ",
         hint: "Character Type",
@@ -344,6 +353,7 @@ const filterLocales = {
       },
       language: { label: "语言", hint: "Language", options: ["韩语", "英语", "日语", "中文"] },
       accent: { label: "口音/方言", hint: "Accent", options: ["标准语", "首尔话", "釜山/庆尚道", "大邱口音", "全罗道", "忠清道", "江原道", "济州岛", "外国人口音（韩语）"] },
+      actingType: { label: "表演类型", hint: "Acting Type", options: ["表演", "广告", "旁白", "短版广告"] },
       characterType: {
         label: "角色类型",
         hint: "Character Type",
@@ -1965,11 +1975,7 @@ function resetHeroVideoLoopCounter() {
 }
 
 function showHeroPosterPan() {
-  if (!heroSection || !heroVideo || heroPosterActive) return;
-  heroPosterActive = true;
-  heroSection.classList.remove("is-poster-active");
-  void heroSection.offsetWidth;
-  heroSection.classList.add("is-poster-active");
+  return;
 }
 
 function hideHeroPosterPan() {
@@ -1982,16 +1988,7 @@ function hideHeroPosterPan() {
 }
 
 function countHeroVideoLoop() {
-  if (!heroVideo || heroPosterActive) return;
-  const currentTime = heroVideo.currentTime || 0;
-  const loopedBackToStart = currentTime + 0.35 < heroVideoLastTime;
-  if (loopedBackToStart) {
-    heroVideoLoopCount += 1;
-    if (heroVideoLoopCount >= 1) {
-      showHeroPosterPan();
-    }
-  }
-  heroVideoLastTime = currentTime;
+  return;
 }
 
 heroVideo?.addEventListener("loadedmetadata", resetHeroVideoLoopCounter);

@@ -1,275 +1,261 @@
 {
+  "sampleAudioSources": [],
   "actors": [
     {
       "name": "유레이",
-      "audioSources": [
-        {
-          "type": "audio/mpeg",
-          "title": "캐릭터 - 활발",
-          "id": "haru-character",
-          "src": "assets/gamza_sample.mp3",
-          "category": "animation"
-        }
-      ],
-      "nameEn": "KIM HARU",
-      "sortOrder": 1,
-      "colors": [
-        "#ffc857",
-        "#3bb7a3"
-      ],
-      "bio": "맑고 선명한 발성과 밝은 에너지가 강점입니다. 애니메이션, 게임 캐릭터, 브랜드 캠페인 샘플에 잘 어울립니다.",
+      "gender": "female",
       "tags": [
         "밝음",
         "청량",
         "애니메이션",
         "20대"
       ],
-      "style": "twenties",
+      "nameEn": "KIM HARU",
+      "colors": [
+        "#ffc857",
+        "#3bb7a3"
+      ],
       "ageRange": "20s",
-      "category": "animation",
-      "gender": "female",
-      "profileImage": "assets/sample_profile-optimized.webp",
-      "id": "haru",
-      "tone": "clear",
+      "bio": "맑고 선명한 발성과 밝은 에너지가 강점입니다. 애니메이션, 게임 캐릭터, 브랜드 캠페인 샘플에 잘 어울립니다.",
       "demos": [
         "캐릭터 - 활발"
       ],
-      "mood": "bright"
+      "sortOrder": 1,
+      "tone": "clear",
+      "audioSources": [
+        {
+          "src": "assets/gamza_sample.mp3",
+          "title": "캐릭터 - 활발",
+          "category": "animation",
+          "id": "haru-character",
+          "type": "audio/mpeg"
+        }
+      ],
+      "category": "animation",
+      "id": "haru",
+      "style": "twenties",
+      "mood": "bright",
+      "profileImage": "assets/sample_profile-optimized.webp"
     },
     {
       "name": "이도윤",
-      "audioSources": [
-        {
-          "type": "audio/mpeg",
-          "title": "내레이션 - 다큐",
-          "id": "min-narration",
-          "src": "assets/sample_audio.mp3",
-          "category": "narration"
-        }
-      ],
-      "nameEn": "LEE DOYUN",
-      "sortOrder": 2,
-      "colors": [
-        "#5b6c7d",
-        "#b7c9d6"
-      ],
-      "bio": "차분하고 깊은 톤으로 정보 전달력이 좋습니다. 다큐멘터리, 기업 영상, 시네마틱 내레이션에 적합합니다.",
+      "gender": "male",
       "tags": [
         "저음",
         "신뢰감",
         "내레이션",
         "30대"
       ],
-      "style": "thirties",
+      "nameEn": "LEE DOYUN",
+      "colors": [
+        "#5b6c7d",
+        "#b7c9d6"
+      ],
       "ageRange": "30s",
-      "category": "narration",
-      "gender": "male",
-      "profileImage": "assets/sample_profile-optimized.webp",
-      "id": "min",
-      "tone": "deep",
+      "bio": "차분하고 깊은 톤으로 정보 전달력이 좋습니다. 다큐멘터리, 기업 영상, 시네마틱 내레이션에 적합합니다.",
       "demos": [
         "내레이션 - 다큐"
       ],
-      "mood": "serious"
+      "sortOrder": 2,
+      "tone": "deep",
+      "audioSources": [
+        {
+          "src": "assets/sample_audio.mp3",
+          "title": "내레이션 - 다큐",
+          "category": "narration",
+          "id": "min-narration",
+          "type": "audio/mpeg"
+        }
+      ],
+      "category": "narration",
+      "id": "min",
+      "style": "thirties",
+      "mood": "serious",
+      "profileImage": "assets/sample_profile-optimized.webp"
     },
     {
       "name": "박유나",
-      "audioSources": [
-        {
-          "type": "audio/mpeg",
-          "title": "광고 - 라이프",
-          "id": "yuna-commercial",
-          "src": "assets/sample_audio.mp3",
-          "category": "commercial"
-        }
-      ],
-      "nameEn": "PARK YUNA",
-      "sortOrder": 3,
-      "colors": [
-        "#ef6f61",
-        "#f7c59f"
-      ],
-      "bio": "따뜻하고 자연스러운 말맛이 장점입니다. 라이프스타일 광고, 오디오북, 안내 음성에 잘 맞습니다.",
+      "gender": "female",
       "tags": [
         "따뜻함",
         "친근",
         "광고",
         "30대"
       ],
-      "style": "thirties",
+      "nameEn": "PARK YUNA",
+      "colors": [
+        "#ef6f61",
+        "#f7c59f"
+      ],
       "ageRange": "30s",
-      "category": "commercial",
-      "gender": "female",
-      "profileImage": "assets/sample_profile-optimized.webp",
-      "id": "yuna",
-      "tone": "warm",
+      "bio": "따뜻하고 자연스러운 말맛이 장점입니다. 라이프스타일 광고, 오디오북, 안내 음성에 잘 맞습니다.",
       "demos": [
         "광고 - 라이프"
       ],
-      "mood": "calm"
+      "sortOrder": 3,
+      "tone": "warm",
+      "audioSources": [
+        {
+          "src": "assets/sample_audio.mp3",
+          "title": "광고 - 라이프",
+          "category": "commercial",
+          "id": "yuna-commercial",
+          "type": "audio/mpeg"
+        }
+      ],
+      "category": "commercial",
+      "id": "yuna",
+      "style": "thirties",
+      "mood": "calm",
+      "profileImage": "assets/sample_profile-optimized.webp"
     },
     {
       "name": "최서진",
-      "audioSources": [
-        {
-          "type": "audio/mpeg",
-          "title": "게임 - 소년",
-          "id": "jin-game",
-          "src": "assets/sample_audio.mp3",
-          "category": "game"
-        }
-      ],
-      "nameEn": "CHOI SEOJIN",
-      "sortOrder": 4,
-      "colors": [
-        "#36a7ff",
-        "#ffd26a"
-      ],
-      "bio": "반응이 빠르고 캐릭터 변주 폭이 넓습니다. 게임, 숏폼 콘텐츠, 하이텐션 광고에 어울립니다.",
+      "gender": "male",
       "tags": [
         "생기",
         "소년",
         "게임",
         "10대"
       ],
-      "style": "teen",
+      "nameEn": "CHOI SEOJIN",
+      "colors": [
+        "#36a7ff",
+        "#ffd26a"
+      ],
       "ageRange": "10s",
-      "category": "game",
-      "gender": "male",
-      "profileImage": "assets/sample_profile-optimized.webp",
-      "id": "jin",
-      "tone": "bright",
+      "bio": "반응이 빠르고 캐릭터 변주 폭이 넓습니다. 게임, 숏폼 콘텐츠, 하이텐션 광고에 어울립니다.",
       "demos": [
         "게임 - 소년"
       ],
-      "mood": "energetic"
+      "sortOrder": 4,
+      "tone": "bright",
+      "audioSources": [
+        {
+          "src": "assets/sample_audio.mp3",
+          "title": "게임 - 소년",
+          "category": "game",
+          "id": "jin-game",
+          "type": "audio/mpeg"
+        }
+      ],
+      "category": "game",
+      "id": "jin",
+      "style": "teen",
+      "mood": "energetic",
+      "profileImage": "assets/sample_profile-optimized.webp"
     },
     {
       "name": "정수아",
-      "audioSources": [
-        {
-          "type": "audio/mpeg",
-          "title": "교육 - 설명",
-          "id": "sua-education",
-          "src": "assets/sample_audio.mp3",
-          "category": "narration"
-        }
-      ],
-      "nameEn": "JUNG SUA",
-      "sortOrder": 5,
-      "colors": [
-        "#8e7cc3",
-        "#bfd7ea"
-      ],
-      "bio": "정돈된 딕션과 안정적인 톤으로 긴 문장을 편안하게 이끕니다. 교육, 기관, 브랜드 필름에 적합합니다.",
+      "gender": "female",
       "tags": [
         "정확",
         "안정",
         "교육",
         "40대+"
       ],
-      "style": "forties",
+      "nameEn": "JUNG SUA",
+      "colors": [
+        "#8e7cc3",
+        "#bfd7ea"
+      ],
       "ageRange": "40s",
-      "category": "narration",
-      "gender": "female",
-      "profileImage": "assets/sample_profile-optimized.webp",
-      "id": "sua",
-      "tone": "clear",
+      "bio": "정돈된 딕션과 안정적인 톤으로 긴 문장을 편안하게 이끕니다. 교육, 기관, 브랜드 필름에 적합합니다.",
       "demos": [
         "교육 - 설명"
       ],
-      "mood": "serious"
+      "sortOrder": 5,
+      "tone": "clear",
+      "audioSources": [
+        {
+          "src": "assets/sample_audio.mp3",
+          "title": "교육 - 설명",
+          "category": "narration",
+          "id": "sua-education",
+          "type": "audio/mpeg"
+        }
+      ],
+      "category": "narration",
+      "id": "sua",
+      "style": "forties",
+      "mood": "serious",
+      "profileImage": "assets/sample_profile-optimized.webp"
     },
     {
       "name": "한리온",
-      "audioSources": [
-        {
-          "type": "audio/mpeg",
-          "title": "애니 - 소년",
-          "id": "rion-animation",
-          "src": "assets/sample_audio.mp3",
-          "category": "animation"
-        }
-      ],
-      "nameEn": "HAN RION",
-      "sortOrder": 6,
-      "colors": [
-        "#1d8f75",
-        "#f6d365"
-      ],
-      "bio": "부드러운 미성과 귀여운 캐릭터 톤이 장점입니다. 애니메이션, 게임 NPC, 캐주얼 광고에 어울립니다.",
+      "gender": "male",
       "tags": [
         "미성",
         "귀여움",
         "캐릭터",
         "20대"
       ],
-      "style": "twenties",
+      "nameEn": "HAN RION",
+      "colors": [
+        "#1d8f75",
+        "#f6d365"
+      ],
       "ageRange": "20s",
-      "category": "animation",
-      "gender": "male",
-      "profileImage": "assets/sample_profile-optimized.webp",
-      "id": "rion",
-      "tone": "warm",
+      "bio": "부드러운 미성과 귀여운 캐릭터 톤이 장점입니다. 애니메이션, 게임 NPC, 캐주얼 광고에 어울립니다.",
       "demos": [
         "애니 - 소년"
       ],
-      "mood": "cute"
+      "sortOrder": 6,
+      "tone": "warm",
+      "audioSources": [
+        {
+          "src": "assets/sample_audio.mp3",
+          "title": "애니 - 소년",
+          "category": "animation",
+          "id": "rion-animation",
+          "type": "audio/mpeg"
+        }
+      ],
+      "category": "animation",
+      "id": "rion",
+      "style": "twenties",
+      "mood": "cute",
+      "profileImage": "assets/sample_profile-optimized.webp"
     },
     {
       "name": "정유진",
-      "audioSources": [
-        {
-          "type": "audio/mpeg",
-          "title": "광고 - 라이프",
-          "id": "yujin-commercial",
-          "src": "assets/sample_audio.mp3",
-          "category": "commercial"
-        }
-      ],
-      "nameEn": "PARK YUNA",
-      "sortOrder": 7,
-      "colors": [
-        "#ef6f61",
-        "#f7c59f"
-      ],
-      "bio": "따뜻하고 자연스러운 말맛이 장점입니다. 라이프스타일 광고, 오디오북, 안내 음성에 잘 맞습니다.",
+      "gender": "female",
       "tags": [
         "따뜻함",
         "친근",
         "광고",
         "30대"
       ],
-      "style": "thirties",
+      "nameEn": "PARK YUNA",
+      "colors": [
+        "#ef6f61",
+        "#f7c59f"
+      ],
       "ageRange": "30s",
-      "category": "commercial",
-      "gender": "female",
-      "profileImage": "assets/sample_profile-optimized.webp",
-      "id": "yujin",
-      "tone": "warm",
+      "bio": "따뜻하고 자연스러운 말맛이 장점입니다. 라이프스타일 광고, 오디오북, 안내 음성에 잘 맞습니다.",
       "demos": [
         "광고 - 라이프"
       ],
-      "mood": "calm"
+      "sortOrder": 7,
+      "tone": "warm",
+      "audioSources": [
+        {
+          "src": "assets/sample_audio.mp3",
+          "title": "광고 - 라이프",
+          "category": "commercial",
+          "id": "yujin-commercial",
+          "type": "audio/mpeg"
+        }
+      ],
+      "category": "commercial",
+      "id": "yujin",
+      "style": "thirties",
+      "mood": "calm",
+      "profileImage": "assets/sample_profile-optimized.webp"
     },
     {
       "name": "거누",
-      "audioSources": [
-        {
-          "type": "audio/wav",
-          "title": "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
-          "id": "geonu-10-20",
-          "src": "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/audio/geonu/geonu-10-20.wav",
-          "category": "game, animation, voice drama"
-        }
-      ],
-      "nameEn": "GEONU",
-      "sortOrder": 8,
-      "colors": [
-        "#36a7ff",
-        "#f6d365"
-      ],
-      "bio": "10대와 20대 미소년 캐릭터에 어울리는 부끄럽고 소심한 톤의 한국어 연기가 강점입니다. 게임, 애니메이션, 보이스드라마 캐릭터 샘플에 적합합니다.",
+      "gender": "male",
       "tags": [
         "미소년",
         "부끄러운",
@@ -281,128 +267,142 @@
         "10대",
         "20대"
       ],
-      "style": "twenties",
+      "nameEn": "GEONU",
+      "colors": [
+        "#36a7ff",
+        "#f6d365"
+      ],
       "ageRange": "10s, 20s",
-      "category": "game",
-      "gender": "male",
-      "profileImage": "assets/sample_profile-optimized.webp",
-      "id": "geonu",
-      "tone": "warm",
+      "bio": "10대와 20대 미소년 캐릭터에 어울리는 부끄럽고 소심한 톤의 한국어 연기가 강점입니다. 게임, 애니메이션, 보이스드라마 캐릭터 샘플에 적합합니다.",
       "demos": [
         "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어"
       ],
-      "mood": "cute"
+      "sortOrder": 8,
+      "tone": "warm",
+      "audioSources": [
+        {
+          "src": "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/audio/geonu/geonu-10-20.wav",
+          "title": "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
+          "category": "game, animation, voice drama",
+          "id": "geonu-10-20",
+          "type": "audio/wav"
+        }
+      ],
+      "category": "game",
+      "id": "geonu",
+      "style": "twenties",
+      "mood": "cute",
+      "profileImage": "assets/sample_profile-optimized.webp"
     },
     {
-      "audioSources": [],
-      "tags": [],
-      "gender": "female",
-      "style": "teen",
-      "bio": "테스트용입니다",
-      "id": "test",
-      "ageRange": "10s",
-      "mood": "cute",
-      "demos": [],
-      "tone": "warm",
-      "category": "game",
-      "colors": [],
       "name": "테스트",
       "sortOrder": 9,
+      "profileImage": "",
+      "style": "teen",
+      "bio": "테스트용입니다",
+      "tags": [],
+      "audioSources": [],
+      "tone": "warm",
+      "colors": [],
+      "mood": "cute",
+      "ageRange": "10s",
+      "category": "game",
+      "id": "test",
       "nameEn": "TEST",
-      "profileImage": ""
+      "gender": "female",
+      "demos": []
     }
   ],
-  "sampleAudioSources": [],
-  "enabled": true,
-  "source": {
-    "r2Bucket": "chips-media",
-    "r2PublicBaseUrl": "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev",
-    "syncedAt": "2026-06-20T22:38:16",
-    "spreadsheetId": "1UJb5t-mcQt9MUo_9mlq1JXvk-pfUcGZUrw38qWDo85g"
-  },
   "newsArticles": [
     {
+      "lead": "성우 샘플 검색, 프로필 보기, 문의 접수 기능을 한 화면에서 확인할 수 있는 CHIPS의 첫 베타 사이트입니다.",
       "categories": [
         "Notice",
         "Website"
       ],
-      "title": "CHIPS Voice Portfolio 베타 페이지를 공개했습니다",
-      "date": "2026.05.06",
-      "image": "assets/chips-hero-optimized.webp",
-      "datetime": "2026-05-06",
+      "id": "site-beta",
       "sortOrder": 1,
+      "image": "assets/chips-hero-optimized.webp",
       "body": [
         "CHIPS Voice Portfolio는 성우 샘플을 빠르게 탐색하고 프로젝트 조건에 맞는 보이스를 비교할 수 있도록 준비한 베타 페이지입니다.",
         "CONTACT 폼과 샘플 플레이어, 프로필 상세 화면을 함께 구성했습니다."
       ],
-      "lead": "성우 샘플 검색, 프로필 보기, 문의 접수 기능을 한 화면에서 확인할 수 있는 CHIPS의 첫 베타 사이트입니다.",
-      "id": "site-beta"
+      "date": "2026.05.06",
+      "title": "CHIPS Voice Portfolio 베타 페이지를 공개했습니다",
+      "datetime": "2026-05-06"
     },
     {
+      "lead": "검색 카테고리별로 확인 가능한 샘플 데이터를 준비했습니다.",
       "categories": [
         "Sample",
         "Voice"
       ],
-      "title": "캐릭터 보이스 샘플 7종을 테스트 라이브러리에 추가",
-      "date": "2026.05.04",
-      "image": "assets/sample_profile-optimized.webp",
-      "datetime": "2026-05-04",
+      "id": "sample-library",
       "sortOrder": 2,
+      "image": "assets/sample_profile-optimized.webp",
       "body": [
         "VOICE SAMPLE 영역에 테스트용 성우 샘플 7종을 추가했습니다.",
         "실제 성우 자료가 준비되면 같은 시트 구조로 교체할 수 있습니다."
       ],
-      "lead": "검색 카테고리별로 확인 가능한 샘플 데이터를 준비했습니다.",
-      "id": "sample-library"
+      "date": "2026.05.04",
+      "title": "캐릭터 보이스 샘플 7종을 테스트 라이브러리에 추가",
+      "datetime": "2026-05-04"
     },
     {
+      "lead": "게임 캐릭터 타입에 맞춰 성우 후보를 제안하는 상담을 시작합니다.",
       "categories": [
         "Casting"
       ],
-      "title": "게임 캐릭터 캐스팅 상담 접수 안내",
-      "date": "2026.04.28",
-      "image": "assets/chips-chip.png",
-      "datetime": "2026-04-28",
+      "id": "game-casting",
       "sortOrder": 3,
+      "image": "assets/chips-chip.png",
       "body": [
         "게임 프로젝트의 장르, 캐릭터 설정, 감정선에 따라 필요한 보이스 방향이 달라집니다.",
         "자료를 보내주시면 캐스팅 방향과 샘플 요청 방식을 함께 정리해드립니다."
       ],
-      "lead": "게임 캐릭터 타입에 맞춰 성우 후보를 제안하는 상담을 시작합니다.",
-      "id": "game-casting"
+      "date": "2026.04.28",
+      "title": "게임 캐릭터 캐스팅 상담 접수 안내",
+      "datetime": "2026-04-28"
     },
     {
+      "lead": "대본, 레퍼런스, 분량, 사용 범위를 미리 정리하면 캐스팅과 견적 안내가 더 빠르게 진행됩니다.",
       "categories": [
         "Studio",
         "Guide"
       ],
-      "title": "원격 녹음 의뢰 시 필요한 자료 정리",
-      "date": "2026.04.18",
-      "image": "assets/chips-hero-optimized.webp",
-      "datetime": "2026-04-18",
+      "id": "remote-guide",
       "sortOrder": 4,
+      "image": "assets/chips-hero-optimized.webp",
       "body": [
         "원격 녹음은 사전 자료가 정리되어 있을수록 결과물이 안정적입니다.",
         "대본, 레퍼런스, 최종 사용처와 일정 정보를 함께 준비해주세요."
       ],
-      "lead": "대본, 레퍼런스, 분량, 사용 범위를 미리 정리하면 캐스팅과 견적 안내가 더 빠르게 진행됩니다.",
-      "id": "remote-guide"
+      "date": "2026.04.18",
+      "title": "원격 녹음 의뢰 시 필요한 자료 정리",
+      "datetime": "2026-04-18"
     },
     {
+      "lead": "애니메이션, 광고, 게임 분야별 샘플을 가진 성우 프로필을 순차적으로 추가할 예정입니다.",
       "categories": [
         "Crew"
       ],
-      "title": "신규 성우 프로필 업데이트 예정",
-      "date": "2026.04.02",
-      "image": "assets/sample_profile-optimized.webp",
-      "datetime": "2026-04-02",
+      "id": "actor-update",
       "sortOrder": 5,
+      "image": "assets/sample_profile-optimized.webp",
       "body": [
         "CHIPS Voice Portfolio에는 신규 성우 프로필이 순차적으로 추가될 예정입니다.",
         "각 프로필은 샘플, 태그, 소개 문장을 함께 정리해 검색 결과와 연결됩니다."
       ],
-      "lead": "애니메이션, 광고, 게임 분야별 샘플을 가진 성우 프로필을 순차적으로 추가할 예정입니다.",
-      "id": "actor-update"
+      "date": "2026.04.02",
+      "title": "신규 성우 프로필 업데이트 예정",
+      "datetime": "2026-04-02"
     }
-  ]
+  ],
+  "source": {
+    "spreadsheetId": "1UJb5t-mcQt9MUo_9mlq1JXvk-pfUcGZUrw38qWDo85g",
+    "r2PublicBaseUrl": "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev",
+    "syncedAt": "2026-06-20T23:57:15",
+    "r2Bucket": "chips-media"
+  },
+  "enabled": true
 }

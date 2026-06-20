@@ -55,7 +55,7 @@ const chipsCategoryGroups = [
     key: "texture",
     label: "음색 특성",
     hint: "Voice Texture",
-    options: ["저음", "중저음", "중음", "고음", "초고음"],
+    options: ["저음", "중저음", "중음", "고음", "초고음", "사투리"],
   },
   {
     key: "emotion",
@@ -109,12 +109,6 @@ const chipsCategoryGroups = [
     label: "언어",
     hint: "Language",
     options: ["한국어", "영어", "일본어", "중국어"],
-  },
-  {
-    key: "accent",
-    label: "억양/사투리",
-    hint: "Accent",
-    options: ["표준어", "서울말", "부산/경상도", "대구 억양", "전라도", "충청도", "강원도", "제주도", "외국인 억양"],
   },
   {
     key: "actingType",
@@ -183,7 +177,6 @@ const categorySelectionLimits = {
   texture: 1,
   emotion: 3,
   language: 1,
-  accent: 1,
   actingType: 1,
   characterType: 2,
 };
@@ -559,7 +552,6 @@ function bindAudioForm() {
     texture: "음색은 1개만 선택할 수 있습니다.",
     emotion: "감정은 최대 3개까지 선택할 수 있습니다.",
     language: "언어는 1개만 선택할 수 있습니다.",
-    accent: "억양/사투리는 1개만 선택할 수 있습니다.",
     actingType: "연기타입은 1개만 선택할 수 있습니다.",
     characterType: "캐릭터 타입은 최대 2개까지 선택할 수 있습니다.",
   };

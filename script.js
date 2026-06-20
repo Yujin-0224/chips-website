@@ -63,7 +63,7 @@ const filterGroups = [
     key: "texture",
     label: "음색 특성",
     hint: "Voice Texture",
-    options: ["저음", "중저음", "중음", "고음", "초고음"],
+    options: ["저음", "중저음", "중음", "고음", "초고음", "사투리"],
   },
   {
     key: "emotion",
@@ -123,22 +123,6 @@ const filterGroups = [
     label: "언어",
     hint: "Language",
     options: ["한국어", "영어", "일본어", "중국어"],
-  },
-  {
-    key: "accent",
-    label: "억양/사투리",
-    hint: "Accent",
-    options: [
-      "표준어",
-      "서울말",
-      "부산/경상도",
-      "대구 억양",
-      "전라도",
-      "충청도",
-      "강원도",
-      "제주도",
-      "외국인 억양(한국어)",
-    ],
   },
   {
     key: "actingType",
@@ -209,7 +193,7 @@ const filterLocales = {
           "감성적인", "아나운서", "상담원", "교관/강사", "MC", "DJ", "방송 진행",
         ],
       },
-      texture: { label: "음색 특성", hint: "Voice Texture", options: ["저음", "중저음", "중음", "고음", "초고음"] },
+      texture: { label: "음색 특성", hint: "Voice Texture", options: ["저음", "중저음", "중음", "고음", "초고음", "사투리"] },
       emotion: {
         label: "감정",
         hint: "Emotion",
@@ -222,11 +206,6 @@ const filterLocales = {
         ],
       },
       language: { label: "언어", hint: "Language", options: ["한국어", "영어", "일본어", "중국어"] },
-      accent: {
-        label: "억양/사투리",
-        hint: "Accent",
-        options: ["표준어", "서울말", "부산/경상도", "대구 억양", "전라도", "충청도", "강원도", "제주도", "외국인 억양(한국어)"],
-      },
       actingType: { label: "연기타입", hint: "Acting Type", options: ["연기", "광고", "나레이션", "스팟"] },
       characterType: {
         label: "캐릭터 타입",
@@ -255,7 +234,7 @@ const filterLocales = {
           "Emotional", "Announcer", "Counselor", "Instructor", "MC", "DJ", "Broadcast host",
         ],
       },
-      texture: { label: "Voice Texture", hint: "Voice Texture", options: ["Low", "Mid-low", "Mid", "High", "Ultra-high"] },
+      texture: { label: "Voice Texture", hint: "Voice Texture", options: ["Low", "Mid-low", "Mid", "High", "Ultra-high", "Dialect"] },
       emotion: {
         label: "Emotion",
         hint: "Emotion",
@@ -268,7 +247,6 @@ const filterLocales = {
         ],
       },
       language: { label: "Language", hint: "Language", options: ["Korean", "English", "Japanese", "Chinese"] },
-      accent: { label: "Accent", hint: "Accent", options: ["Standard Korean", "Seoul dialect", "Busan/Gyeongsang", "Daegu accent", "Jeolla dialect", "Chungcheong dialect", "Gangwon dialect", "Jeju dialect", "Foreign accent in Korean"] },
       actingType: { label: "Acting Type", hint: "Acting Type", options: ["Acting", "Commercial", "Narration", "Spot"] },
       characterType: {
         label: "Character Type",
@@ -310,7 +288,6 @@ const filterLocales = {
         ],
       },
       language: { label: "言語", hint: "Language", options: ["韓国語", "英語", "日本語", "中国語"] },
-      accent: { label: "アクセント/方言", hint: "Accent", options: ["標準語", "ソウル方言", "釜山/慶尚道", "大邱アクセント", "全羅道", "忠清道", "江原道", "済州道", "外国人アクセント（韓国語）"] },
       actingType: { label: "演技タイプ", hint: "Acting Type", options: ["演技", "広告", "ナレーション", "スポット"] },
       characterType: {
         label: "キャラクタータイプ",
@@ -352,7 +329,6 @@ const filterLocales = {
         ],
       },
       language: { label: "语言", hint: "Language", options: ["韩语", "英语", "日语", "中文"] },
-      accent: { label: "口音/方言", hint: "Accent", options: ["标准语", "首尔话", "釜山/庆尚道", "大邱口音", "全罗道", "忠清道", "江原道", "济州岛", "外国人口音（韩语）"] },
       actingType: { label: "表演类型", hint: "Acting Type", options: ["表演", "广告", "旁白", "短版广告"] },
       characterType: {
         label: "角色类型",
@@ -377,7 +353,6 @@ const actorFilterProfiles = {
     texture: ["고음"],
     emotion: ["행복", "기쁨", "설렘", "기대", "사랑스러움", "장난", "쑥스러움"],
     language: ["한국어", "일본어"],
-    accent: ["표준어", "서울말"],
     characterType: ["학생", "아이돌", "공주", "마스코트 캐릭터", "다정한 캐릭터"],
   },
   min: {
@@ -386,7 +361,6 @@ const actorFilterProfiles = {
     texture: ["중저음", "저음"],
     emotion: ["무감정/중립", "진지함", "자신감", "냉정한", "명령"],
     language: ["한국어", "영어"],
-    accent: ["표준어", "서울말"],
     characterType: ["내레이터형 캐릭터", "엄격한 상사", "선생님/교관", "왕/여왕", "귀족"],
   },
   yuna: {
@@ -395,7 +369,6 @@ const actorFilterProfiles = {
     texture: ["중저음"],
     emotion: ["따뜻함", "위로", "친절함", "공손함", "감동", "사랑스러움"],
     language: ["한국어", "영어"],
-    accent: ["표준어", "서울말"],
     characterType: ["엄마", "의사/간호사", "상담원", "다정한 캐릭터", "내레이터형 캐릭터"],
   },
   jin: {
@@ -404,7 +377,6 @@ const actorFilterProfiles = {
     texture: ["고음", "중저음"],
     emotion: ["흥분", "자신감", "기쁨", "장난", "놀람", "조급함"],
     language: ["한국어", "일본어"],
-    accent: ["표준어", "서울말", "부산/경상도"],
     characterType: ["히어로", "학생", "아이돌", "기사/전사", "바보/허당 캐릭터"],
   },
   sua: {
@@ -413,7 +385,6 @@ const actorFilterProfiles = {
     texture: ["중저음"],
     emotion: ["무감정/중립", "진지함", "공손함", "자신감", "명령"],
     language: ["한국어", "영어"],
-    accent: ["표준어", "서울말"],
     characterType: ["선생님/교관", "엄격한 상사", "내레이터형 캐릭터", "왕/여왕", "의사/간호사"],
   },
   rion: {
@@ -422,7 +393,6 @@ const actorFilterProfiles = {
     texture: ["고음", "중저음"],
     emotion: ["사랑스러움", "쑥스러움", "장난", "설렘", "위로"],
     language: ["한국어", "일본어"],
-    accent: ["표준어", "서울말"],
     characterType: ["마스코트 캐릭터", "동물 캐릭터", "학생", "AI 비서", "아기 캐릭터"],
   },
   yujin: {
@@ -431,7 +401,6 @@ const actorFilterProfiles = {
     texture: ["중저음"],
     emotion: ["따뜻함", "위로", "친절함", "공손함", "감동", "슬픔"],
     language: ["한국어", "중국어"],
-    accent: ["표준어", "서울말", "충청도"],
     characterType: ["엄마", "다정한 캐릭터", "내레이터형 캐릭터", "의사/간호사", "MC"],
   },
 };
@@ -1194,7 +1163,6 @@ function getActorFilterValues(actor) {
     texture: actor.gender === "male" ? ["중저음", "저음"] : ["고음"],
     emotion: toneMap[actor.mood] || [],
     language: ["한국어"],
-    accent: ["표준어", "서울말"],
     characterType: categoryMap[actor.category] || [],
   };
   getSearchAudioSources(actor).forEach((source) => mergeCategoryValues(values, source.categories));

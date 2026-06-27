@@ -462,6 +462,7 @@ function createCareerRow(value = "") {
   const row = document.createElement("div");
   row.className = "career-input-row";
   row.innerHTML = `
+    <button class="career-drag-handle" type="button" draggable="true" aria-label="경력 순서 이동">↕</button>
     <input name="career" type="text" placeholder="예: 애니메이션 주연 캐릭터 보이스 참여" />
     <button class="small-remove-button" type="button" data-career-remove aria-label="경력 삭제">×</button>
   `;
@@ -472,6 +473,7 @@ function createCareerRow(value = "") {
 function bindCareerInputs({ form, list, previewList, initialValues = [] }) {
   if (!form || !list) return;
 
+  let draggedRow = null;
   const sync = () => renderCareerPreview(previewList, careerValuesFrom(list));
   const setValues = (values = []) => {
     const nextValues = values.length ? values : [""];
@@ -498,6 +500,28 @@ function bindCareerInputs({ form, list, previewList, initialValues = [] }) {
   });
 
   list.addEventListener("input", sync);
+  list.addEventListener("dragstart", (event) => {
+    const handle = event.target.closest(".career-drag-handle");
+    if (!handle || !list.contains(handle)) return;
+    draggedRow = handle.closest(".career-input-row");
+    draggedRow?.classList.add("is-dragging");
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", "");
+  });
+  list.addEventListener("dragover", (event) => {
+    if (!draggedRow) return;
+    event.preventDefault();
+    const targetRow = event.target.closest(".career-input-row");
+    if (!targetRow || targetRow === draggedRow || !list.contains(targetRow)) return;
+    const { top, height } = targetRow.getBoundingClientRect();
+    const shouldPlaceAfter = event.clientY > top + height / 2;
+    list.insertBefore(draggedRow, shouldPlaceAfter ? targetRow.nextSibling : targetRow);
+  });
+  list.addEventListener("dragend", () => {
+    draggedRow?.classList.remove("is-dragging");
+    draggedRow = null;
+    sync();
+  });
   setValues(initialValues);
 
   return { sync, setValues, values: () => careerValuesFrom(list) };

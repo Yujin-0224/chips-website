@@ -199,9 +199,43 @@ body[data-requires-admin="true"] .submission-hero {
 
 .career-input-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 42px;
+  grid-template-columns: 42px minmax(0, 1fr) 42px;
   gap: 8px;
   align-items: center;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.career-input-row.is-dragging {
+  opacity: 0.48;
+  transform: scale(0.99);
+}
+
+.career-drag-handle {
+  width: 42px;
+  min-height: 42px;
+  border: 1px dashed rgba(246, 185, 59, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 250, 240, 0.88);
+  color: rgba(23, 19, 13, 0.56);
+  cursor: grab;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.career-drag-handle:hover,
+.career-drag-handle:focus-visible {
+  border-color: rgba(246, 185, 59, 0.96);
+  background: rgba(255, 241, 199, 0.96);
+  color: var(--ink);
+  outline: none;
+}
+
+.career-drag-handle:active {
+  cursor: grabbing;
+  transform: scale(0.96);
 }
 
 .small-add-button,

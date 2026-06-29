@@ -541,7 +541,7 @@ const contactLocales = {
       guideKicker: "",
       guideTitle: "문의 안내",
       guideBody:
-        "문의 내용 확인 후 <strong>1~2일 이내</strong>에 이메일로 답변드리겠습니다. 급한 일정이 있으신 경우 희망 납기일을 함께 작성해 주세요.",
+        "문의 내용을 확인한 뒤 <strong>1~2일 이내</strong>에 이메일로 답변드리겠습니다.<br>일정이 급한 경우 희망 납기일을 함께 작성해 주세요.",
       teamJoinGuide: "팀 가입 문의의 경우",
       teamJoinButton: "여기를 클릭해주세요",
       teamFormEyebrow: "TEAM JOIN",
@@ -635,7 +635,7 @@ const contactLocales = {
       guideKicker: "",
       guideTitle: "Inquiry Guide",
       guideBody:
-        "After reviewing your inquiry, we will reply by email within <strong>1-2 business days</strong>. If your schedule is urgent, please include your preferred deadline.",
+        "After reviewing your inquiry, we will reply by email within <strong>1-2 business days</strong>.<br>If your schedule is urgent, please include your preferred deadline.",
       teamJoinGuide: "For team join inquiries,",
       teamJoinButton: "click here",
       teamFormEyebrow: "TEAM JOIN",
@@ -1589,7 +1589,7 @@ function renderNewsArticles() {
 function fitNewsPreviewTitles() {
   const titles = document.querySelectorAll(".top-news-card h3, .news-feature h3, .news-item h3");
   titles.forEach((title) => {
-    const max = title.closest(".news-feature") ? 30 : title.closest(".top-news-card") ? 19 : 18;
+    const max = title.closest(".news-feature") ? 26 : title.closest(".top-news-card") ? 19 : 18;
     fitTextToParent(title, { max, min: 12 });
   });
 }

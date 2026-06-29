@@ -749,8 +749,10 @@ a {
 }
 
 .actor-grid {
-  grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
-  gap: 16px;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 24px 22px;
   align-items: stretch;
 }
 
@@ -2044,22 +2046,27 @@ a {
 
 .actor-card {
   position: relative;
-  min-height: 0;
+  min-height: 250px;
   display: grid;
   grid-template-rows: auto 1fr;
+  align-content: start;
+  justify-items: center;
+  padding: 18px 16px 20px;
+  border: 1px solid rgba(32, 26, 18, 0.12);
+  border-radius: 12px;
   cursor: pointer;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 250, 239, 0.86)),
-    radial-gradient(circle at 20% 0%, rgba(246, 185, 59, 0.12), transparent 38%);
-  box-shadow: 0 14px 38px rgba(73, 52, 25, 0.08);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 251, 241, 0.84)),
+    radial-gradient(circle at 50% 22%, rgba(246, 185, 59, 0.12), transparent 42%);
+  box-shadow: 0 18px 46px rgba(73, 52, 25, 0.08);
   transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease;
 }
 
 .actor-card:hover,
 .actor-card:focus {
-  transform: translateY(-5px);
-  box-shadow: 0 22px 48px rgba(73, 52, 25, 0.14);
-  border-color: rgba(246, 185, 59, 0.54);
+  transform: translateY(-6px);
+  box-shadow: 0 26px 58px rgba(73, 52, 25, 0.14);
+  border-color: rgba(246, 185, 59, 0.62);
   outline: none;
 }
 
@@ -2067,11 +2074,14 @@ a {
   position: relative;
   display: grid;
   place-items: center;
+  width: clamp(92px, 8.2vw, 118px);
   aspect-ratio: 1 / 1;
-  margin: 10px 10px 0;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.72);
+  margin: 0 auto 14px;
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.76);
   overflow: hidden;
+  box-shadow: 0 14px 30px rgba(73, 52, 25, 0.12);
 }
 
 .actor-photo img {
@@ -2092,10 +2102,11 @@ a {
 .actor-card-info {
   display: grid;
   align-content: start;
-  gap: 4px;
+  justify-items: center;
+  gap: 5px;
   border-top: 0;
-  padding: 12px 14px 14px;
-  text-align: left;
+  padding: 0;
+  text-align: center;
   background: transparent;
   min-width: 0;
 }
@@ -2104,50 +2115,50 @@ a {
   color: var(--blue);
   font-size: 10px;
   font-weight: 900;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   line-height: 1.2;
   text-transform: uppercase;
 }
 
 .actor-card-info strong {
   display: block;
-  min-height: 1.12em;
+  min-height: 1.1em;
   color: var(--ink);
-  font-size: clamp(17px, 1.6vw, 21px);
-  line-height: 1.12;
+  font-size: clamp(19px, 1.85vw, 25px);
+  line-height: 1.08;
   overflow-wrap: anywhere;
 }
 
 .actor-card-en {
-  color: var(--muted);
-  font-size: 12px;
+  color: rgba(23, 19, 13, 0.58);
+  font-size: 12.5px;
   font-weight: 900;
   display: block;
   line-height: 1.2;
+  text-transform: none;
   overflow-wrap: anywhere;
 }
 
 .actor-card-open {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 9px;
   width: max-content;
-  margin-top: 8px;
-  color: rgba(23, 19, 13, 0.42);
-  font-size: 10px;
+  margin-top: 18px;
+  color: rgba(23, 19, 13, 0.5);
+  font-size: 11px;
   font-weight: 900;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   line-height: 1;
   text-transform: uppercase;
   transition: color 180ms ease, transform 180ms ease;
 }
 
 .actor-card-open::after {
-  content: "";
-  width: 18px;
-  height: 1px;
-  background: currentColor;
-  transform-origin: left center;
+  content: "→";
+  width: auto;
+  height: auto;
+  background: transparent;
   transition: transform 180ms ease;
 }
 
@@ -3497,6 +3508,7 @@ a {
 
   .actor-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
   }
 
   .actor-profile,
@@ -3718,21 +3730,28 @@ a {
   .actor-card {
     min-height: 0;
     border-radius: 10px;
+    padding: 11px 8px 12px;
   }
 
   .actor-photo {
-    margin: 6px 6px 0;
-    border-radius: 8px;
+    width: clamp(62px, 20vw, 86px);
+    margin: 0 auto 8px;
+    border-radius: 50%;
   }
 
   .actor-card-info {
     gap: 2px;
-    padding: 7px 7px 9px;
+    padding: 0;
   }
 
-  .actor-card-role,
   .actor-card-open {
     display: none;
+  }
+
+  .actor-card-role {
+    display: block;
+    font-size: 8px;
+    letter-spacing: 0.12em;
   }
 
   .actor-card-info strong {

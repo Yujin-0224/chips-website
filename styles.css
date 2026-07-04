@@ -1377,9 +1377,11 @@ a {
 .footer-brand {
   display: grid;
   align-content: center;
-  gap: 10px;
+  justify-items: center;
+  gap: 14px;
   padding-right: clamp(16px, 2.6vw, 28px);
   border-right: 2px solid rgba(246, 185, 59, 0.58);
+  text-align: center;
 }
 
 .footer-logo {
@@ -1387,22 +1389,21 @@ a {
   width: max-content;
   color: #f0c953;
   font-family: "Bebas Neue", "Noto Sans KR", sans-serif;
-  font-size: clamp(54px, 5.5vw, 78px);
+  font-size: clamp(64px, 6.2vw, 92px);
   font-weight: 900;
-  line-height: 0.86;
+  line-height: 0.82;
   letter-spacing: 0.02em;
   text-shadow: 0 8px 20px rgba(246, 185, 59, 0.1);
 }
 
 .footer-brand p {
   margin: 0;
-  max-width: 260px;
+  max-width: 300px;
   color: rgba(23, 19, 13, 0.54);
-  font-size: clamp(11px, 0.9vw, 13px);
+  font-size: clamp(14px, 1.18vw, 18px);
   font-weight: 900;
-  line-height: 1.45;
-  letter-spacing: -0.01em;
-  text-wrap: pretty;
+  line-height: 1.42;
+  letter-spacing: -0.015em;
 }
 
 .footer-main {

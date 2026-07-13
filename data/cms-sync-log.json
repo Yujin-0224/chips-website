@@ -1,82 +1,82 @@
 [
   {
-    "sampleTitle": "캐릭터 - 활발",
+    "level": "info",
+    "r2Key": "",
     "status": "external",
+    "message": "Using existing audio URL.",
     "actorName": "유레이",
-    "r2Key": "",
-    "level": "info",
-    "message": "Using existing audio URL.",
-    "syncedAt": "2026-07-13T04:51:49",
-    "sourceUrl": "assets/gamza_sample.mp3"
+    "sampleTitle": "캐릭터 - 활발",
+    "sourceUrl": "assets/gamza_sample.mp3",
+    "syncedAt": "2026-07-13T07:59:37"
   },
   {
-    "sampleTitle": "내레이션 - 다큐",
+    "level": "info",
+    "r2Key": "",
     "status": "external",
+    "message": "Using existing audio URL.",
     "actorName": "이도윤",
-    "r2Key": "",
-    "level": "info",
-    "message": "Using existing audio URL.",
-    "syncedAt": "2026-07-13T04:51:49",
-    "sourceUrl": "assets/sample_audio.mp3"
+    "sampleTitle": "내레이션 - 다큐",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "syncedAt": "2026-07-13T07:59:37"
   },
   {
-    "sampleTitle": "광고 - 라이프",
+    "level": "info",
+    "r2Key": "",
     "status": "external",
+    "message": "Using existing audio URL.",
     "actorName": "박유나",
-    "r2Key": "",
-    "level": "info",
-    "message": "Using existing audio URL.",
-    "syncedAt": "2026-07-13T04:51:49",
-    "sourceUrl": "assets/sample_audio.mp3"
-  },
-  {
-    "sampleTitle": "게임 - 소년",
-    "status": "external",
-    "actorName": "최서진",
-    "r2Key": "",
-    "level": "info",
-    "message": "Using existing audio URL.",
-    "syncedAt": "2026-07-13T04:51:49",
-    "sourceUrl": "assets/sample_audio.mp3"
-  },
-  {
-    "sampleTitle": "교육 - 설명",
-    "status": "external",
-    "actorName": "정수아",
-    "r2Key": "",
-    "level": "info",
-    "message": "Using existing audio URL.",
-    "syncedAt": "2026-07-13T04:51:49",
-    "sourceUrl": "assets/sample_audio.mp3"
-  },
-  {
-    "sampleTitle": "애니 - 소년",
-    "status": "external",
-    "actorName": "한리온",
-    "r2Key": "",
-    "level": "info",
-    "message": "Using existing audio URL.",
-    "syncedAt": "2026-07-13T04:51:49",
-    "sourceUrl": "assets/sample_audio.mp3"
-  },
-  {
     "sampleTitle": "광고 - 라이프",
-    "status": "external",
-    "actorName": "정유진",
-    "r2Key": "",
-    "level": "info",
-    "message": "Using existing audio URL.",
-    "syncedAt": "2026-07-13T04:51:49",
-    "sourceUrl": "assets/sample_audio.mp3"
+    "sourceUrl": "assets/sample_audio.mp3",
+    "syncedAt": "2026-07-13T07:59:37"
   },
   {
-    "sampleTitle": "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
-    "status": "external",
-    "actorName": "거누",
-    "r2Key": "audio/geonu/geonu-10-20.wav",
     "level": "info",
+    "r2Key": "",
+    "status": "external",
     "message": "Using existing audio URL.",
-    "syncedAt": "2026-07-13T04:51:49",
-    "sourceUrl": "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/audio/geonu/geonu-10-20.wav"
+    "actorName": "최서진",
+    "sampleTitle": "게임 - 소년",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "syncedAt": "2026-07-13T07:59:37"
+  },
+  {
+    "level": "info",
+    "r2Key": "",
+    "status": "external",
+    "message": "Using existing audio URL.",
+    "actorName": "정수아",
+    "sampleTitle": "교육 - 설명",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "syncedAt": "2026-07-13T07:59:37"
+  },
+  {
+    "level": "info",
+    "r2Key": "",
+    "status": "external",
+    "message": "Using existing audio URL.",
+    "actorName": "한리온",
+    "sampleTitle": "애니 - 소년",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "syncedAt": "2026-07-13T07:59:37"
+  },
+  {
+    "level": "info",
+    "r2Key": "",
+    "status": "external",
+    "message": "Using existing audio URL.",
+    "actorName": "정유진",
+    "sampleTitle": "광고 - 라이프",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "syncedAt": "2026-07-13T07:59:37"
+  },
+  {
+    "level": "info",
+    "r2Key": "audio/geonu/geonu-10-20.wav",
+    "status": "external",
+    "message": "Using existing audio URL.",
+    "actorName": "거누",
+    "sampleTitle": "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
+    "sourceUrl": "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/audio/geonu/geonu-10-20.wav",
+    "syncedAt": "2026-07-13T07:59:37"
   }
 ]

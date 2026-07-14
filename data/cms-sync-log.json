@@ -1,82 +1,82 @@
 [
   {
-    "sourceUrl": "assets/gamza_sample.mp3",
-    "syncedAt": "2026-07-14T16:06:26",
-    "sampleTitle": "캐릭터 - 활발",
     "actorName": "유레이",
-    "message": "Using existing audio URL.",
-    "level": "info",
     "status": "external",
-    "r2Key": ""
+    "sourceUrl": "assets/gamza_sample.mp3",
+    "sampleTitle": "캐릭터 - 활발",
+    "syncedAt": "2026-07-14T18:57:14",
+    "message": "Using existing audio URL.",
+    "r2Key": "",
+    "level": "info"
   },
   {
-    "sourceUrl": "assets/sample_audio.mp3",
-    "syncedAt": "2026-07-14T16:06:26",
-    "sampleTitle": "내레이션 - 다큐",
     "actorName": "이도윤",
-    "message": "Using existing audio URL.",
-    "level": "info",
     "status": "external",
-    "r2Key": ""
+    "sourceUrl": "assets/sample_audio.mp3",
+    "sampleTitle": "내레이션 - 다큐",
+    "syncedAt": "2026-07-14T18:57:14",
+    "message": "Using existing audio URL.",
+    "r2Key": "",
+    "level": "info"
   },
   {
-    "sourceUrl": "assets/sample_audio.mp3",
-    "syncedAt": "2026-07-14T16:06:26",
-    "sampleTitle": "광고 - 라이프",
     "actorName": "박유나",
-    "message": "Using existing audio URL.",
-    "level": "info",
     "status": "external",
-    "r2Key": ""
-  },
-  {
     "sourceUrl": "assets/sample_audio.mp3",
-    "syncedAt": "2026-07-14T16:06:26",
-    "sampleTitle": "게임 - 소년",
-    "actorName": "최서진",
-    "message": "Using existing audio URL.",
-    "level": "info",
-    "status": "external",
-    "r2Key": ""
-  },
-  {
-    "sourceUrl": "assets/sample_audio.mp3",
-    "syncedAt": "2026-07-14T16:06:26",
-    "sampleTitle": "교육 - 설명",
-    "actorName": "정수아",
-    "message": "Using existing audio URL.",
-    "level": "info",
-    "status": "external",
-    "r2Key": ""
-  },
-  {
-    "sourceUrl": "assets/sample_audio.mp3",
-    "syncedAt": "2026-07-14T16:06:26",
-    "sampleTitle": "애니 - 소년",
-    "actorName": "한리온",
-    "message": "Using existing audio URL.",
-    "level": "info",
-    "status": "external",
-    "r2Key": ""
-  },
-  {
-    "sourceUrl": "assets/sample_audio.mp3",
-    "syncedAt": "2026-07-14T16:06:26",
     "sampleTitle": "광고 - 라이프",
-    "actorName": "정유진",
+    "syncedAt": "2026-07-14T18:57:14",
     "message": "Using existing audio URL.",
-    "level": "info",
-    "status": "external",
-    "r2Key": ""
+    "r2Key": "",
+    "level": "info"
   },
   {
-    "sourceUrl": "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/audio/geonu/geonu-10-20.wav",
-    "syncedAt": "2026-07-14T16:06:26",
-    "sampleTitle": "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
-    "actorName": "거누",
-    "message": "Using existing audio URL.",
-    "level": "info",
+    "actorName": "최서진",
     "status": "external",
-    "r2Key": "audio/geonu/geonu-10-20.wav"
+    "sourceUrl": "assets/sample_audio.mp3",
+    "sampleTitle": "게임 - 소년",
+    "syncedAt": "2026-07-14T18:57:14",
+    "message": "Using existing audio URL.",
+    "r2Key": "",
+    "level": "info"
+  },
+  {
+    "actorName": "정수아",
+    "status": "external",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "sampleTitle": "교육 - 설명",
+    "syncedAt": "2026-07-14T18:57:14",
+    "message": "Using existing audio URL.",
+    "r2Key": "",
+    "level": "info"
+  },
+  {
+    "actorName": "한리온",
+    "status": "external",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "sampleTitle": "애니 - 소년",
+    "syncedAt": "2026-07-14T18:57:14",
+    "message": "Using existing audio URL.",
+    "r2Key": "",
+    "level": "info"
+  },
+  {
+    "actorName": "정유진",
+    "status": "external",
+    "sourceUrl": "assets/sample_audio.mp3",
+    "sampleTitle": "광고 - 라이프",
+    "syncedAt": "2026-07-14T18:57:14",
+    "message": "Using existing audio URL.",
+    "r2Key": "",
+    "level": "info"
+  },
+  {
+    "actorName": "거누",
+    "status": "external",
+    "sourceUrl": "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/audio/geonu/geonu-10-20.wav",
+    "sampleTitle": "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
+    "syncedAt": "2026-07-14T18:57:14",
+    "message": "Using existing audio URL.",
+    "r2Key": "audio/geonu/geonu-10-20.wav",
+    "level": "info"
   }
 ]

@@ -1,82 +1,82 @@
 [
   {
+    "level": "info",
+    "status": "external",
+    "message": "Using existing audio URL.",
     "sampleTitle": "캐릭터 - 활발",
-    "status": "external",
-    "actorName": "유레이",
-    "syncedAt": "2026-07-15T18:34:52",
-    "r2Key": "",
-    "message": "Using existing audio URL.",
     "sourceUrl": "assets/gamza_sample.mp3",
-    "level": "info"
+    "r2Key": "",
+    "syncedAt": "2026-07-15T19:59:07",
+    "actorName": "유레이"
   },
   {
+    "level": "info",
+    "status": "external",
+    "message": "Using existing audio URL.",
     "sampleTitle": "내레이션 - 다큐",
-    "status": "external",
-    "actorName": "이도윤",
-    "syncedAt": "2026-07-15T18:34:52",
-    "r2Key": "",
-    "message": "Using existing audio URL.",
     "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info"
+    "r2Key": "",
+    "syncedAt": "2026-07-15T19:59:07",
+    "actorName": "이도윤"
   },
   {
+    "level": "info",
+    "status": "external",
+    "message": "Using existing audio URL.",
     "sampleTitle": "광고 - 라이프",
-    "status": "external",
-    "actorName": "박유나",
-    "syncedAt": "2026-07-15T18:34:52",
-    "r2Key": "",
-    "message": "Using existing audio URL.",
     "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info"
+    "r2Key": "",
+    "syncedAt": "2026-07-15T19:59:07",
+    "actorName": "박유나"
   },
   {
+    "level": "info",
+    "status": "external",
+    "message": "Using existing audio URL.",
     "sampleTitle": "게임 - 소년",
-    "status": "external",
-    "actorName": "최서진",
-    "syncedAt": "2026-07-15T18:34:52",
-    "r2Key": "",
-    "message": "Using existing audio URL.",
     "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info"
+    "r2Key": "",
+    "syncedAt": "2026-07-15T19:59:07",
+    "actorName": "최서진"
   },
   {
+    "level": "info",
+    "status": "external",
+    "message": "Using existing audio URL.",
     "sampleTitle": "교육 - 설명",
-    "status": "external",
-    "actorName": "정수아",
-    "syncedAt": "2026-07-15T18:34:52",
-    "r2Key": "",
-    "message": "Using existing audio URL.",
     "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info"
+    "r2Key": "",
+    "syncedAt": "2026-07-15T19:59:07",
+    "actorName": "정수아"
   },
   {
+    "level": "info",
+    "status": "external",
+    "message": "Using existing audio URL.",
     "sampleTitle": "애니 - 소년",
-    "status": "external",
-    "actorName": "한리온",
-    "syncedAt": "2026-07-15T18:34:52",
-    "r2Key": "",
-    "message": "Using existing audio URL.",
     "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info"
+    "r2Key": "",
+    "syncedAt": "2026-07-15T19:59:07",
+    "actorName": "한리온"
   },
   {
+    "level": "info",
+    "status": "external",
+    "message": "Using existing audio URL.",
     "sampleTitle": "광고 - 라이프",
-    "status": "external",
-    "actorName": "정유진",
-    "syncedAt": "2026-07-15T18:34:52",
-    "r2Key": "",
-    "message": "Using existing audio URL.",
     "sourceUrl": "assets/sample_audio.mp3",
-    "level": "info"
+    "r2Key": "",
+    "syncedAt": "2026-07-15T19:59:07",
+    "actorName": "정유진"
   },
   {
-    "sampleTitle": "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
+    "level": "info",
     "status": "external",
-    "actorName": "거누",
-    "syncedAt": "2026-07-15T18:34:52",
-    "r2Key": "audio/geonu/geonu-10-20.wav",
     "message": "Using existing audio URL.",
+    "sampleTitle": "게임/애니메이션/보이스드라마_10대/20대_미소년_부끄러운_소심한_한국어",
     "sourceUrl": "https://pub-5389c605b3bf46fea66c1657cc99e91d.r2.dev/audio/geonu/geonu-10-20.wav",
-    "level": "info"
+    "r2Key": "audio/geonu/geonu-10-20.wav",
+    "syncedAt": "2026-07-15T19:59:07",
+    "actorName": "거누"
   }
 ]
